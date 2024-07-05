@@ -1,0 +1,11 @@
+version: '0'
+services:
+  webclient:
+    build:
+      context: ./webclient-brain-mapper
+      dockerfile: Dockerfile
+    volumes:
+      - './webclient-brain-mapper:/app'
+      - '/app/node_modules'
+    ports:
+      - 3000:3000
