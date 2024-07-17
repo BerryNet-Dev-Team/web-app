@@ -1,7 +1,9 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask
+from flask_migrate import Migrate
 from .database.dbConnection import db
+from .database.serializers_utils import ma
 from .routes.errorHandlers import errorHandlers
 
 # load .env file to environment
@@ -24,6 +26,12 @@ def create_app():
 
     # Starts db connection
     db.init_app(app)
+
+    #Setup serializer
+    ma.init_app(app)
+
+    # Configure migrations
+    migrate = Migrate(app, db)
 
     # Register http error handlers
     app.register_blueprint(errorHandlers)
