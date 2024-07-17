@@ -12,9 +12,11 @@ mysql-connector-python==8.2.0
 platformdirs==4.1.0
 protobuf==4.21.12
 pycparser==2.22
+PyJWT==2.8.0
 python-dotenv==1.0.0
 pytz==2023.3.post1
 SQLAlchemy==2.0.30
+timedelta==2020.12.3
 typing_extensions==4.12.0
 virtualenv==20.25.0
 Werkzeug==3.0.1
