@@ -15,7 +15,6 @@ auth = Blueprint('auth', __name__, url_prefix='/auth')
 def addUser():
     try:
         req = request.json
-        print(req)
 
         # Check if request has enough properties needed
         required_keys = ['name', 'email', 'passwd']
@@ -61,7 +60,6 @@ def addUser():
 def login():
     try:
         req = request.json
-        print(req)
 
         # Check if request has enough properties needed
         required_keys = ['email', 'passwd']
@@ -87,7 +85,6 @@ def login():
 
         # Serialize into JSON the DB response Obj
         user_serialized = user_schema.dump(user)
-        print('Serializando con marshmallow', user_serialized)
 
         #Create jwt
         auth_jwt = encode_auth_jwt(user.id)

@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask
+from flask_cors import CORS, cross_origin
 from flask_migrate import Migrate
 from .database.dbConnection import db
 from .database.serializers_utils import ma
@@ -38,6 +39,11 @@ def create_app():
 
     # Register routers blueprints
     app.register_blueprint(auth)
+
+    # Setup cors policies
+    app.config['CORS_EXPOSE_HEADERS'] = ['Authorization']
+    app.config['CORS_SUPPORTS_CREDENTIALS'] = True
+    CORS(app, resources={r"/*": {"origins": "*"}}, expose_headers=['Authorization'])
 
     # Give context to SQLAlchemy
     with app.app_context():
