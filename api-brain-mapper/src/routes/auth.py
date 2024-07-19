@@ -83,7 +83,7 @@ def login():
         if(user is None):
             abort(400, 'BAD REQUEST')
 
-        # Serialize into JSON the DB response Obj
+        # Serialize into JSON the DB response Obj (also exclude unwanted info)
         user_serialized = user_schema.dump(user)
 
         #Create jwt
@@ -91,7 +91,8 @@ def login():
 
         # Generate and return response
         responseData = {
-            'loggedIn': True
+            'loggedIn': True,
+            'user': user_serialized
         }
 
         return jsonify(responseData), 200, {"Authorization": f"Bearer {auth_jwt}"}
