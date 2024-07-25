@@ -102,6 +102,22 @@ def login():
         else:
             abort(500)
 
+@auth.route('/logout', methods=['POST'])
+def logout():
+    try:
+        # Generate and return response
+        responseData = {
+            'loggedIn': False,
+        }
+
+        # This response deletes the JWT from the header, and make next requests fails
+        return jsonify(responseData), 200
+    except Exception as e:
+        if isinstance(e, HTTPException):
+            abort(e.code, e.description)
+        else:
+            abort(500)
+
 @auth.route('/protected', methods=['GET'])
 @auth_jwt_required
 def protected():
