@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import ApiUrls from '@/constants/ApiUrls';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -12,7 +13,7 @@ export const useAuthStore = defineStore('auth', {
       if (!payload) return null;
       try {
         const res = await this.$axios.post(
-          '/auth/register',
+          ApiUrls.register,
           payload,
           { withCredentials: false }
         );
@@ -32,7 +33,7 @@ export const useAuthStore = defineStore('auth', {
       if (!payload) return null;
       try {
         const res = await this.$axios.post(
-          '/auth/login',
+          ApiUrls.login,
           payload,
           { withCredentials: false }
         );
@@ -49,6 +50,28 @@ export const useAuthStore = defineStore('auth', {
       }
       catch (error) {
         console.log(error)
+      }
+    },
+
+    async logout() {
+      try {
+        const res = await this.$axios.post(
+          ApiUrls.logout,
+          payload,
+          { withCredentials: false }
+        );
+
+        if (res && res.status === 200) {
+          // Clear session data
+          this.setSessionActive(false);
+          this.resetNameAndEmail();
+
+          // Clear jwt from axios requests
+          delete this.$axios.defaults.headers.common['Authorization'];
+        }
+      }
+      catch (error) {
+        console.error(error)
       }
     },
 
@@ -77,6 +100,11 @@ export const useAuthStore = defineStore('auth', {
     setNameAndEmail(payload) {
       this.name = payload.name;
       this.email = payload.email;
+    },
+
+    resetNameAndEmail() {
+      this.name = '';
+      this.email = '';
     }
   },
   getters: {
