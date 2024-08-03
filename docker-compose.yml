@@ -1,4 +1,5 @@
 version: '0'
+
 services:
   webclient:
     build:
@@ -9,3 +10,19 @@ services:
       - '/app/node_modules'
     ports:
       - 3000:3000
+  
+  Database:
+    image: mariadb:11.2.4
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 3306:3306
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./my-resolve.cnf:/etc/mysql/conf.d/my-resolve.cnf
+
+
+volumes:
+  db_data:
