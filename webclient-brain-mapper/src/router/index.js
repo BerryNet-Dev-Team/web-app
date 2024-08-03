@@ -7,15 +7,44 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import { setupLayouts } from 'virtual:generated-layouts'
+import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(import.meta.env.VITE_BASE_URL),
   extendRoutes: setupLayouts,
 })
 
-router.beforeEach(async (to, from) => {
-  if(to.meta.requiresAuth){
-    console.log('Necesitas autenticación');
+router.beforeEach(async (to, from, next) => {
+  const authStore = useAuthStore();
+
+  if (to.meta.requiresAuth) {
+    if (authStore.getIsSessionActive) {
+      next();
+    }
+    else {
+      // Logout user
+      await authStore.logout();
+
+      // Setting previous path here so that it can be rerouted to old url that was open before login
+      next({
+        path: '/login',
+        query: {
+          previousPath: from.fullPath
+        }
+      });
+    }
+  }
+  else if (to.fullPath === '/login') {
+    // Setting previous path here so that it can be rerouted to old url that was open before login
+    next({
+      path: '/login',
+      query: {
+        previousPath: from.fullPath
+      }
+    });
+  }
+  else {
+    next();
   }
 })
 
