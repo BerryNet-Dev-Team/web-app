@@ -1,0 +1,21 @@
+<template>
+  <nav class="bg-primary-dark text-white flex items-center justify-between px-8 py-5">
+    <div>
+      Logo
+    </div>
+    <div class="flex items-center justify-between">
+      <button class="brightBtn transition delay-75 hover:scale-105">
+        Generar mapeo
+      </button>
+      <button class="w-14 mx-3">
+        <img src="../assets/avatar.jpg" alt="Profile picture" class="rounded-full">
+      </button>
+    </div>
+  </nav>
+</template>
+
+<script>
+  export default {
+    name: 'NavbarComp'
+  }
+</script>
