@@ -45,6 +45,21 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./my-resolve.cnf:/etc/mysql/conf.d/my-resolve.cnf
 
+  flask_api:
+    image: python:3.9
+    container_name: flask_app
+    working_dir: /app
+    volumes:
+      - ./api-brain-mapper/:/app
+    ports:
+      - "5000:5000"
+    command: |
+      pip install virtualenv
+      python3 virtualenv venv
+      source ./venv/bin/activate
+      pip install -r /app/requirements.txt
+      flask run 
+
 
 volumes:
   db_data:
