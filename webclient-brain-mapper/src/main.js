@@ -13,6 +13,9 @@ import App from './App.vue'
 // Composables
 import { createApp } from 'vue'
 
+// CSS file with Tailwind CSS imports
+import './styles/style.css';
+
 const app = createApp(App)
 
 registerPlugins(app)
