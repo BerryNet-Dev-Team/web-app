@@ -4,7 +4,12 @@
     "email": "Email",
     "password": "Contraseña",
     "login": {
-      "title": "Iniciar sesión"
+      "title": "Inicia sesión",
+      "forgotPasswd": "¿Olvidaste la contraseña?",
+      "login": "Ingresar",
+      "register": "Crear cuenta nueva",
+      "emptyEmailFeedB": "Tu email no puede estar vacío.",
+      "emptyPasswdFeedB": "Tu contraseña no puede estar vacía."
     },
     "register": {
       "title": "Crea una cuenta nueva",
