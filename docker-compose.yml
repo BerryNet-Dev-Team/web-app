@@ -1,6 +1,8 @@
-version: '0'
+# syntax=docker/dockerfile:1.4
+#version: '0'
 
 services:
+
   webclient:
     build:
       context: ./webclient-brain-mapper
@@ -10,6 +12,28 @@ services:
       - '/app/node_modules'
     ports:
       - 3000:3000
+  
+  s3:
+    build:
+      context: ./minio
+      dockerfile: Dockerfile
+    restart: "unless-stopped"
+    volumes:
+        - /home/images:/data
+    environment:
+        MINIO_ROOT_USER: minio
+        MINIO_ROOT_PASSWORD: minio123
+    # Allow all incoming hosts to access the server by using 0.0.0.0
+    command: server --address 0.0.0.0:9000 --console-address ":9001" /data
+    ports:
+        # Bind explicitly to 127.0.0.1
+        - "127.0.0.1:9000:9000"
+        - "9001:9001"
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://127.0.0.1:9000/minio/health/live"]
+        interval: 500s
+        timeout: 10s
+        retries: 3
   
   Database:
     image: mariadb:11.2.4
@@ -22,6 +46,23 @@ services:
       - db_data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./my-resolve.cnf:/etc/mysql/conf.d/my-resolve.cnf
+
+  flask_api:
+    build:
+     context: ./api-brain-mapper
+     dockerfile: Dockerfile
+    container_name: flask_app
+    restart: unless-stopped
+    volumes:
+      - ./api-brain-mapper/:/app
+    ports:
+      - "8000:8000"
+    # command: |
+    #   pip install virtualenv
+    #   python3 virtualenv venv
+    #   source ./venv/bin/activate
+    #   pip install -r /app/requirements.txt
+    #test
 
 
 volumes:
