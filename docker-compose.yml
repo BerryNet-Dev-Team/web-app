@@ -1,6 +1,8 @@
-version: '0'
+# syntax=docker/dockerfile:1.4
+#version: '0'
 
 services:
+
   webclient:
     build:
       context: ./webclient-brain-mapper
@@ -47,9 +49,10 @@ services:
 
   flask_api:
     build:
-     context: api-brain-mapper
-     target: builder
+     context: ./api-brain-mapper
+     dockerfile: Dockerfile
     container_name: flask_app
+    restart: unless-stopped
     volumes:
       - ./api-brain-mapper/:/app
     ports:
@@ -59,7 +62,7 @@ services:
     #   python3 virtualenv venv
     #   source ./venv/bin/activate
     #   pip install -r /app/requirements.txt
-    #   flask run 
+    #test
 
 
 volumes:

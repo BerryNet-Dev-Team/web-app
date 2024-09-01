@@ -18,7 +18,7 @@ Mako==1.3.5
 MarkupSafe==2.1.3
 marshmallow==3.21.3
 marshmallow-sqlalchemy==1.0.0
-mysqlclient
+mysql-connector-python==8.0.16
 packaging==24.1
 platformdirs==4.1.0
 protobuf==4.21.12
@@ -31,4 +31,3 @@ timedelta==2020.12.3
 typing_extensions==4.12.0
 virtualenv==20.25.0
 Werkzeug==3.0.1
-
