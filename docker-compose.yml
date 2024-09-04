@@ -34,18 +34,17 @@ services:
         interval: 500s
         timeout: 10s
         retries: 3
-  
-  Database:
-    image: mariadb:11.2.4
+    
+  postgres:
+    image: postgres:16-bullseye
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     ports:
-      - 3306:3306
+      - 5432:5432
     volumes:
-      - db_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./my-resolve.cnf:/etc/mysql/conf.d/my-resolve.cnf
+      - pgdata:/var/lib/postgresql/data
+      - ./initPg.sh:/docker-entrypoint-initdb.d/init-user-db.sh
 
   flask_api:
     build:
@@ -57,13 +56,6 @@ services:
       - ./api-brain-mapper/:/app
     ports:
       - "8000:8000"
-    # command: |
-    #   pip install virtualenv
-    #   python3 virtualenv venv
-    #   source ./venv/bin/activate
-    #   pip install -r /app/requirements.txt
-    #test
-
 
 volumes:
-  db_data:
+  pgdata:
