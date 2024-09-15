@@ -1,9 +1,15 @@
 <template>
-  <HelloWorld />
+  <MainContent />
 </template>
 
-<script setup>
-  //
+<script>
+import MainContent from '@/components/index/MainContent.vue';
+
+export default {
+  components: {
+    MainContent,
+  }
+};
 </script>
 <route lang="json">
   {

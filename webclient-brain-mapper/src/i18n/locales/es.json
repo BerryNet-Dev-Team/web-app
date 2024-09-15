@@ -1,3 +1,8 @@
 {
-    "hi": "hola"
+  "hi": "hola",
+  "appNavbar": {
+    "title": "Brain Mapper",
+    "signUp": "Registrarse",
+    "signIn": "Iniciar sesión"
+  }
 }
