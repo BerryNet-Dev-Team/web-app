@@ -6,12 +6,10 @@ WORKDIR /app
 COPY requirements.txt /app
 RUN apt-get update -y
 RUN apt install gcc
-RUN apt-get install -y libmariadb-dev
+RUN apt-get install -y libpq-dev
 RUN pip3 install -r requirements.txt
 
 # COPY . /app
 
 ENTRYPOINT ["python3"]
 CMD ["run.py"]
-
-
