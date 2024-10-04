@@ -1,3 +1,27 @@
 {
-    "hi": "hola"
+  "hi": "Hola",
+  "auth": {
+    "email": "Email",
+    "password": "Contraseña",
+    "login": {
+      "title": "Inicia sesión",
+      "forgotPasswd": "¿Olvidaste la contraseña?",
+      "login": "Ingresar",
+      "register": "Crear cuenta nueva",
+      "emptyEmailFeedB": "Tu email no puede estar vacío.",
+      "emptyPasswdFeedB": "Tu contraseña no puede estar vacía."
+    },
+    "register": {
+      "title": "Crea una cuenta nueva",
+      "name": "Nombre",
+      "lastName": "Apellidos",
+      "confirmPasswd": "Ingresa nuevamente la contraseña",
+      "agreement": "Estás de acuerdo?",
+      "register": "Registrarse",
+      "emailFeedB": "Se necesita un email válido.",
+      "passwdMatchFeedB": "Ambas contraseñas deben coincidir",
+      "minCharsFeedB": "Este campo necesita tener 10 o más caracteres.",
+      "emptyFieldFeedB": "Este campo no puede estar vacío."
+    }
+  }
 }
