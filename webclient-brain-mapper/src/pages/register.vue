@@ -69,7 +69,7 @@
             class="mt-4"
             color="amber-darken-4"
             block
-            @click="validate"
+            @click="register()"
           >
             {{ $t('auth.register.register') }}
           </v-btn>
@@ -126,14 +126,26 @@ export default {
 
   methods: {
     async validate () {
-      const { valid } = await this.$refs.form.validate()
+      const { valid } = await this.$refs.form.validate();
 
-      if (valid) alert("Valid form")
+      if (!valid) alert("Invalid form");
     },
 
     async register () {
       try {
-        
+        const response = await this.authStore.register({
+          name: this.name,
+          lastName: this.lastName,
+          email: this.email,
+          passwd: this.password
+        });
+
+        if(!response) {
+          alert("Cannot register");
+          return;
+        }
+
+        this.$router.push('/login');
       }
       catch (error) {
         console.error(error);
