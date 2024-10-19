@@ -1,5 +1,6 @@
 {
   "hi": "Hola",
+  "appName": "BrainMapper",
   "auth": {
     "email": "Email",
     "password": "Contraseña",
@@ -9,7 +10,8 @@
       "login": "Ingresar",
       "register": "Crear cuenta nueva",
       "emptyEmailFeedB": "Tu email no puede estar vacío.",
-      "emptyPasswdFeedB": "Tu contraseña no puede estar vacía."
+      "emptyPasswdFeedB": "Tu contraseña no puede estar vacía.",
+      "loginMessage": "Crea tus mapeos cerebrales"
     },
     "register": {
       "title": "Crea una cuenta nueva",
