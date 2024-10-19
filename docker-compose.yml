@@ -45,6 +45,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./initPg.sh:/docker-entrypoint-initdb.d/init-user-db.sh
+      - ./populateDB.sql:/home/populateDB.sql
 
   flask_api:
     build:
