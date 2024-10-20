@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-primary-dark text-white flex items-center justify-between px-8 py-5">
+  <nav class="bg-brain-primary-dark text-white flex items-center justify-between px-8 py-5">
     <div>
       Logo
     </div>

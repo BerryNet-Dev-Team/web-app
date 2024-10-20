@@ -7,27 +7,27 @@ module.exports = {
   theme: {
     extend: {
       colors:{
-        primary:{
+        "brain-primary":{
           DEFAULT: '#33648A',
           light: '#3A739E',
-          dark: '#2E5B7D' 
+          dark: '#2E5B7D'
         },
-        secondary:{
+        "brain-secondary":{
           DEFAULT: '#5B999F',
           light: '#6AB3BA',
           dark: '#518A8F'
         },
-        auxiliary:{
+        "brain-auxiliary":{
           DEFAULT: '#8AC6D0',
           light: '#91D0DB',
           dark: '#80B8C2'
         },
-        alert:{
+        "brain-alert":{
           DEFAULT: '#F26721',
           light: '#FC6C23',
           dark: '#E36120'
         },
-        whiteaux:{
+        "brain-whiteaux":{
           DEFAULT: '#F2F2F3'
         }
       }

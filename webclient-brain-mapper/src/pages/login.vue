@@ -1,63 +1,92 @@
 <template>
-  <div class="p-4">
-    <div class="text-center font-semibold text-2xl mb-5">
+
+  <div class="flex w-full min-h-screen">
+    <div class="hidden md:flex md:flex-col md:w-1/2 justify-center items-center min-h-screen">
+      <div class="p-3 my-4">
+        <h2 class="text-white font-medium text-7xl">{{ $t('appName') }}</h2>
+      </div>
+      <div class="my-4">
+        <v-img
+          :width="300"
+          aspect-ratio="1/1"
+          cover
+          src="@/assets/LogoTemp.png"
+        ></v-img>
+      </div>
+      <div class="h-2/6 w-1/2">
+        <p class="text-white text-left font-medium text-4xl">
+          {{ $t('auth.login.loginMessage') }}
+        </p>
+      </div>
+      <div>
+        <p class="text-white text-left font-medium text-2xl">
+          {{new Date().getFullYear()}} &copy; {{ $t('appName') }}
+        </p>
+      </div>
+    </div>
+
+    <div class="flex bg-brain-primary items-center justify-center w-full md:w-1/2 min-h-screen">
+      <div class="p-8 bg-brain-whiteaux rounded-lg w-11/12 md:w-2/3 lg:w-3/6">
+        <div class="text-center font-semibold text-2xl mb-5">
       <span>
         {{ $t('auth.login.title') }}
       </span>
-    </div>
-    <div>
-      <v-form ref="form">
-
-        <v-text-field
-          v-model="email"
-          :label="$t('auth.email')"
-          :rules="emailRules"
-          prepend-inner-icon="mdi-email-outline"
-          required
-        ></v-text-field>
-
-        <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-end">
-          <a
-            class="text-caption text-decoration-none text-blue"
-            href="#"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            {{ $t('auth.login.forgotPasswd') }}
-          </a>
         </div>
-        <v-text-field
-          v-model="password"
-          :label="$t('auth.password')"
-          :rules="passwordRules"
-          prepend-inner-icon="mdi-lock-outline"
-          :append-inner-icon="passwdVisible ? 'mdi-eye-off' : 'mdi-eye'"
-          :type="passwdVisible ? 'text' : 'password'"
-          @click:append-inner="passwdVisible = !passwdVisible"
-          required
-        ></v-text-field>
+        <div>
+          <v-form ref="form">
 
-        <div class="d-flex flex-column">
-          <v-btn
-            class="mt-4"
-            color="amber-darken-4"
-            block
-            @click="login"
-          >
-            {{ $t('auth.login.login') }}
-          </v-btn>
+            <v-text-field
+              v-model="email"
+              :label="$t('auth.email')"
+              :rules="emailRules"
+              prepend-inner-icon="mdi-email-outline"
+              required
+            ></v-text-field>
 
-          <v-btn
-            variant="plain"
-            color="amber-darken-4"
-            class="mt-10 text-none"
-            append-icon="mdi-chevron-right"
-            @click="gotoRegister"
-          >
-            {{ $t('auth.login.register') }}
-          </v-btn>
+            <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-end">
+              <a
+                class="text-caption text-decoration-none text-blue"
+                href="#"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                {{ $t('auth.login.forgotPasswd') }}
+              </a>
+            </div>
+            <v-text-field
+              v-model="password"
+              :label="$t('auth.password')"
+              :rules="passwordRules"
+              prepend-inner-icon="mdi-lock-outline"
+              :append-inner-icon="passwdVisible ? 'mdi-eye-off' : 'mdi-eye'"
+              :type="passwdVisible ? 'text' : 'password'"
+              @click:append-inner="passwdVisible = !passwdVisible"
+              required
+            ></v-text-field>
+
+            <div class="d-flex flex-column">
+              <v-btn
+                class="mt-4"
+                color="amber-darken-4"
+                block
+                @click="login"
+              >
+                {{ $t('auth.login.login') }}
+              </v-btn>
+
+              <v-btn
+                variant="plain"
+                color="amber-darken-4"
+                class="mt-10 text-none"
+                append-icon="mdi-chevron-right"
+                @click="gotoRegister"
+              >
+                {{ $t('auth.login.register') }}
+              </v-btn>
+            </div>
+          </v-form>
         </div>
-      </v-form>
+      </div>
     </div>
   </div>
 </template>

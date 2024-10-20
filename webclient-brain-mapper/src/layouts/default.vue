@@ -1,13 +1,23 @@
 <template>
   <v-app>
+    <navbar-comp/>
+
     <v-main>
       <router-view />
     </v-main>
 
-    <AppFooter />
+    <footer-comp/>
   </v-app>
 </template>
 
-<script setup>
-  //
+<script>
+  import NavbarComp from '@/components/NavbarComp.vue';
+  import FooterComp from '@/components/FooterComp.vue';
+
+  export default {
+    components: {
+      NavbarComp,
+      FooterComp
+    },
+  };
 </script>
