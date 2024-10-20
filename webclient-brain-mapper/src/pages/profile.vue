@@ -1,6 +1,5 @@
 <template>
-  <NavbarComp/>
-  <div class="bg-auxiliary-dark min-h-full">
+  <div class="bg-brain-auxiliary-dark min-h-full">
     <div class="w-full h-50 flex flex-col md:flex-row justify-center items-center py-16">
       <div>
         <v-avatar image="@/assets/avatar.jpg" size="256" class="shadow-2xl hover:cursor-pointer">
@@ -37,18 +36,10 @@
       </v-container>
     </div>
   </div>
-  <FooterComp/>
 </template>
 
 <script>
-  import NavbarComp from '@/components/NavbarComp.vue';
-  import FooterComp from '@/components/FooterComp.vue';
-
   export default {
-    components: {
-      NavbarComp,
-      FooterComp
-    },
     data() {
       return {
         name: 'John Lasasgna',
@@ -66,8 +57,8 @@
 
 <route lang="json">
   {
-    "meta":{
-      "layout": "profile",
+    "meta": {
+      "layout": "default",
       "requiresAuth": false
     }
   }
