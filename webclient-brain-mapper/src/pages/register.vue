@@ -28,7 +28,7 @@
                 ></v-text-field>
               </v-col>
             </v-row>
-
+            
             <v-text-field
               v-model="email"
               :rules="emailRules"

@@ -1,6 +1,13 @@
 {
   "hi": "Hola",
   "appName": "BrainMapper",
+  "navbar": {
+    "start": "Inicio",
+    "create": "Crear",
+    "profile": "Perfil",
+    "viewProfile": "Mi perfil",
+    "logOut": "Cerrar sesion"
+  },
   "auth": {
     "email": "Email",
     "password": "Contraseña",
