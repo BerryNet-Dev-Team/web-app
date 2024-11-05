@@ -8,6 +8,17 @@
     "viewProfile": "Mi perfil",
     "logOut": "Cerrar sesion"
   },
+  "default": {
+    "create": {
+      "uploadMessage": "Sube tus imágenes y comprueba si tus frambuesas están listas!",
+      "previewTitle": "Previsualización de tus imagenes",
+      "labelName": "Nombre del escaneo",
+      "labelImages": "Subir imagenes",
+      "labelBtn": "Analizar frambuesas",
+      "emptyName": "El nombre del escaneo no puede estar vacío.",
+      "emptyFiles": "Debe seleccionar por lo menos una imagen."
+    }
+  },
   "auth": {
     "email": "Email",
     "password": "Contraseña",
