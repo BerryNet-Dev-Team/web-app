@@ -17,6 +17,10 @@
       "labelBtn": "Analizar frambuesas",
       "emptyName": "El nombre del escaneo no puede estar vacío.",
       "emptyFiles": "Debe seleccionar por lo menos una imagen."
+    },
+    "profile": {
+      "myScans": "Mis escaneos de frambuesas",
+      "numPics": "No. de imagenes: "
     }
   },
   "auth": {
