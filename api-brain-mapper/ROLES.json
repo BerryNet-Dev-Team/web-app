@@ -1,5 +1,6 @@
 [
     "ADMIN",
     "DATASET_MANAGER",
-    "AI_USER"
+    "AI_USER",
+    "AI_TECHNICIAN"
 ]
