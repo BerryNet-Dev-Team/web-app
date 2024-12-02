@@ -1,5 +1,10 @@
 {
   "hi": "Hola",
+  "appNavbar": {
+    "title": "Brain Mapper",
+    "signUp": "Registrarse",
+    "signIn": "Iniciar sesión"
+  },
   "appName": "BrainMapper",
   "auth": {
     "email": "Email",
