@@ -1,8 +1,9 @@
 <template>
-  <v-container>
-    {{ $t('hi') }}
-  </v-container>
-  <router-view />
+  <v-app class="bg-brain-secondary">
+    <v-main>
+      <router-view />
+    </v-main>
+  </v-app>
 </template>
 
 <script setup>

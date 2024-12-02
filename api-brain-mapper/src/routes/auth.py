@@ -17,12 +17,13 @@ def addUser():
         req = request.json
 
         # Check if request has enough properties needed
-        required_keys = ['name', 'email', 'passwd']
+        required_keys = ['name', 'lastName', 'email', 'passwd']
         if not all(key in req for key in required_keys):
             abort(400, 'BAD REQUEST')
 
         # Get request properties
         name = req['name']
+        lastName = req['lastName']
         email = req['email']
         password = req['passwd']
 
@@ -38,6 +39,7 @@ def addUser():
         # Add new user to DB
         new_user = User(
             name=name,
+            lastName=lastName,
             email=email,
             password=hashPassword(password)
         )

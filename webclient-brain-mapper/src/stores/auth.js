@@ -8,7 +8,7 @@ export const useAuthStore = defineStore('auth', {
     name: ''
   }),
   actions: {
-    // Expected payload { name: Str, email: Str, passwd: Str }
+    // Expected payload { name: Str, lastName: Str, email: Str, passwd: Str }
     async register(payload) {
       if (!payload) return null;
       try {
@@ -24,7 +24,8 @@ export const useAuthStore = defineStore('auth', {
         return false;
       }
       catch (error) {
-        console.log(error)
+        console.log(error);
+        return false;
       }
     },
 
@@ -46,10 +47,17 @@ export const useAuthStore = defineStore('auth', {
           // Set jwt into axios requests
           const auth_jwt = res.headers['authorization'];
           this.$axios.defaults.headers.common['Authorization'] = auth_jwt;
+
+          // Returns true for better control in component
+          return true;
         }
+
+        // Returns false to raise error in component
+        return false;
       }
       catch (error) {
-        console.log(error)
+        console.log(error);
+        return false;
       }
     },
 
