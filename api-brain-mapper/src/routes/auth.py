@@ -1,4 +1,6 @@
-from flask import Blueprint, request, redirect, jsonify, abort
+import os
+import json
+from flask import Blueprint, request, redirect, jsonify, abort, g
 from werkzeug.exceptions import HTTPException
 from sqlalchemy import select
 from ..models.user import User
@@ -6,18 +8,25 @@ from ..schemas.user import user_schema
 from ..database.dbConnection import db
 
 from ..security.jwt_utils import encode_auth_jwt
-from ..security.decorators_utils import auth_jwt_required
+from ..security.decorators_utils import auth_required
 from ..security.crypto_utils import hashPassword
 
+# Open file with available roles
+rolesFile = os.path.join(os.getcwd(), "src/database/reference-data/ROLES.json")
+with open(rolesFile) as f:
+  availableRoles = json.load(f)
+
+# Setup blueprint
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 
-@auth.route('/register', methods=['POST'])
+@auth.route('/addUser', methods=['POST'])
+@auth_required(["ADMIN"])
 def addUser():
     try:
         req = request.json
 
         # Check if request has enough properties needed
-        required_keys = ['name', 'lastName', 'email', 'passwd']
+        required_keys = ['name', 'lastName', 'email', 'passwd', 'role']
         if not all(key in req for key in required_keys):
             abort(400, 'BAD REQUEST')
 
@@ -26,6 +35,10 @@ def addUser():
         lastName = req['lastName']
         email = req['email']
         password = req['passwd']
+        role = req['role']
+
+        if(role not in availableRoles):
+            abort(400, 'BAD REQUEST')
 
         # Search for existent user with same email
         stmt = select(User).where(User.email == email)
@@ -41,7 +54,8 @@ def addUser():
             name=name,
             lastName=lastName,
             email=email,
-            password=hashPassword(password)
+            password=hashPassword(password),
+            role=role
         )
 
         db.session.add(new_user)
@@ -121,7 +135,7 @@ def logout():
             abort(500)
 
 @auth.route('/protected', methods=['GET'])
-@auth_jwt_required
+@auth_required(["ADMIN"])
 def protected():
     try:
         return jsonify({'message': 'Funciona'})
