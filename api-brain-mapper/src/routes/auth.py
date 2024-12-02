@@ -1,4 +1,6 @@
-from flask import Blueprint, request, redirect, jsonify, abort
+import os
+import json
+from flask import Blueprint, request, redirect, jsonify, abort, g
 from werkzeug.exceptions import HTTPException
 from sqlalchemy import select
 from ..models.user import User
@@ -9,9 +11,16 @@ from ..security.jwt_utils import encode_auth_jwt
 from ..security.decorators_utils import auth_required
 from ..security.crypto_utils import hashPassword
 
+# Open file with available roles
+rolesFile = os.path.join(os.getcwd(), "src/database/reference-data/ROLES.json")
+with open(rolesFile) as f:
+  availableRoles = json.load(f)
+
+# Setup blueprint
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 
-@auth.route('/register', methods=['POST'])
+@auth.route('/addUser', methods=['POST'])
+@auth_required(["ADMIN"])
 def addUser():
     try:
         req = request.json
@@ -27,6 +36,9 @@ def addUser():
         email = req['email']
         password = req['passwd']
         role = req['role']
+
+        if(role not in availableRoles):
+            abort(400, 'BAD REQUEST')
 
         # Search for existent user with same email
         stmt = select(User).where(User.email == email)

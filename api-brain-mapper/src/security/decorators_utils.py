@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import request, abort
+from flask import request, abort, g
 from werkzeug.exceptions import HTTPException
 from sqlalchemy import select
 from ..security.jwt_utils import decode_auth_jwt
@@ -38,6 +38,10 @@ def auth_required(requiredRoles=None):
             user = result.scalar_one_or_none()
             if(user is None):
                 abort(400, 'BAD REQUEST')
+
+            # Store the uid and role in g so it's accessible throughout the request
+            g.uid = uid
+            g.role = user.role
 
             # If user role is not in the requiredRoles return error
             if(requiredRoles is not None):
