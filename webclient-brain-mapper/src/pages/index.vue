@@ -13,7 +13,8 @@ export default {
 </script>
 <route lang="json">
   {
-    "meta":{
+    "meta": {
+      "layout": "public",
       "requiresAuth": false
     }
   }
