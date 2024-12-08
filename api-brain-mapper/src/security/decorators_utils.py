@@ -41,11 +41,11 @@ def auth_required(requiredRoles=None):
 
             # Store the uid and role in g so it's accessible throughout the request
             g.uid = uid
-            g.role = user.role
+            g.role = user.role.name
 
             # If user role is not in the requiredRoles return error
             if(requiredRoles is not None):
-                if(user.role not in requiredRoles):
+                if(user.role.name not in requiredRoles):
                     abort(403, 'Forbidden: You do not have the required role')
 
             return f(*args, **kwargs)
