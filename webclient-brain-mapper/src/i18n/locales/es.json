@@ -6,6 +6,12 @@
     "signIn": "Iniciar sesión"
   },
   "appName": "BrainMapper",
+  "dashboard": {
+    "title": "Dashboard",
+    "users": "Gestión de usuarios",
+    "dataset": "Gestión del dataset",
+    "inferences": "Usa la IA"
+  },
   "auth": {
     "email": "Email",
     "password": "Contraseña",

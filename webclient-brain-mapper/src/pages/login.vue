@@ -136,7 +136,7 @@ export default {
           return;
         }
 
-        this.$router.push('/profile');
+        this.$router.push('/dashboard');
       }
       catch (error) {
         console.error(error);
