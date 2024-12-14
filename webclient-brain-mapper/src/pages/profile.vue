@@ -59,7 +59,8 @@
   {
     "meta": {
       "layout": "default",
-      "requiresAuth": false
+      "requiresAuth": false,
+      "requiresAdmin": false
     }
   }
 </route>

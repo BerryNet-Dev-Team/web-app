@@ -5,7 +5,8 @@ export const useAuthStore = defineStore('auth', {
   state: () => ({
     isSessionActive: null,
     email: '',
-    name: ''
+    name: '',
+    role: ''
   }),
   actions: {
     // Expected payload { name: Str, lastName: Str, email: Str, passwd: Str }
@@ -42,7 +43,7 @@ export const useAuthStore = defineStore('auth', {
         if (res && res.status === 200) {
           // Set session data
           this.setSessionActive(true);
-          this.setNameAndEmail(res.data.user);
+          this.setUserInfo(res.data.user);
 
           // Set jwt into axios requests
           const auth_jwt = res.headers['authorization'];
@@ -72,7 +73,7 @@ export const useAuthStore = defineStore('auth', {
         if (res && res.status === 200) {
           // Clear session data
           this.setSessionActive(false);
-          this.resetNameAndEmail();
+          this.resetUserInfo();
 
           // Clear jwt from axios requests
           delete this.$axios.defaults.headers.common['Authorization'];
@@ -105,19 +106,24 @@ export const useAuthStore = defineStore('auth', {
       this.isSessionActive = payload;
     },
 
-    setNameAndEmail(payload) {
+    setUserInfo(payload) {
       this.name = payload.name;
       this.email = payload.email;
+      this.role = payload.role.name;
     },
 
-    resetNameAndEmail() {
+    resetUserInfo() {
       this.name = '';
       this.email = '';
+      this.role = '';
     }
   },
   getters: {
     getIsSessionActive: (state) => state.isSessionActive,
     getName: (state) => state.name,
-    getEmail: (state) => state.email
+    getEmail: (state) => state.email,
+
+    // Check if user is admin
+    isAdmin: (state) => state.role === 'ADMIN',
   },
 })

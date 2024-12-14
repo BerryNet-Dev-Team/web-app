@@ -19,6 +19,11 @@ router.beforeEach(async (to, from, next) => {
 
   if (to.meta.requiresAuth) {
     if (authStore.getIsSessionActive) {
+      if(to.meta.requiresAdmin) {
+        if(!authStore.isAdmin) return false;
+      }
+
+      // If everything ok, continue navigation
       next();
     }
     else {
@@ -33,15 +38,6 @@ router.beforeEach(async (to, from, next) => {
         }
       });
     }
-  }
-  else if (to.fullPath === '/login') {
-    // Setting previous path here so that it can be rerouted to old url that was open before login
-    next({
-      path: '/login',
-      query: {
-        previousPath: from.fullPath
-      }
-    });
   }
   else {
     next();
