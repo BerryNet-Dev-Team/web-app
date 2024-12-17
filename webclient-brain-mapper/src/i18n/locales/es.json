@@ -31,5 +31,9 @@
       "emptyFieldFeedB": "Este campo no puede estar vacío.",
       "registerMessage": "Únete, sube tus imágenes y comienza a generar tus mapeos cerebrales."
     }
+  },
+  "sessionExpired": {
+    "title": "Sesión expirada.",
+    "text": "Parece que tu sesión ha expirado. Por favor inicia sesión nuevamente."
   }
 }
