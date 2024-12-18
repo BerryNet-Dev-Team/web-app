@@ -22,7 +22,7 @@ def auth_required(requiredRoles=None):
                 if len(auth_jwt) > 0:
                     uid = decode_auth_jwt(auth_jwt)
                 else:
-                    abort(403, 'No token provided')
+                    abort(400, 'No token provided')
             except Exception as e:
                 if isinstance(e, HTTPException):
                     abort(e.code, e.description)

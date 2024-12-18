@@ -14,7 +14,7 @@
         ></v-img>
       </div>
       <div class="h-2/6 w-1/2">
-        <p class="text-white text-left font-medium text-4xl">
+        <p class="text-white text-center font-medium text-4xl">
           {{ $t('auth.login.loginMessage') }}
         </p>
       </div>
@@ -28,11 +28,23 @@
     <div class="flex bg-brain-primary items-center justify-center w-full md:w-1/2 min-h-screen">
       <div class="p-8 bg-brain-whiteaux rounded-lg w-11/12 md:w-2/3 lg:w-3/6">
         <div class="text-center font-semibold text-2xl mb-5">
-      <span>
-        {{ $t('auth.login.title') }}
-      </span>
+          <span>
+            {{ $t('auth.login.title') }}
+          </span>
         </div>
         <div>
+          <!-- Unauthorized alert -->
+          <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-start">
+            <span
+              v-if="wrongCredentials"
+              class="text-caption text-decoration-none text-red"
+            >
+              {{ $t('auth.login.wrongCreds') }}
+            </span>
+            <div v-else style="height: 20px;"></div>
+          </div>
+
+          <!-- Login form -->
           <v-form ref="form">
 
             <v-text-field
@@ -92,6 +104,7 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
 import { useAuthStore } from "@/stores/auth";
 
 export default {
@@ -99,6 +112,8 @@ export default {
     email: '',
     password: '',
     passwdVisible: false,
+
+    wrongCredentials: false,
 
     authStore: useAuthStore(),
   }),
@@ -113,6 +128,12 @@ export default {
     ];
   },
 
+  computed: {
+    ...mapState(useAuthStore, {
+      isAdmin: (store) => store.isAdmin,
+    })
+  },
+
   methods: {
     gotoRegister() {
       this.$router.push('/register');
@@ -124,23 +145,36 @@ export default {
       if (!valid) alert("Invalid form");
     },
 
+    // Redirect user to its main page depending on which role has
+    redirectToMainPg() {
+      if(this.isAdmin) {
+        this.$router.push('/profile');
+        return;
+      }
+
+      // In case is not admin redirect to other page
+      this.$router.push('/ejemplo/world');
+    },
+
     async login () {
+      let response;
       try {
-        const response = await this.authStore.login({
+        response = await this.authStore.login({
           email: this.email,
           passwd: this.password
         });
-
-        if(!response) {
-          alert("Cannot register");
-          return;
-        }
-
-        this.$router.push('/profile');
       }
       catch (error) {
-        console.error(error);
+        return;
       }
+
+      // If login was not successful, show credentials error
+      if(!response) {
+        this.wrongCredentials = true;
+        return;
+      }
+
+      this.redirectToMainPg();
     }
   },
 };

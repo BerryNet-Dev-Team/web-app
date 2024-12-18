@@ -7,7 +7,7 @@ from ..models.user import User
 from ..schemas.user import user_schema
 from ..database.dbConnection import db
 
-from ..security.jwt_utils import encode_auth_jwt
+from ..security.jwt_utils import *
 from ..security.decorators_utils import auth_required
 from ..security.crypto_utils import hashPassword
 
@@ -104,6 +104,8 @@ def login():
 
         #Create jwt
         auth_jwt = encode_auth_jwt(user.id)
+        if(auth_jwt is None):
+            abort(500, 'Something went wrong with JWT')
 
         # Generate and return response
         responseData = {
@@ -117,6 +119,38 @@ def login():
             abort(e.code, e.description)
         else:
             abort(500)
+
+@auth.route('/isLoggedIn', methods=['GET'])
+def isLoggedIn():
+    auth_header = request.headers.get('Authorization')
+    if (auth_header):
+        auth_jwt = auth_header.split(" ")[1]
+    else:
+        auth_jwt = ""
+
+    # By default set user as logged in, if something fails change to false
+    isLoggedIn = True
+    try:
+        if len(auth_jwt) > 0:
+            uid = decode_auth_jwt(auth_jwt)
+        else:
+            isLoggedIn = False
+    except Exception:
+        isLoggedIn = False
+
+    # Generate and return response
+    responseData = {
+        'loggedIn': isLoggedIn,
+    }
+    return jsonify(responseData), 200
+
+@auth.route('/getUserRole', methods=['GET'])
+@auth_required()
+def getRole():
+    responseData = {
+        "role": g.role
+    }
+    return jsonify(responseData), 200
 
 @auth.route('/logout', methods=['POST'])
 def logout():
