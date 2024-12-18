@@ -134,8 +134,6 @@ export const useAuthStore = defineStore('auth', {
       try {
         const res = await this.$axios.post(
           ApiUrls.logout,
-          payload,
-          { withCredentials: false }
         );
 
         if (res && res.status === 200) {
