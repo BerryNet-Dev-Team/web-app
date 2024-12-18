@@ -16,6 +16,7 @@
       "register": "Crear cuenta nueva",
       "emptyEmailFeedB": "Tu email no puede estar vacío.",
       "emptyPasswdFeedB": "Tu contraseña no puede estar vacía.",
+      "wrongCreds":  "El correo o la contraseña que ingresaste son incorrectos(s)",
       "loginMessage": "Crea tus mapeos cerebrales"
     },
     "register": {
