@@ -41,7 +41,7 @@ router.beforeEach(async (to, from, next) => {
     else { // In case user is not logged in, show modal and logout
       // Emit event to app's root file
       emitter.emit('session-exp');
-      next();
+      next('/login');
     }
   }
   else { // If route requires nothing just go to
