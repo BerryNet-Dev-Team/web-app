@@ -5,17 +5,20 @@
       variant="elevated"
       color="orange-darken-1"
     >
-      Mis mapeos
+      {{ $t('dataset.title') }}
     </v-card>
     <div class="flex-1 flex justify-center items-center">
       <v-container class="w-full md:w-60">
         <div>
+          <p class="mb-8 text-center">
+            {{ $t('dataset.instructions') }}
+          </p>
           <v-file-input
             ref="imgInput"
             v-model="imageInput"
-            label="Ingresa una imagen"
+            :label="$t('dataset.selectImg')"
             variant="solo-filled"
-            prepend-inner-icon="mdi-image"
+            prepend-icon="mdi-image"
             chips accept="image/*"
             :rules="imageInputRules"
             @change="chargeImage"
@@ -23,12 +26,24 @@
         </div>
         <div v-if="isImgCharged" class="canvas-container">
           <canvas
+            id="canvas"
             ref="canvas"
             @click="getPosition"
             :width="imgDimensions.width"
             :height="imgDimensions.height"
             :style="{background: `url(${finalImage.displayUrl})`}"
           ></canvas>
+        </div>
+
+        <div v-if="isImgCharged" class="text-center">
+          <v-btn
+            color="amber-darken-4"
+            class="mt-10 text-none"
+            append-icon="mdi-upload"
+            @click="uploadScene"
+          >
+            {{ $t('dataset.upload') }}
+          </v-btn>
         </div>
       </v-container>
     </div>
@@ -42,22 +57,21 @@ import { useSceneStore } from "@/stores/scene";
 export default {
   data() {
     return {
-      name: 'John Lasasgna',
       imageInput: null,
       isImgCharged: false,
       imgDimensions: {
         width: 0,
         height: 0
       },
+      pointSize: 3,
+
+      sceneName: '',
       finalImage: {
         name: '',
         blob: null,
         displayUrl: ''
       },
       imgMap: [],
-      pointSize: 3,
-      dynamicHeight: 683,
-      dynamicWidth: 1024,
 
       sceneStore: useSceneStore(),
     }
@@ -103,7 +117,7 @@ export default {
       });
     },
 
-    // validates if its an image valid file
+    // validates if its an image is a valid file
     isValidFile(file) {
       const allowedMimeTypes = ["image/jpg", "image/jpeg", "image/png"];
       return allowedMimeTypes.includes(file.type);
@@ -137,8 +151,16 @@ export default {
     getPosition(event) {
       const canvas = this.$refs.canvas;
       const rect = canvas.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
+      const x = Math.round(event.clientX - rect.left);
+      const y = Math.round(event.clientY - rect.top);
+
+      // Validates negative coordinates
+      if(x < 0) x = 0;
+      if(y < 0) y = 0;
+
+      // Validates overflow coordinates
+      if(x > this.imgDimensions.width) x = this.imgDimensions.width;
+      if(y > this.imgDimensions.height) y = this.imgDimensions.width;
 
       // Save coordinates in map array
       this.imgMap.push(`${x} ${y}`);
@@ -151,7 +173,7 @@ export default {
     drawCoordinates(x, y) {
       const canvas = this.$refs.canvas;
       const ctx = canvas.getContext("2d");
-      ctx.fillStyle = "#ff2626"; // Rojo
+      ctx.fillStyle = "#03d3fc";
 
       ctx.beginPath();
       ctx.arc(x, y, this.pointSize, 0, Math.PI * 2, true);
@@ -159,7 +181,13 @@ export default {
     },
 
     imgMapToFile() {
-      const content = this.imgMap.join("/n")
+      // Setup blob content, if nothing is on imgMap, by default content will be empty string
+      let content = '';
+      if(this.imgMap.length > 0) {
+        content = this.imgMap.join("\n")
+      }
+
+      // Creates blob with the content
       let blob = new Blob([content], {type: 'text/plain'});
 
       // Convert map blob to file
@@ -178,26 +206,28 @@ export default {
         res = await this.$axios.get(
           ApiUrls.getScenePresignedUrl
         );
-        imgUrls = res.data.responseData.imgUrls;
-        mapUrls = res.data.responseData.mapUrls;
+        imgUrls = res.data.imgUrls;
+        mapUrls = res.data.mapUrls;
       }
       catch (err) {
-        console.log('Pre-sign error');
+        console.log('Pre-sign error', err);
         return;
       }
 
       // Generate map file and upload it
       const mapFile = this.imgMapToFile();
       try {
-        await this.$axios({
-          method: 'put',
-          headers: {
-            'Content-Type': 'text/plain',
-          },
-          withCredentials: false,
-          url: mapUrls.uploadURL,
-          data: mapFile,
-        });
+        const r = await this.$axios.put(
+          mapUrls.uploadURL,
+          mapFile,
+          {
+            headers: {
+              'Content-Type': 'text/plain',
+              'Authorization': ''
+            },
+            withCredentials: false
+          }
+        );
       }
       catch (error) {
         console.log(error)
@@ -207,15 +237,17 @@ export default {
 
       // Upload image to server and get its live url
       try {
-        await this.$axios({
-          method: 'put',
-          headers: {
-            'Content-Type': 'image/*',
-          },
-          withCredentials: false,
-          url: imgUrls.uploadURL,
-          data: imageObj.blob,
-        });
+        await this.$axios.put(
+          imgUrls.uploadURL,
+          this.finalImage.blob,
+          {
+            headers: {
+              'Content-Type': 'image/*',
+              'Authorization': ''
+            },
+            withCredentials: false
+          }
+        );
       }
       catch (error) {
         console.log(error);
@@ -251,6 +283,10 @@ export default {
 </route>
 
 <style>
+#canvas {
+  cursor: crosshair;
+}
+
 .canvas-container{
   max-width: 100%;
   max-height: 900px;

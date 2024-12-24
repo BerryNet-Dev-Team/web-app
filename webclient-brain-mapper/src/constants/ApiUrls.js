@@ -7,6 +7,6 @@ export default {
   logout: '/auth/logout',
 
   // Scenes URLS
-  getScenePresignedUrl: '/scenes/getScenePresignedUrl',
+  getScenePresignedUrl: '/scenes/getScenePresignedUrls',
   addScene: '/scenes/addScene'
 };

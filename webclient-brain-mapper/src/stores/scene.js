@@ -14,11 +14,10 @@ export const useSceneStore = defineStore('scene', {
     async addScene(payload) {
       let res;
       try {
-        res = await this.$axios({
-          method: 'post',
-          url: ApiUrls.addScene,
-          data: payload
-        })
+        res = await this.$axios.post(
+          ApiUrls.addScene,
+          payload
+        );
       }
       catch (error) {
         console.error(error);
