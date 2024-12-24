@@ -20,8 +20,10 @@
             variant="solo-filled"
             prepend-icon="mdi-image"
             chips accept="image/*"
+            class="mb-3"
             :rules="imageInputRules"
             @change="chargeImage"
+            @click:clear="clearImgAndCanvasData"
           ></v-file-input>
         </div>
         <div v-if="isImgCharged" class="canvas-container">
@@ -124,6 +126,8 @@ export default {
     },
 
     async chargeImage() {
+      if(!this.imageInput) return; // Default return for clear events
+
       if(!await this.$refs.imgInput.validate()) return;
 
       const fileTempUrl = URL.createObjectURL(this.imageInput);
@@ -145,6 +149,21 @@ export default {
       };
 
       this.isImgCharged = true;
+    },
+
+    // Reset img, map and canvas data
+    clearImgAndCanvasData() {
+      this.isImgCharged = false;
+      this.imgDimensions = {
+        width: 0,
+        height: 0
+      };
+      this.finalImage = {
+        name: '',
+        blob: null,
+        displayUrl: ''
+      };
+      this.imgMap.length = 0;
     },
 
     // Esta función se ejecuta cuando se hace clic en el canvas
@@ -267,6 +286,11 @@ export default {
       } catch (error) {
         return;
       }
+
+      // If everything was ok, clear the input, img, map and canvas data
+      this.imageInput = null;
+      await nextTick();
+      this.clearImgAndCanvasData();
     }
   }
 }
