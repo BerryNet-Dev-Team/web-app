@@ -13,20 +13,22 @@ from ..cloudServices.minioConnections import minioClient
 
 scenes = Blueprint('scenes', __name__, url_prefix='/scenes')
 
-@scenes.route('getScenePresignedUrls', methods=['GET'])
+@scenes.route('/getScenePresignedUrls', methods=['GET'])
 @auth_required(["ADMIN"])
 def getScenePresignedUrls():
     folderName = str(uuid.uuid4().hex)
     s3Host = os.getenv('S3_LIVE_BASE_URL')
+    s3Bucket= os.getenv('S3_BUCKET')
+    presignedExpTime = int(os.getenv('S3_PRESIGNED_EXPIRATION'))
 
     # Generate live and upload urls for the scene image
     try:
         imgObjectKey = f"dataset/{folderName}/img.jpg"
         imgLiveUrl = f"{s3Host}/{imgObjectKey}"
         imgUploadUrl = minioClient.presigned_put_object(
-            os.getenv('S3_BUCKET'),
+            s3Bucket,
             imgObjectKey,
-            os.getenv('S3_PRESIGNED_EXPIRATION')
+            expires=datetime.timedelta(seconds=presignedExpTime)
         )
     except Exception as exc:
         print(exc)
@@ -37,9 +39,9 @@ def getScenePresignedUrls():
         mapObjectKey = f"dataset/{folderName}/map.txt"
         mapLiveUrl = f"{s3Host}/{imgObjectKey}"
         mapUploadUrl = minioClient.presigned_put_object(
-            os.getenv('S3_BUCKET'),
+            s3Bucket,
             mapObjectKey,
-            os.getenv('S3_PRESIGNED_EXPIRATION')
+            expires=datetime.timedelta(seconds=presignedExpTime)
         )
     except Exception as exc:
         print(exc)
@@ -53,7 +55,7 @@ def getScenePresignedUrls():
 
     return jsonify(responseData), 200
 
-@scenes.route('addScene', methods=['POST'])
+@scenes.route('/addScene', methods=['POST'])
 @auth_required(["ADMIN"])
 def addScene():
     try:
@@ -72,6 +74,7 @@ def addScene():
     mapUrl = req['mapUrl']
 
     new_scene = Scene(
+        userId=g.uid,
         name=name,
         imageUrl=imageUrl,
         mapUrl=mapUrl,
@@ -84,4 +87,4 @@ def addScene():
     except:
         abort(500, 'Error while saving scene')
 
-    return jsonify({"message: scene added successfully"}), 200
+    return jsonify({"message": "scene added successfully"}), 200
