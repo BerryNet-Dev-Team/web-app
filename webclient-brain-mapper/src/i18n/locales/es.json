@@ -33,6 +33,12 @@
       "registerMessage": "Únete, sube tus imágenes y comienza a generar tus mapeos cerebrales."
     }
   },
+  "dataset": {
+    "title": "Alimenta el Dataset",
+    "instructions": "Selecciona una imagen y una vez cargada usa el clic del ratón del pc para marcar las frambuesas.",
+    "selectImg": "Selecciona una imagen",
+    "upload": "Subir muestra"
+  },
   "sessionExpired": {
     "title": "Sesión expirada.",
     "text": "Parece que tu sesión ha expirado. Por favor inicia sesión nuevamente."

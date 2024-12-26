@@ -148,12 +148,12 @@ export default {
     // Redirect user to its main page depending on which role has
     redirectToMainPg() {
       if(this.isAdmin) {
-        this.$router.push('/profile');
+        this.$router.push('/dataset');
         return;
       }
 
       // In case is not admin redirect to other page
-      this.$router.push('/ejemplo/world');
+      this.$router.push('/profile');
     },
 
     async login () {
