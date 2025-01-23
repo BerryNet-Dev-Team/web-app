@@ -37,7 +37,13 @@
     "title": "Alimenta el Dataset",
     "instructions": "Selecciona una imagen y una vez cargada usa el clic del ratón del pc para marcar las frambuesas.",
     "selectImg": "Selecciona una imagen",
-    "upload": "Subir muestra"
+    "upload": "Subir muestra",
+    "presignedErr": "Error al obtener las urls de subida",
+    "mapUploadErr": "Error al subir el mapa de coordenadas",
+    "imgUploadErr": "Error al subir la imagen",
+    "addSceneErr": "Error al guardar la escena",
+    "addSceneOk": "Escena guardada exitosamente"
+
   },
   "sessionExpired": {
     "title": "Sesión expirada.",
