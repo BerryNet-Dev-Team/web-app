@@ -55,6 +55,7 @@
 <script>
 import ApiUrls from '@/constants/ApiUrls';
 import { useSceneStore } from "@/stores/scene";
+import { useToast } from "vue-toastification";
 
 export default {
   data() {
@@ -75,6 +76,7 @@ export default {
       },
       imgMap: [],
 
+      toast: useToast(),
       sceneStore: useSceneStore(),
     }
   },
@@ -229,6 +231,7 @@ export default {
         mapUrls = res.data.mapUrls;
       }
       catch (err) {
+        this.toast.error(this.$t('dataset.presignedErr'));
         console.log('Pre-sign error', err);
         return;
       }
@@ -249,10 +252,10 @@ export default {
         );
       }
       catch (error) {
+        this.toast.error(this.$t('dataset.mapUploadErr'));
         console.log(error)
         return;
       }
-
 
       // Upload image to server and get its live url
       try {
@@ -269,6 +272,7 @@ export default {
         );
       }
       catch (error) {
+        this.toast.error(this.$t('dataset.imgUploadErr'));
         console.log(error);
         return;
       }
@@ -284,8 +288,12 @@ export default {
       try {
         await this.sceneStore.addScene(scenePayload);
       } catch (error) {
+        this.toast.error(this.$t('dataset.addSceneErr'));
         return;
       }
+
+      // Show success notification
+      this.toast.success(this.$t('dataset.addSceneOk'));
 
       // If everything was ok, clear the input, img, map and canvas data
       this.imageInput = null;
