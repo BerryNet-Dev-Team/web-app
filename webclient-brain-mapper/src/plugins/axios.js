@@ -8,18 +8,18 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (conf) => {
-    // emitter.emit('before-request');
+    emitter.emit('before-request');
     return conf;
   },
   (error) => {
-    // emitter.emit('request-error');
+    emitter.emit('request-error');
     return Promise.reject(error);
   },
 );
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    // emitter.emit('after-response');
+    emitter.emit('after-response');
     return response;
   },
   (error) => {
@@ -31,6 +31,7 @@ axiosInstance.interceptors.response.use(
         originalRequest._retry = true;
         emitter.emit('session-exp');
       }
+      else emitter.emit('response-error');
 
       return Promise.reject(error);
     }
