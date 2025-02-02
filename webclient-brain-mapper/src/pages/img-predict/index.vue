@@ -1,0 +1,232 @@
+<template>
+  <div class="flex flex-col bg-brain-auxiliary-dark min-h-full">
+    <v-card 
+      class="font-bold text-4xl text-center py-4"
+      variant="elevated"
+      color="orange-darken-1"
+    >
+      {{ $t('dataset.title') }}
+    </v-card>
+    <div class="flex-1 flex justify-center items-center">
+      <!-- Show input just when there is no results to show -->
+      <v-container
+        class="w-full md:w-60"
+        v-if="!showInferenceResults"
+      >
+        <div>
+          <p class="mb-8 text-center">
+            {{ $t('dataset.instructions') }}
+          </p>
+          <v-file-input
+            ref="imgInput"
+            v-model="imageInput"
+            :label="$t('dataset.selectImg')"
+            variant="solo-filled"
+            prepend-icon="mdi-image"
+            chips accept="image/*"
+            class="mb-3"
+            :rules="imageInputRules"
+            @change="chargeImage"
+            @click:clear="clearImgAndInput"
+          ></v-file-input>
+
+          <div v-if="isImgCharged" class="text-center">
+            <v-btn
+              color="amber-darken-4"
+              class="mt-10 text-none"
+              append-icon="mdi-upload"
+              @click="generateAndUploadInference"
+            >
+              {{ $t('dataset.upload') }}
+            </v-btn>
+          </div>
+        </div>
+      </v-container>
+
+      <!-- Container to show the results -->
+      <v-container
+        class="w-full md:w-80"
+        v-else
+      >
+        <!-- Mini sub title -->
+        <p class="mb-8 text-center">
+          {{ $t('dataset.instructions') }}
+        </p>
+
+        <!-- Inference results -->
+        <v-row>
+          <!-- Base img -->
+          <v-col cols="12" lg="6">
+            <div>
+              <img :src="baseImageUrls.liveURL" alt="Broken" style="max-width:100%; height:auto;">
+            </div>
+          </v-col>
+
+          <!-- Prediction -->
+          <v-col cols="12" lg="6">
+            <div>
+              <img :src="generatedImageUrl" alt="Broken" style="max-width:100%; height:auto;">
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
+  </div>
+</template>
+
+<script>
+import ApiUrls from '@/constants/ApiUrls';
+import { useSceneStore } from "@/stores/scene";
+import { useToast } from "vue-toastification";
+
+export default {
+  data() {
+    return {
+      imageInput: null,
+      isImgCharged: false,
+
+      inferenceName: '',
+      baseImageUploaded: false,
+      baseImageUrls: {
+        uploadURL: '',
+        liveURL: '',
+        imgObjectKey: ''
+      },
+      generatedImageUrl: '',
+
+      toast: useToast(),
+      sceneStore: useSceneStore(),
+    }
+  },
+
+  created() {
+    this.imageInputRules = [
+      v => !!v || this.$t('auth.register.emptyFieldFeedB'),
+      v => !this.isValidFile(v) || "Invalid file type"
+    ]
+  },
+
+  methods: {
+    getFileName(url) {
+      const splitted = url.split('/');
+      const filename = splitted[splitted.length - 1];
+      return filename;
+    },
+
+    // validates if its an image is a valid file
+    isValidFile(file) {
+      const allowedMimeTypes = ["image/jpg", "image/jpeg"];
+      return allowedMimeTypes.includes(file.type);
+    },
+
+    async chargeImage() {
+      if(!this.imageInput) return; // Default return for clear events
+
+      if(!await this.$refs.imgInput.validate()) return;
+
+      this.isImgCharged = true;
+    },
+
+    // Reset img, map and canvas data
+    clearImgAndInput() {
+      this.isImgCharged = false;
+      this.imageInput = null;
+    },
+
+    async uploadBaseImgToS3() {
+      // Get the upload and live URLs
+      let res;
+      try {
+        res = await this.$axios.get(
+          ApiUrls.getBaseImgPresignedUrls
+        );
+        Object.assign(this.baseImgUrls, res.data);
+      }
+      catch (err) {
+        this.toast.error(this.$t('dataset.presignedErr'));
+        console.log('Pre-sign error', err);
+        return false;
+      }
+
+      // Upload image to server
+      try {
+        await this.$axios.put(
+          this.baseImgUrls.uploadURL,
+          this.imageInput,
+          {
+            headers: {
+              'Content-Type': 'image/*',
+              'Authorization': ''
+            },
+            withCredentials: false
+          }
+        );
+      }
+      catch (error) {
+        this.toast.error(this.$t('dataset.imgUploadErr'));
+        console.log(error);
+        return false;
+      }
+
+      // If everything ok return acknowledge
+      return true
+    },
+
+    async generateAndUploadInference() {
+      // If no img charged in input ends function
+      if(this.isImgCharged) return;
+
+      // If base image wasn't uploaded, upload base image to s3
+      if(!this.baseImageUploaded) {
+        // Upload img and set it as uploaded
+        const wasUploaded = await this.uploadBaseImgToS3();
+        if(wasUploaded) this.baseImageUploaded = true;
+
+        // otherwise end function
+        return;
+      }
+
+      // API call to generate an inference using the base img and get the inference img url
+      let generatedImageUrl;
+      try {
+        generatedImgUrl = await this.inferenceStore.generateInference(this.baseImageUrls.imgObjectKey);
+      } catch (error) {
+        console.log(error);
+        this.toast.error(this.$t('dataset.addSceneErr'));
+        return;
+      }
+
+      // If everything was ok, now save scene data
+      const inferencePayload = {
+        name: this.sceneName,
+        baseImageUrl: this.baseImgUrls.liveURL,
+        generatedImageUrl: generatedImageUrl
+      }
+
+      // Add scene data into DB
+      try {
+        await this.inferenceStore.addInference(inferencePayload);
+      } catch (error) {
+        this.toast.error(this.$t('dataset.addSceneErr'));
+        return;
+      }
+
+      // Show success notification
+      this.toast.success(this.$t('dataset.addSceneOk'));
+    }
+  }
+}
+</script>
+
+<route lang="json">
+  {
+    "meta": {
+      "layout": "default",
+      "requiresAuth": true
+    }
+  }
+</route>
+
+<style>
+
+</style>
