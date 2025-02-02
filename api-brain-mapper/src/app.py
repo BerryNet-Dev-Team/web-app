@@ -13,6 +13,7 @@ load_dotenv()
 # Import routers
 from .routes.auth import auth
 from .routes.scenes import scenes
+from .routes.inferences import inferences
 
 def create_app():
     # Create Flask app
@@ -41,6 +42,7 @@ def create_app():
     # Register routers blueprints
     app.register_blueprint(auth)
     app.register_blueprint(scenes)
+    app.register_blueprint(inferences)
 
     # Setup cors policies
     app.config['CORS_EXPOSE_HEADERS'] = ['Authorization']
