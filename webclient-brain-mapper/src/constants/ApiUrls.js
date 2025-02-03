@@ -8,5 +8,9 @@ export default {
 
   // Scenes URLS
   getScenePresignedUrl: '/scenes/getScenePresignedUrls',
-  addScene: '/scenes/addScene'
+  addScene: '/scenes/addScene',
+
+  // Inferences URLS
+  getBaseImgPresignedUrls: '/inferences/getBaseImgPresignedUrls',
+  addInference: '/inferences/addInference',
 };

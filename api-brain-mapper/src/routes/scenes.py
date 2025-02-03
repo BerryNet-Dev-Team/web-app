@@ -17,14 +17,16 @@ scenes = Blueprint('scenes', __name__, url_prefix='/scenes')
 @auth_required(["ADMIN"])
 def getScenePresignedUrls():
     folderName = str(uuid.uuid4().hex)
-    s3Host = os.getenv('S3_LIVE_BASE_URL')
-    s3Bucket= os.getenv('S3_BUCKET')
+
+    # Configure s3 constants for scenes(dataset) bucket
+    s3Bucket= os.getenv('S3_BUCKET_DATASET')
+    s3LiveUrl = os.getenv('S3_LIVE_BASE_URL') + s3Bucket
     presignedExpTime = int(os.getenv('S3_PRESIGNED_EXPIRATION'))
 
     # Generate live and upload urls for the scene image
     try:
         imgObjectKey = f"dataset/{folderName}/img.jpg"
-        imgLiveUrl = f"{s3Host}/{imgObjectKey}"
+        imgLiveUrl = f"{s3LiveUrl}/{imgObjectKey}"
         imgUploadUrl = minioClient.presigned_put_object(
             s3Bucket,
             imgObjectKey,
@@ -37,7 +39,7 @@ def getScenePresignedUrls():
     # Generate live and upload urls for the scene map
     try:
         mapObjectKey = f"dataset/{folderName}/map.txt"
-        mapLiveUrl = f"{s3Host}/{imgObjectKey}"
+        mapLiveUrl = f"{s3LiveUrl}/{imgObjectKey}"
         mapUploadUrl = minioClient.presigned_put_object(
             s3Bucket,
             mapObjectKey,

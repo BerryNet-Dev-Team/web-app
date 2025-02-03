@@ -4,7 +4,7 @@
       Logo
     </div>
     <div class="flex items-center justify-between">
-      <button class="brightBtn transition delay-75 hover:scale-105">
+      <button class="brightBtn transition delay-75 hover:scale-105" @click="gotoImgPredict">
         Generar mapeo
       </button>
       <button class="w-14 mx-3">
@@ -16,6 +16,12 @@
 
 <script>
   export default {
-    name: 'NavbarComp'
+    name: 'NavbarComp',
+
+    methods: {
+      gotoImgPredict() {
+        this.$router.push('/img-predict');
+      }
+    }
   }
 </script>
