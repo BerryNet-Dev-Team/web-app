@@ -153,7 +153,7 @@ export default {
       }
 
       // In case is not admin redirect to other page
-      this.$router.push('/profile');
+      this.$router.push('/img-predict');
     },
 
     async login () {
