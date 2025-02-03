@@ -13,23 +13,16 @@ export const useInferenceStore = defineStore('inference', {
      */
     async generateInference(imgObjectKey) {
         try {
-            console.log(import.meta.env.VITE_NN_API_URL);
-            const response = await fetch(import.meta.env.VITE_NN_API_URL, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  imgObjectKey: imgObjectKey,
-                }),
-            });
+            const response = await this.$axios.post(
+              import.meta.env.VITE_NN_API_URL,
+              {imgObjectKey: imgObjectKey},
+              {
+                headers: {'Authorization': ''},
+                withCredentials: false
+              }
+            );
 
-            if (!response.ok) {
-                throw new Error('Could not generate an inference');
-            }
-          
-            const data = await response.json();
-            return data.generatedImgUrl;
+            return response.data.generatedImgUrl;
         } catch (error) {
             console.error(error);
             throw error;

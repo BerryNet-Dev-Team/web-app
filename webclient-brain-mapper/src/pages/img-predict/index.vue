@@ -202,7 +202,7 @@ export default {
 
       // If everything was ok, now save scene data
       const inferencePayload = {
-        name: this.sceneName,
+        name: this.inferenceName,
         baseImageUrl: this.baseImageUrls.liveURL,
         generatedImageUrl: this.generatedImageUrl
       }
@@ -217,6 +217,9 @@ export default {
 
       // Show success notification
       this.toast.success(this.$t('dataset.addSceneOk'));
+
+      // Set flag to show results
+      this.showInferenceResults = true;
     }
   }
 }
