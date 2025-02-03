@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import ApiUrls from '@/constants/ApiUrls';
 
-export const useSceneStore = defineStore('scene', {
+export const useInferenceStore = defineStore('inference', {
   state: () => ({
 
   }),
@@ -13,7 +13,8 @@ export const useSceneStore = defineStore('scene', {
      */
     async generateInference(imgObjectKey) {
         try {
-            const response = await fetch(process.env.VITE_NN_API_URL, {
+            console.log(import.meta.env.VITE_NN_API_URL);
+            const response = await fetch(import.meta.env.VITE_NN_API_URL, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',

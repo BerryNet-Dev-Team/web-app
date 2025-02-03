@@ -76,7 +76,7 @@
 
 <script>
 import ApiUrls from '@/constants/ApiUrls';
-import { useSceneStore } from "@/stores/scene";
+import { useInferenceStore } from "@/stores/inference";
 import { useToast } from "vue-toastification";
 
 export default {
@@ -94,8 +94,10 @@ export default {
       },
       generatedImageUrl: '',
 
+      showInferenceResults: false,
+
       toast: useToast(),
-      sceneStore: useSceneStore(),
+      inferenceStore: useInferenceStore(),
     }
   },
 
@@ -134,24 +136,26 @@ export default {
     },
 
     async uploadBaseImgToS3() {
+      console.log('Start s3 uplaod')
       // Get the upload and live URLs
       let res;
       try {
         res = await this.$axios.get(
           ApiUrls.getBaseImgPresignedUrls
         );
-        Object.assign(this.baseImgUrls, res.data);
+        console.log(res.data);
+        Object.assign(this.baseImageUrls, res.data);
       }
       catch (err) {
         this.toast.error(this.$t('dataset.presignedErr'));
-        console.log('Pre-sign error', err);
+        console.error('Pre-sign error', err);
         return false;
       }
 
       // Upload image to server
       try {
         await this.$axios.put(
-          this.baseImgUrls.uploadURL,
+          this.baseImageUrls.uploadURL,
           this.imageInput,
           {
             headers: {
@@ -168,28 +172,28 @@ export default {
         return false;
       }
 
+      console.log('Ends s3 uplaod')
       // If everything ok return acknowledge
       return true
     },
 
     async generateAndUploadInference() {
       // If no img charged in input ends function
-      if(this.isImgCharged) return;
+      if(!this.isImgCharged) return;
 
       // If base image wasn't uploaded, upload base image to s3
       if(!this.baseImageUploaded) {
         // Upload img and set it as uploaded
         const wasUploaded = await this.uploadBaseImgToS3();
-        if(wasUploaded) this.baseImageUploaded = true;
 
-        // otherwise end function
-        return;
+        // Mark it as uploaded
+        if(wasUploaded) this.baseImageUploaded = true;
+        else return; // otherwise end function
       }
 
       // API call to generate an inference using the base img and get the inference img url
-      let generatedImageUrl;
       try {
-        generatedImgUrl = await this.inferenceStore.generateInference(this.baseImageUrls.imgObjectKey);
+        this.generatedImageUrl = await this.inferenceStore.generateInference(this.baseImageUrls.imgObjectKey);
       } catch (error) {
         console.log(error);
         this.toast.error(this.$t('dataset.addSceneErr'));
@@ -199,8 +203,8 @@ export default {
       // If everything was ok, now save scene data
       const inferencePayload = {
         name: this.sceneName,
-        baseImageUrl: this.baseImgUrls.liveURL,
-        generatedImageUrl: generatedImageUrl
+        baseImageUrl: this.baseImageUrls.liveURL,
+        generatedImageUrl: this.generatedImageUrl
       }
 
       // Add scene data into DB
