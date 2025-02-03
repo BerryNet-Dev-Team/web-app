@@ -43,7 +43,18 @@
     "imgUploadErr": "Error al subir la imagen",
     "addSceneErr": "Error al guardar la escena",
     "addSceneOk": "Escena guardada exitosamente"
-
+  },
+  "imgPrediction": {
+    "title": "Genera un mapeo",
+    "instructions": "Selecciona una imagen y una vez cargada genera el mapeo",
+    "selectImg": "Selecciona una imagen",
+    "mapImage": "Mapear imagen",
+    "mapResult": "Resultados del mapeo",
+    "presignedErr": "Error al obtener las urls de subida",
+    "imgUploadErr": "Error al subir la imagen",
+    "nnApiErr": "Error al generar el mapeo",
+    "addMapErr": "Error al guardar el mapeo",
+    "addMapOk": "Mapeo guardado exitosamente"
   },
   "sessionExpired": {
     "title": "Sesión expirada.",

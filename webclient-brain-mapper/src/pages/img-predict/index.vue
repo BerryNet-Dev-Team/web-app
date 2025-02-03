@@ -5,7 +5,7 @@
       variant="elevated"
       color="orange-darken-1"
     >
-      {{ $t('dataset.title') }}
+      {{ $t('imgPrediction.title') }}
     </v-card>
     <div class="flex-1 flex justify-center items-center">
       <!-- Show input just when there is no results to show -->
@@ -15,12 +15,12 @@
       >
         <div>
           <p class="mb-8 text-center">
-            {{ $t('dataset.instructions') }}
+            {{ $t('imgPrediction.instructions') }}
           </p>
           <v-file-input
             ref="imgInput"
             v-model="imageInput"
-            :label="$t('dataset.selectImg')"
+            :label="$t('imgPrediction.selectImg')"
             variant="solo-filled"
             prepend-icon="mdi-image"
             chips accept="image/*"
@@ -37,7 +37,7 @@
               append-icon="mdi-upload"
               @click="generateAndUploadInference"
             >
-              {{ $t('dataset.upload') }}
+              {{ $t('imgPrediction.mapImage') }}
             </v-btn>
           </div>
         </div>
@@ -50,7 +50,7 @@
       >
         <!-- Mini sub title -->
         <p class="mb-8 text-center">
-          {{ $t('dataset.instructions') }}
+          {{ $t('imgPrediction.mapResult') }}
         </p>
 
         <!-- Inference results -->
@@ -136,18 +136,16 @@ export default {
     },
 
     async uploadBaseImgToS3() {
-      console.log('Start s3 uplaod')
       // Get the upload and live URLs
       let res;
       try {
         res = await this.$axios.get(
           ApiUrls.getBaseImgPresignedUrls
         );
-        console.log(res.data);
         Object.assign(this.baseImageUrls, res.data);
       }
       catch (err) {
-        this.toast.error(this.$t('dataset.presignedErr'));
+        this.toast.error(this.$t('imgPrediction.presignedErr'));
         console.error('Pre-sign error', err);
         return false;
       }
@@ -167,12 +165,11 @@ export default {
         );
       }
       catch (error) {
-        this.toast.error(this.$t('dataset.imgUploadErr'));
+        this.toast.error(this.$t('imgPrediction.imgUploadErr'));
         console.log(error);
         return false;
       }
 
-      console.log('Ends s3 uplaod')
       // If everything ok return acknowledge
       return true
     },
@@ -196,9 +193,12 @@ export default {
         this.generatedImageUrl = await this.inferenceStore.generateInference(this.baseImageUrls.imgObjectKey);
       } catch (error) {
         console.log(error);
-        this.toast.error(this.$t('dataset.addSceneErr'));
+        this.toast.error(this.$t('imgPrediction.nnApiErr'));
         return;
       }
+
+      // Set flag to show results, results are shown before storing inference
+      this.showInferenceResults = true;
 
       // If everything was ok, now save scene data
       const inferencePayload = {
@@ -207,19 +207,16 @@ export default {
         generatedImageUrl: this.generatedImageUrl
       }
 
-      // Add scene data into DB
+      // Add inference data into DB
       try {
         await this.inferenceStore.addInference(inferencePayload);
       } catch (error) {
-        this.toast.error(this.$t('dataset.addSceneErr'));
+        this.toast.error(this.$t('imgPrediction.addMapErr'));
         return;
       }
 
       // Show success notification
-      this.toast.success(this.$t('dataset.addSceneOk'));
-
-      // Set flag to show results
-      this.showInferenceResults = true;
+      this.toast.success(this.$t('imgPrediction.addMapOk'));
     }
   }
 }
