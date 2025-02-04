@@ -1,8 +1,8 @@
 <template>
 
   <div class="flex w-full min-h-screen">
-    <div class="flex bg-brain-primary items-center justify-center w-full md:w-1/2 min-h-screen">
-      <div class="p-8 bg-brain-whiteaux rounded-lg w-11/12 md:w-2/3 lg:w-3/6">
+    <div class="flex bg-berry-primary items-center justify-center w-full md:w-1/2 min-h-screen">
+      <div class="p-8 bg-berry-whiteaux rounded-lg w-11/12 md:w-2/3 lg:w-3/6">
         <div class="text-center font-semibold text-2xl mb-5">
           <span>
             {{ $t('auth.register.title') }}
@@ -69,8 +69,7 @@
 
             <div class="d-flex flex-column">
               <v-btn
-                class="mt-4 hover:bg-brain-alert-light"
-                color="amber-darken-4"
+                class="mt-4 bg-berry-alert text-white"
                 block
                 @click="register()"
               >
@@ -92,13 +91,13 @@
         ></v-img>
       </div>
       <div class="h-2/6 w-1/2">
-        <p class="text-white text-left font-medium text-4xl">
+        <p class="text-left font-medium text-4xl">
           {{ $t('auth.register.registerMessage') }}
         </p>
       </div>
       <div>
-        <p class="text-white text-left font-medium text-2xl">
-          {{}}
+        <p class="text-left font-medium text-2xl">
+          {{new Date().getFullYear()}} &copy; {{ $t('appName') }}
         </p>
       </div>
     </div>

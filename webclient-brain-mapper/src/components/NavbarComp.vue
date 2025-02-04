@@ -1,12 +1,10 @@
 <template>
-  <nav class="bg-brain-primary-dark text-white flex items-center justify-between px-8 py-5">
+  <nav class="bg-berry-primary text-white flex items-center justify-between px-8 py-5">
     <div>
       Logo
     </div>
     <div class="flex items-center justify-between">
-      <button class="brightBtn transition delay-75 hover:scale-105" @click="gotoImgPredict">
-        Generar mapeo
-      </button>
+      <v-btn class="bg-berry-alert text-white transition delay-75 hover:scale-105" @click="gotoImgPredict">{{$t('navFoot.generate')}}</v-btn>
       <button class="w-14 mx-3">
         <img src="../assets/avatar.jpg" alt="Profile picture" class="rounded-full">
       </button>

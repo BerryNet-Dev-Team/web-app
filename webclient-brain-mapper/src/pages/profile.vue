@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-brain-auxiliary-dark min-h-full">
+  <div class="bg-berry-secondary min-h-full">
     <div class="w-full h-50 flex flex-col md:flex-row justify-center items-center py-16">
       <div>
         <v-avatar image="@/assets/avatar.jpg" size="256" class="shadow-2xl hover:cursor-pointer">
@@ -14,10 +14,9 @@
         {{ name }}
       </p>
     </div>
-    <v-card 
-      class="font-bold text-4xl text-center py-4"
+    <v-card
+      class="font-bold text-4xl text-center py-4 bg-berry-alert text-white"
       variant="elevated"
-      color="orange-darken-1"
     >
       Mis mapeos
     </v-card>

@@ -1,5 +1,5 @@
 <template>
-  <v-app class="bg-brain-secondary">
+  <v-app class="bg-berry-secondary">
     <v-main>
       <router-view />
     </v-main>

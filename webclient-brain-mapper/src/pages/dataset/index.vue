@@ -1,16 +1,15 @@
 <template>
-  <div class="flex flex-col bg-brain-auxiliary-dark min-h-full">
-    <v-card 
-      class="font-bold text-4xl text-center py-4"
+  <div class="flex flex-col bg-berry-secondary min-h-full">
+    <v-card
+      class="font-bold text-4xl text-center py-4 bg-berry-alert text-white"
       variant="elevated"
-      color="orange-darken-1"
     >
       {{ $t('dataset.title') }}
     </v-card>
     <div class="flex-1 flex justify-center items-center">
       <v-container class="w-full md:w-60">
         <div>
-          <p class="mb-8 text-center">
+          <p class="mb-8 text-center text-xl font-semibold">
             {{ $t('dataset.instructions') }}
           </p>
           <v-file-input
@@ -189,7 +188,7 @@ export default {
       // Draw the dot
       this.drawCoordinates(x, y);
     },
-    
+
     // Esta función dibuja un círculo en las coordenadas clickeadas
     drawCoordinates(x, y) {
       const canvas = this.$refs.canvas;
