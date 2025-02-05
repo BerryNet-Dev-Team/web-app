@@ -2,21 +2,13 @@
 
   <div class="flex w-full min-h-screen">
     <div class="hidden md:flex md:flex-col md:w-1/2 justify-center items-center min-h-screen">
-      <div class="p-3 my-4">
-        <h2 class="font-medium text-7xl">{{ $t('appName') }}</h2>
-      </div>
-      <div class="my-4">
+      <div>
         <v-img
-          :width="300"
+          :width="500"
           aspect-ratio="1/1"
           cover
-          src="@/assets/LogoTemp.png"
+          src="@/assets/BerryNetLogo.png"
         ></v-img>
-      </div>
-      <div class="h-2/6 w-1/2">
-        <p class="text-center font-medium text-4xl">
-          {{ $t('auth.login.loginMessage') }}
-        </p>
       </div>
       <div>
         <p class="text-left font-medium text-2xl">

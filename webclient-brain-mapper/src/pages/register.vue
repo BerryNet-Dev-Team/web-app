@@ -84,16 +84,11 @@
     <div class="hidden md:flex md:flex-col md:w-1/2 justify-center items-center min-h-screen">
       <div>
         <v-img
-          :width="300"
+          :width="500"
           aspect-ratio="1/1"
           cover
-          src="@/assets/LogoTemp.png"
+          src="@/assets/BerryNetLogo.png"
         ></v-img>
-      </div>
-      <div class="h-2/6 w-1/2">
-        <p class="text-left font-medium text-4xl">
-          {{ $t('auth.register.registerMessage') }}
-        </p>
       </div>
       <div>
         <p class="text-left font-medium text-2xl">
