@@ -2,31 +2,23 @@
 
   <div class="flex w-full min-h-screen">
     <div class="hidden md:flex md:flex-col md:w-1/2 justify-center items-center min-h-screen">
-      <div class="p-3 my-4">
-        <h2 class="text-white font-medium text-7xl">{{ $t('appName') }}</h2>
-      </div>
-      <div class="my-4">
+      <div>
         <v-img
-          :width="300"
+          :width="500"
           aspect-ratio="1/1"
           cover
-          src="@/assets/LogoTemp.png"
+          src="@/assets/BerryNetLogo.png"
         ></v-img>
       </div>
-      <div class="h-2/6 w-1/2">
-        <p class="text-white text-center font-medium text-4xl">
-          {{ $t('auth.login.loginMessage') }}
-        </p>
-      </div>
       <div>
-        <p class="text-white text-left font-medium text-2xl">
+        <p class="text-left font-medium text-2xl">
           {{new Date().getFullYear()}} &copy; {{ $t('appName') }}
         </p>
       </div>
     </div>
 
-    <div class="flex bg-brain-primary items-center justify-center w-full md:w-1/2 min-h-screen">
-      <div class="p-8 bg-brain-whiteaux rounded-lg w-11/12 md:w-2/3 lg:w-3/6">
+    <div class="flex bg-berry-primary items-center justify-center w-full md:w-1/2 min-h-screen">
+      <div class="p-8 bg-berry-whiteaux rounded-lg w-11/12 md:w-2/3 lg:w-3/6">
         <div class="text-center font-semibold text-2xl mb-5">
           <span>
             {{ $t('auth.login.title') }}
@@ -78,8 +70,7 @@
 
             <div class="d-flex flex-column">
               <v-btn
-                class="mt-4"
-                color="amber-darken-4"
+                class="mt-4 bg-berry-alert text-white"
                 block
                 @click="login"
               >
@@ -88,8 +79,7 @@
 
               <v-btn
                 variant="plain"
-                color="amber-darken-4"
-                class="mt-10 text-none"
+                class="mt-10 text-none text-berry-alert"
                 append-icon="mdi-chevron-right"
                 @click="gotoRegister"
               >

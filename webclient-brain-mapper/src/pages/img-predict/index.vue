@@ -1,9 +1,8 @@
 <template>
-  <div class="flex flex-col bg-brain-auxiliary-dark min-h-full">
-    <v-card 
-      class="font-bold text-4xl text-center py-4"
+  <div class="flex flex-col bg-berry-secondary min-h-full">
+    <v-card
+      class="font-bold text-4xl text-center py-4 bg-berry-alert text-white"
       variant="elevated"
-      color="orange-darken-1"
     >
       {{ $t('imgPrediction.title') }}
     </v-card>
@@ -14,7 +13,7 @@
         v-if="!showInferenceResults"
       >
         <div>
-          <p class="mb-8 text-center">
+          <p class="mb-8 text-center text-xl font-semibold">
             {{ $t('imgPrediction.instructions') }}
           </p>
           <v-file-input

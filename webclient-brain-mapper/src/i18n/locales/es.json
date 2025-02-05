@@ -1,11 +1,14 @@
 {
   "hi": "Hola",
   "appNavbar": {
-    "title": "Brain Mapper",
+    "title": "BerryNet",
     "signUp": "Registrarse",
     "signIn": "Iniciar sesión"
   },
-  "appName": "BrainMapper",
+  "appName": "BerryNet",
+  "navFoot": {
+    "generate": "Generar mapeo"
+  },
   "auth": {
     "email": "Email",
     "password": "Contraseña",
@@ -17,7 +20,7 @@
       "emptyEmailFeedB": "Tu email no puede estar vacío.",
       "emptyPasswdFeedB": "Tu contraseña no puede estar vacía.",
       "wrongCreds":  "El correo o la contraseña que ingresaste son incorrectos(s)",
-      "loginMessage": "Crea tus mapeos cerebrales"
+      "loginMessage": ""
     },
     "register": {
       "title": "Crea una cuenta nueva",
@@ -30,7 +33,7 @@
       "passwdMatchFeedB": "Ambas contraseñas deben coincidir",
       "minCharsFeedB": "Este campo necesita tener 10 o más caracteres.",
       "emptyFieldFeedB": "Este campo no puede estar vacío.",
-      "registerMessage": "Únete, sube tus imágenes y comienza a generar tus mapeos cerebrales."
+      "registerMessage": "Sube tu imágen y descubre cuando tus cultivos esten listos!"
     }
   },
   "dataset": {

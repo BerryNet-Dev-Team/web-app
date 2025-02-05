@@ -7,27 +7,19 @@ module.exports = {
   theme: {
     extend: {
       colors:{
-        "brain-primary":{
-          DEFAULT: '#33648A',
-          light: '#3A739E',
-          dark: '#2E5B7D'
+        "berry-primary":{
+          DEFAULT: '#2C3E50',
         },
-        "brain-secondary":{
-          DEFAULT: '#5B999F',
-          light: '#6AB3BA',
-          dark: '#518A8F'
+        "berry-secondary":{
+          DEFAULT: '#F4E1D2',
         },
-        "brain-auxiliary":{
-          DEFAULT: '#8AC6D0',
-          light: '#91D0DB',
-          dark: '#80B8C2'
+        "berry-auxiliary":{
+          DEFAULT: '#698F3F',
         },
-        "brain-alert":{
-          DEFAULT: '#F26721',
-          light: '#FC6C23',
-          dark: '#E36120'
+        "berry-alert":{
+          DEFAULT: '#A3153A',
         },
-        "brain-whiteaux":{
+        "berry-whiteaux":{
           DEFAULT: '#F2F2F3'
         }
       }
