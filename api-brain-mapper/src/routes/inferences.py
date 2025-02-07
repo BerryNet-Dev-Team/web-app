@@ -3,6 +3,7 @@ import json
 import uuid
 from dotenv import load_dotenv
 import datetime
+import requests
 load_dotenv() 
 
 from flask import Blueprint, request, redirect, jsonify, abort, g
@@ -41,7 +42,7 @@ def getBaseImgPresignedUrls():
 
     return jsonify(responseData), 200
 
-@inferences.route('/addInference', methods=['POST'])
+@inferences.route('/generateInference', methods=['POST'])
 @auth_required()
 def addInference():
     try:
@@ -50,15 +51,25 @@ def addInference():
         abort(400, 'BAD REQUEST')
 
     # Check if request has enough properties needed
-    required_keys = ['name', 'baseImageUrl', 'generatedImageUrl']
+    required_keys = ['name', 'imgUrl', 'imgObjectKey']
     if not all(key in req for key in required_keys):
         abort(400, 'BAD REQUEST')
 
     # Get request properties
     name = req['name']
-    baseImageUrl = req['baseImageUrl']
-    generatedImageUrl = req['generatedImageUrl']
+    baseImageUrl = req['imgUrl']
+    imgObjectKey = req['imgObjectKey']
 
+    # Make API call to ANN-API to make the inference
+    response = request.post(os.getenv('NN_API_URL'), data={'imgObjectKey': imgObjectKey})
+    if(response.status_code != requests.codes.ok):
+        abort(500, 'Error generating inference')
+
+    # If response ok, parse response to json
+    json_response = response.json()
+    generatedImageUrl = json_response['generatedImgUrl']
+
+    # Make new instance of inference model
     new_inference = Inference(
         userId=g.uid,
         name=name,
@@ -67,10 +78,12 @@ def addInference():
         createdOn=datetime.datetime.now()
     )
 
+    # Save inference in DB
     try:
         db.session.add(new_inference)
         db.session.commit()
     except:
         abort(500, 'Error while saving inference')
 
-    return jsonify({"message": "inference added successfully"}), 200
+    # Respond with the generatedImageUrl
+    return jsonify({'generatedImgUrl': generatedImageUrl}), 200
