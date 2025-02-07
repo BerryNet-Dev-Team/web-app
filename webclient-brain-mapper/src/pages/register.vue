@@ -69,8 +69,9 @@
 
             <div class="d-flex flex-column">
               <v-btn
-                class="mt-4 bg-berry-alert text-white"
+                color="highlight"
                 block
+                class="mt-4"
                 @click="register()"
               >
                 {{ $t('auth.register.register') }}

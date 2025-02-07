@@ -1,7 +1,8 @@
 <template>
   <div class="flex flex-col bg-berry-secondary min-h-full">
     <v-card
-      class="font-bold text-4xl text-center py-4 bg-berry-alert text-white"
+      color="highlight"
+      class="font-bold text-4xl text-center py-4"
       variant="elevated"
     >
       {{ $t('dataset.title') }}
@@ -38,7 +39,7 @@
 
         <div v-if="isImgCharged" class="text-center">
           <v-btn
-            color="amber-darken-4"
+            color="highlight"
             class="mt-10 text-none"
             append-icon="mdi-upload"
             @click="uploadScene"

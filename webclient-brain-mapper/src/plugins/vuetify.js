@@ -6,7 +6,6 @@
 
 // Styles
 import '@mdi/font/css/materialdesignicons.css'
-import colors from 'vuetify/util/colors'
 import 'vuetify/styles'
 
 // Composables
@@ -19,9 +18,11 @@ export default createVuetify({
       light: {
         dark: false,
         colors: {
-          primary: '#33648A',
-          'primary-darken-1': '#2E5B7D',
-          secondary: '#5B999F',
+          primary: '#2C3E50',
+          'primary-darken-1': '#273748',
+          secondary: '#F4E1D2',
+          auxiliary: '#698F3F',
+          highlight: '#A3153A'
         }
       },
     },

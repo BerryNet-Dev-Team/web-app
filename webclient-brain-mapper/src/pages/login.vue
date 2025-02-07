@@ -70,8 +70,9 @@
 
             <div class="d-flex flex-column">
               <v-btn
-                class="mt-4 bg-berry-alert text-white"
                 block
+                color='highlight'
+                class="mt-4"
                 @click="login"
               >
                 {{ $t('auth.login.login') }}
@@ -79,7 +80,8 @@
 
               <v-btn
                 variant="plain"
-                class="mt-10 text-none text-berry-alert"
+                color="highlight"
+                class="mt-10 text-none"
                 append-icon="mdi-chevron-right"
                 @click="gotoRegister"
               >
