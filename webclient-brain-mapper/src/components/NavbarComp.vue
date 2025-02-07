@@ -4,7 +4,12 @@
       Logo
     </div>
     <div class="flex items-center justify-between">
-      <v-btn class="bg-berry-alert text-white transition delay-75 hover:scale-105" @click="gotoImgPredict">{{$t('navFoot.generate')}}</v-btn>
+      <v-btn
+        color="highlight"
+        class="transition delay-75 hover:scale-105" @click="gotoImgPredict"
+      >
+        {{$t('navFoot.generate')}}
+      </v-btn>
       <button class="w-14 mx-3">
         <img src="../assets/avatar.jpg" alt="Profile picture" class="rounded-full">
       </button>
