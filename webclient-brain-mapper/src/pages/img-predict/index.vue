@@ -5,7 +5,7 @@
       class="font-bold text-4xl text-center py-4"
       variant="elevated"
     >
-      {{ $t('imgPrediction.title') }}
+      {{ $t('imgPredict.title') }}
     </v-card>
     <div class="flex-1 flex justify-center items-center">
       <!-- Show input just when there is no results to show -->
@@ -15,12 +15,12 @@
       >
         <div>
           <p class="mb-8 text-center text-xl font-semibold">
-            {{ $t('imgPrediction.instructions') }}
+            {{ $t('imgPredict.instructions') }}
           </p>
           <v-file-input
             ref="imgInput"
             v-model="imageInput"
-            :label="$t('imgPrediction.selectImg')"
+            :label="$t('imgPredict.selectImg')"
             variant="solo-filled"
             prepend-icon="mdi-image"
             chips accept="image/*"
@@ -37,7 +37,7 @@
               append-icon="mdi-upload"
               @click="generateAndUploadInference"
             >
-              {{ $t('imgPrediction.mapImage') }}
+              {{ $t('imgPredict.mapImage') }}
             </v-btn>
           </div>
         </div>
@@ -50,7 +50,7 @@
       >
         <!-- Mini sub title -->
         <p class="mb-8 text-center">
-          {{ $t('imgPrediction.mapResult') }}
+          {{ $t('imgPredict.mapResult') }}
         </p>
 
         <!-- Inference results -->
@@ -145,7 +145,7 @@ export default {
         Object.assign(this.baseImageUrls, res.data);
       }
       catch (err) {
-        this.toast.error(this.$t('imgPrediction.presignedErr'));
+        this.toast.error(this.$t('imgPredict.presignedErr'));
         console.error('Pre-sign error', err);
         return false;
       }
@@ -165,7 +165,7 @@ export default {
         );
       }
       catch (error) {
-        this.toast.error(this.$t('imgPrediction.imgUploadErr'));
+        this.toast.error(this.$t('imgPredict.imgUploadErr'));
         console.log(error);
         return false;
       }
@@ -188,35 +188,27 @@ export default {
         else return; // otherwise end function
       }
 
+      // If everything was ok, prepare api call to generate an inference
+      const inferencePayload = {
+        name: this.inferenceName,
+        imgUrl: this.baseImageUrls.liveURL,
+        imgObjectKey: this.generatedImageUrl
+      }
+
       // API call to generate an inference using the base img and get the inference img url
       try {
-        this.generatedImageUrl = await this.inferenceStore.generateInference(this.baseImageUrls.imgObjectKey);
+        this.generatedImageUrl = await this.inferenceStore.generateInference(inferencePayload);
       } catch (error) {
         console.log(error);
-        this.toast.error(this.$t('imgPrediction.nnApiErr'));
+        this.toast.error(this.$t('imgPredict.generateErr'));
         return;
       }
 
       // Set flag to show results, results are shown before storing inference
       this.showInferenceResults = true;
 
-      // If everything was ok, now save scene data
-      const inferencePayload = {
-        name: this.inferenceName,
-        baseImageUrl: this.baseImageUrls.liveURL,
-        generatedImageUrl: this.generatedImageUrl
-      }
-
-      // Add inference data into DB
-      try {
-        await this.inferenceStore.addInference(inferencePayload);
-      } catch (error) {
-        this.toast.error(this.$t('imgPrediction.addMapErr'));
-        return;
-      }
-
       // Show success notification
-      this.toast.success(this.$t('imgPrediction.addMapOk'));
+      this.toast.success(this.$t('imgPredict.generateOk'));
     }
   }
 }

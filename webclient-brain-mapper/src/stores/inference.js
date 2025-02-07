@@ -8,38 +8,18 @@ export const useInferenceStore = defineStore('inference', {
 
   actions: {
     /**
-     * @description Call to nn api to generate an inference
-     * @param {String} imgObjectKey 
+     * @description Generate inference and save it into server
+     * @param {Object} scene Obj {name: Str, imgUrl:Str, imgObjectKey:Str}
      */
-    async generateInference(imgObjectKey) {
-        try {
-            const response = await this.$axios.post(
-              import.meta.env.VITE_NN_API_URL,
-              {imgObjectKey: imgObjectKey},
-              {
-                headers: {'Authorization': ''},
-                withCredentials: false
-              }
-            );
-
-            return response.data.generatedImgUrl;
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-    },
-
-    /**
-     * @description Save inference into server
-     * @param {Object} scene Obj {name: Str, baseImageUrl:Str, generatedImageUrl:Str}
-     */
-    async addInference(payload) {
+    async generateInference(payload) {
       let res;
       try {
         res = await this.$axios.post(
-          ApiUrls.addInference,
+          ApiUrls.generateInference,
           payload
         );
+
+        return res.data.generatedImgUrl;
       }
       catch (error) {
         console.error(error);
