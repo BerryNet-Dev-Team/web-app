@@ -16,7 +16,7 @@ module.exports = {
         "berry-auxiliary":{
           DEFAULT: '#698F3F',
         },
-        "berry-alert":{
+        "berry-highlight":{
           DEFAULT: '#A3153A',
         },
         "berry-whiteaux":{
