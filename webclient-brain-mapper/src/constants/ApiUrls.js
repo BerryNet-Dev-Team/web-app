@@ -12,5 +12,5 @@ export default {
 
   // Inferences URLS
   getBaseImgPresignedUrls: '/inferences/getBaseImgPresignedUrls',
-  addInference: '/inferences/addInference',
+  generateInference: '/inferences/generateInference',
 };
