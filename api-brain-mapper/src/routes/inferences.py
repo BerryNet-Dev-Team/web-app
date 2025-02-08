@@ -34,7 +34,7 @@ def getBaseImgPresignedUrls():
             expires=datetime.timedelta(seconds=presignedExpTime)
         )
     except Exception as exc:
-        print(exc)
+        print(exc, flush=True)
         abort(500, 'Error getting presigned url for img')
 
     # Setup response data
@@ -61,7 +61,7 @@ def addInference():
     imgObjectKey = req['imgObjectKey']
 
     # Make API call to ANN-API to make the inference
-    response = request.post(os.getenv('NN_API_URL'), data={'imgObjectKey': imgObjectKey})
+    response = requests.post(os.getenv('NN_API_URL'), data={'imgObjectKey': imgObjectKey})
     if(response.status_code != requests.codes.ok):
         abort(500, 'Error generating inference')
 
