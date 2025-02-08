@@ -61,7 +61,7 @@ def addInference():
     imgObjectKey = req['imgObjectKey']
 
     # Make API call to ANN-API to make the inference
-    response = requests.post(os.getenv('NN_API_URL'), data={'imgObjectKey': imgObjectKey})
+    response = requests.post(os.getenv('NN_API_URL'), json={'imgObjectKey': imgObjectKey})
     if(response.status_code != requests.codes.ok):
         abort(500, 'Error generating inference')
 
