@@ -192,7 +192,7 @@ export default {
       const inferencePayload = {
         name: this.inferenceName,
         imgUrl: this.baseImageUrls.liveURL,
-        imgObjectKey: this.generatedImageUrl
+        imgObjectKey: this.baseImageUrls.imgObjectKey
       }
 
       // API call to generate an inference using the base img and get the inference img url
