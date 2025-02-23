@@ -1,10 +1,6 @@
 #!/bin/bash
 set -e
 
-DB_USER="docker"
-DB_USER_PASSWORD="password1"
-DB_NAME="docker"
-
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
     CREATE USER $DB_USER WITH PASSWORD '$DB_USER_PASSWORD';
     CREATE DATABASE $DB_NAME;
