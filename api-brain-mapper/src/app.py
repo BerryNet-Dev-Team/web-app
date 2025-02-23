@@ -15,6 +15,8 @@ from .routes.auth import auth
 from .routes.scenes import scenes
 from .routes.inferences import inferences
 
+migrate = Migrate()  # Creates an instance of migrate without initialization
+
 def create_app():
     # Create Flask app
     app = Flask(__name__)
@@ -34,7 +36,7 @@ def create_app():
     ma.init_app(app)
 
     # Configure migrations
-    migrate = Migrate(app, db)
+    migrate.init_app(app, db)  # Associates Flask-Migrate to the app
 
     # Register http error handlers
     app.register_blueprint(errorHandlers)
@@ -48,9 +50,5 @@ def create_app():
     app.config['CORS_EXPOSE_HEADERS'] = ['Authorization']
     app.config['CORS_SUPPORTS_CREDENTIALS'] = True
     CORS(app, resources={r"/*": {"origins": "*"}}, expose_headers=['Authorization'])
-
-    # Give context to SQLAlchemy
-    with app.app_context():
-        db.create_all()
 
     return app

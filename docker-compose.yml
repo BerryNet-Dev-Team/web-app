@@ -57,6 +57,8 @@ services:
       - ./api-brain-mapper/:/app
     ports:
       - "5000:5000"
+    depends_on:
+      - postgres
 
 volumes:
   pgdata:

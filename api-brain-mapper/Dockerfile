@@ -11,5 +11,7 @@ RUN pip3 install -r requirements.txt
 
 # COPY . /app
 
-ENTRYPOINT ["python3"]
-CMD ["run.py"]
+ENV FLASK_APP=src.app:create_app
+ENV FLASK_ENV=development
+
+ENTRYPOINT ["sh", "-c", "flask db upgrade && python3 run.py"]
