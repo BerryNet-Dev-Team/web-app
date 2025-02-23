@@ -1,0 +1,48 @@
+# my-domain
+server {
+    server_name my-domain;
+
+    listen 80 ;
+    # Do not HTTPS redirect Let's Encrypt ACME challenge
+    location ^~ /.well-known/acme-challenge/ {
+        auth_basic off;
+        auth_request off;
+        allow all;
+        root /config/www;
+        try_files $uri =404;
+        break;
+    }
+    location / {
+        if ($request_method ~ (OPTIONS|POST|PUT|PATCH|DELETE)) {
+            return 301 https://$host$request_uri;
+        }
+        return 301 https://$host$request_uri;
+    }
+}
+server {
+    server_name my-domain;
+
+    listen 443 ssl ;
+
+    # SSL certs
+    include /config/nginx/ssl.conf;
+
+    set $sts_header "";
+    if ($https) {
+        set $sts_header "max-age=31536000";
+    }
+    add_header Strict-Transport-Security $sts_header always;
+
+    # enable subfolder method reverse proxy confs
+    include /config/nginx/proxy-confs/my-domain.subfolder.conf;
+
+    # Serves content for the Ecommerce frontend
+    location / {
+        root /usr/share/nginx/html/berrynet;
+        index index.html;
+        try_files $uri /index.html;
+    }
+}
+
+# enable subdomain method reverse proxy confs
+include /config/nginx/proxy-confs/*.subdomain.conf;

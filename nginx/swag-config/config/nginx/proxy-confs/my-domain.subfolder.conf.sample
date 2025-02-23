@@ -1,0 +1,30 @@
+# Redirect requests to the backend
+location /api/ {
+
+    # enable the next two lines for http auth
+    #auth_basic "Restricted";
+    #auth_basic_user_file /config/nginx/.htpasswd;
+
+    # enable the next two lines for ldap auth, also customize and enable ldap.conf in the default conf
+    #auth_request /auth;
+    #error_page 401 =200 /ldaplogin;
+
+    # enable for Authelia, also enable authelia-server.conf in the default site config
+    #include /config/nginx/authelia-location.conf;
+
+    include /config/nginx/proxy.conf;
+    proxy_cookie_path /api/ /;
+
+    resolver 127.0.0.11 valid=30s;
+    set $upstream_app flask_api;
+    set $upstream_port 5000;
+    set $upstream_proto http;
+    set $upstream_keepalive true;
+
+    # Remove trailing /api/ from request url
+    rewrite ^/api/(.*)$ /$1 break;
+
+    # Pass the request to container
+    proxy_pass $upstream_proto://$upstream_app:$upstream_port;
+
+}
