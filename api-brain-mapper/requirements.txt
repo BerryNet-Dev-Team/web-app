@@ -5,6 +5,7 @@ Authlib==1.3.0
 blinker==1.8.2
 certifi==2024.12.14
 cffi==1.16.0
+charset-normalizer==3.4.1
 click==8.1.7
 cryptography==42.0.7
 distlib==0.3.8
@@ -14,7 +15,10 @@ Flask-Cors==4.0.0
 flask-marshmallow==1.2.1
 Flask-Migrate==4.0.7
 Flask-SQLAlchemy==3.1.1
-greenlet==3.0.3
+gevent==24.11.1
+greenlet==3.1.1
+gunicorn==23.0.0
+idna==3.10
 itsdangerous==2.1.2
 Jinja2==3.1.3
 Mako==1.3.5
@@ -25,6 +29,7 @@ minio==7.2.13
 packaging==24.1
 platformdirs==4.1.0
 protobuf==4.21.12
+psycogreen==1.0.2
 psycopg2==2.9.9
 pycparser==2.22
 pycryptodome==3.21.0
@@ -38,3 +43,5 @@ typing_extensions==4.12.0
 urllib3==2.2.3
 virtualenv==20.25.0
 Werkzeug==3.0.1
+zope.event==5.0
+zope.interface==7.2
