@@ -6,7 +6,7 @@ services:
   webclient:
     build:
       context: ./webclient-brain-mapper
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-local
     volumes:
       - './webclient-brain-mapper:/app'
       - '/app/node_modules'
@@ -27,7 +27,7 @@ services:
     command: server --address 0.0.0.0:9000 --console-address ":9001" /data
     ports:
         # Bind explicitly to 127.0.0.1
-        - "127.0.0.1:9000:9000"
+        - "9000:9000"
         - "9001:9001"
     healthcheck:
         test: ["CMD", "curl", "-f", "http://127.0.0.1:9000/minio/health/live"]
@@ -50,7 +50,7 @@ services:
   flask_api:
     build:
      context: ./api-brain-mapper
-     dockerfile: Dockerfile
+     dockerfile: Dockerfile-local
     container_name: flask_app
     restart: unless-stopped
     volumes:
