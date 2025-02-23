@@ -3,15 +3,16 @@ FROM python:3.11
 
 WORKDIR /app
 
-COPY requirements.txt /app
+# Install OS dependencies
 RUN apt-get update -y
-RUN apt install gcc
-RUN apt-get install -y libpq-dev
+RUN apt-get install -y gcc libpq-dev
+
+# Install app dependencies
+COPY requirements.txt /app
 RUN pip3 install -r requirements.txt
 
 COPY . /app
 
-#CMD ["gunicorn", "-w", "2", "-k", "gevent", "-b", 0.0.0.0:$PORT_APP, "wsgi_run:app"]
-
+# Run migrations & start flask app
 RUN chmod +x ./entrypoint.sh
 ENTRYPOINT [ "./entrypoint.sh" ]
