@@ -5,6 +5,7 @@ from flask_cors import CORS, cross_origin
 from flask_migrate import Migrate
 from .database.dbConnection import db
 from .database.serializers_utils import ma
+from .security.bcrypt import bcrypt
 from .routes.errorHandlers import errorHandlers
 
 # load .env file to environment
@@ -37,6 +38,9 @@ def create_app():
 
     # Configure migrations
     migrate.init_app(app, db)  # Associates Flask-Migrate to the app
+
+    # Configure flask_bcrypt utility
+    bcrypt.init_app(app)
 
     # Register http error handlers
     app.register_blueprint(errorHandlers)

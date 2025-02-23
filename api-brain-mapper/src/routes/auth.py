@@ -9,7 +9,7 @@ from ..database.dbConnection import db
 
 from ..security.jwt_utils import *
 from ..security.decorators_utils import auth_required
-from ..security.crypto_utils import hashPassword
+from ..security.crypto_utils import *
 
 # Open file with available roles
 rolesFile = os.path.join(os.getcwd(), "src/database/reference-data/ROLES.json")
@@ -26,7 +26,7 @@ def addUser():
         req = request.json
 
         # Check if request has enough properties needed
-        required_keys = ['name', 'lastName', 'email', 'passwd', 'role']
+        required_keys = ['name', 'lastName', 'email', 'passwd', 'roleId']
         if not all(key in req for key in required_keys):
             abort(400, 'BAD REQUEST')
 
@@ -35,19 +35,19 @@ def addUser():
         lastName = req['lastName']
         email = req['email']
         password = req['passwd']
-        role = req['role']
-
-        if(role not in availableRoles):
-            abort(400, 'BAD REQUEST')
+        roleId = req['roleId']
 
         # Search for existent user with same email
         stmt = select(User).where(User.email == email)
         result = db.session.execute(statement=stmt)
 
         userExists = result.fetchone() is not None
-
         if(userExists):
             abort(400, 'BAD REQUEST')
+
+        # Check password length, limited to 50 due to mitigate 70+ chars error with hash
+        if len(password > 50):
+            abort(400, 'passwd_length')
 
         # Add new user to DB
         new_user = User(
@@ -55,7 +55,7 @@ def addUser():
             lastName=lastName,
             email=email,
             password=hashPassword(password),
-            role=role
+            roleId=roleId
         )
 
         db.session.add(new_user)
@@ -68,8 +68,7 @@ def addUser():
         if isinstance(e, HTTPException):
             abort(e.code, e.description)
         else:
-            print(e)
-            abort(500)
+            abort(500, str(e))
 
 
 @auth.route('/login', methods=['POST'])
@@ -86,18 +85,20 @@ def login():
         email = req['email']
         password = req['passwd']
         
-        # Check if user exists
+        # Query to search user by email
         stmt = select(User).where(
-            User.email == email,
-            User.password == hashPassword(password)
+            User.email == email
         )
         result = db.session.execute(statement=stmt)
 
+        # If no user matched the email in req, return error
         user = result.scalar_one_or_none()
-
-        # If no user matched email and password in req, return error
         if(user is None):
             abort(400, 'BAD REQUEST')
+
+        # If password not match, return error
+        if (not checkPasswordHash(user.password, password)):
+            abort(401, 'wrong_password')
 
         # Serialize into JSON the DB response Obj (also exclude unwanted info)
         user_serialized = user_schema.dump(user)
