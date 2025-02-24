@@ -9,13 +9,19 @@ from flask import Blueprint, request, redirect, jsonify, abort, g
 from ..database.dbConnection import db
 from ..models.scene import Scene
 from ..security.decorators_utils import auth_required
-from ..cloudServices.minioConnections import minioClient
+from ..cloudServices.minioConnections import getMinioClient
 
+# Define router prefix
 scenes = Blueprint('scenes', __name__, url_prefix='/scenes')
 
+# ------- All the routes -------
 @scenes.route('/getScenePresignedUrls', methods=['GET'])
 @auth_required(["ADMIN"])
 def getScenePresignedUrls():
+    # Instantiate a minio client
+    minioClient = getMinioClient()
+
+    # Create unique foldername
     folderName = str(uuid.uuid4().hex)
 
     # Configure s3 constants for scenes(dataset) bucket

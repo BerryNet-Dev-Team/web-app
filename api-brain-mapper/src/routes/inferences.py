@@ -10,13 +10,19 @@ from flask import Blueprint, request, redirect, jsonify, abort, g
 from ..database.dbConnection import db
 from ..models.inference import Inference
 from ..security.decorators_utils import auth_required
-from ..cloudServices.minioConnections import minioClient
+from ..cloudServices.minioConnections import getMinioClient
 
+# Define router prefix
 inferences = Blueprint('inferences', __name__, url_prefix='/inferences')
 
+# ------- All the routes -------
 @inferences.route('/getBaseImgPresignedUrls', methods=['GET'])
 @auth_required()
 def getBaseImgPresignedUrls():
+    # Instantiate a minio client
+    minioClient = getMinioClient()
+
+    # Creates unique foldername
     folderName = str(uuid.uuid4().hex)
 
     # Configure s3 constants for inferences bucket
