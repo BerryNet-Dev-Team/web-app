@@ -52,6 +52,8 @@ services:
     restart: unless-stopped
     env_file:
       - ./api-brain-mapper/.env.production
+    volumes:
+      - ${FLASK_LOGFILE_PATH}:/var/log/flask-errors.log
     expose:
       - 5000
     networks:

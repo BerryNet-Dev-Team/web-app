@@ -3,6 +3,7 @@
 .env.production
 __pycache__/
 .vscode/
+*.log
 
 # Installer logs
 pip-log.txt

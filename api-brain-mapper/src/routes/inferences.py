@@ -7,6 +7,8 @@ import requests
 load_dotenv() 
 
 from flask import Blueprint, request, redirect, jsonify, abort, g
+from logs.logger import logger
+
 from ..database.dbConnection import db
 from ..models.inference import Inference
 from ..security.decorators_utils import auth_required
@@ -40,7 +42,7 @@ def getBaseImgPresignedUrls():
             expires=datetime.timedelta(seconds=presignedExpTime)
         )
     except Exception as exc:
-        print(exc, flush=True)
+        logger.exception('Presigned S3 error')
         abort(500, 'Error getting presigned url for img')
 
     # Setup response data
@@ -67,13 +69,17 @@ def addInference():
     imgObjectKey = req['imgObjectKey']
 
     # Make API call to ANN-API to make the inference
-    response = requests.post(os.getenv('NN_API_URL'), json={'imgObjectKey': imgObjectKey})
-    if(response.status_code != requests.codes.ok):
-        abort(500, 'Error generating inference')
+    try:
+        response = requests.post(os.getenv('NN_API_URL'), json={'imgObjectKey': imgObjectKey})
+        
+        response.raise_for_status() # Raise error if ocurred
 
-    # If response ok, parse response to json
-    json_response = response.json()
-    generatedImageUrl = json_response['generatedImgUrl']
+        # If response ok, parse response to json
+        json_response = response.json()
+        generatedImageUrl = json_response['generatedImgUrl']
+    except Exception as exc:
+        logger.exception(f'Error generating inference for {imgObjectKey}')
+        abort(500, 'Error generating inference')
 
     # Make new instance of inference model
     new_inference = Inference(
@@ -88,7 +94,8 @@ def addInference():
     try:
         db.session.add(new_inference)
         db.session.commit()
-    except:
+    except Exception as exc:
+        logger.exception(f'Error saving in DB inference of {imgObjectKey}')
         abort(500, 'Error while saving inference')
 
     # Respond with the generatedImageUrl

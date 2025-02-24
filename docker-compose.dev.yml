@@ -58,6 +58,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./api-brain-mapper/:/app
+      - ${FLASK_LOGFILE_PATH}:/var/log/flask-errors.log
     ports:
       - "5000:5000"
     depends_on:
