@@ -33,6 +33,11 @@ def create_app():
     # Starts db connection
     db.init_app(app)
 
+    # Close DB session after each request
+    @app.teardown_appcontext
+    def shutdown_session(exception=None):
+        db.session.remove()
+
     #Setup serializer
     ma.init_app(app)
 
