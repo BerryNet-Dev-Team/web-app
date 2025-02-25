@@ -4,6 +4,8 @@ FROM node:22 as build-front
 RUN mkdir /builddir
 WORKDIR /builddir
 
+ENV NODE_ENV production
+
 # copy both 'package.json' and 'package-lock.json' (if available)
 COPY ../webclient-brain-mapper/package*.json ./
 
