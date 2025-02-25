@@ -21,8 +21,8 @@ services:
     volumes:
         - /home/images:/data
     environment:
-      - MINIO_ROOT_USER: ${MINIO_ROOT_USER}
-      - MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
     # Allow all incoming hosts to access the server by using 0.0.0.0
     command: server --address 0.0.0.0:9000 --console-address ":9001" /data
     ports:

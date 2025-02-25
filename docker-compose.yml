@@ -12,9 +12,9 @@ services:
     volumes:
       - /home/images:/data
     environment:
-      - MINIO_ROOT_USER: ${MINIO_ROOT_USER}
-      - MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
-      - MINIO_BROWSER_REDIRECT_URL: ${MINIO_BROWSER_REDIRECT_URL}
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+      - MINIO_BROWSER_REDIRECT_URL=${MINIO_BROWSER_REDIRECT_URL}
     command: server --address :9000 --console-address ":9001" /data
     expose:
       - 9000
