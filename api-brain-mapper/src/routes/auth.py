@@ -22,7 +22,7 @@ with open(rolesFile) as f:
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 
 @auth.route('/addUser', methods=['POST'])
-#@auth_required(["ADMIN"])
+@auth_required(["ADMIN"])
 def addUser():
     req = request.json
 
