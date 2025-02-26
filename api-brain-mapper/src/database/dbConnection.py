@@ -13,7 +13,7 @@
 #     db.session = SessionLocal()  # Global session for dev mode
 
 import os
-import gevent.local
+from gevent import getcurrent
 from flask_sqlalchemy import SQLAlchemy
 
 # Config db connection without configuring sessions' scope manually
@@ -22,6 +22,6 @@ db = SQLAlchemy(
         "autocommit": False,
         "autoflush": False,
         "bind": None,  # It will be assigned when calling init_app()
-        "scopefunc": gevent.local.local if os.getenv("ENV_MODE") == "production" else None
+        "scopefunc": None # Let Flask SQLAlchemy decide the scope, unless u want to fight with gevent and connection pool
     }
 )

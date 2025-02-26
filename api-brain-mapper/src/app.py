@@ -34,8 +34,9 @@ def create_app():
     db.init_app(app)
 
     # Close DB session after each request
-    @app.teardown_appcontext
+    @app.teardown_request
     def shutdown_session(exception=None):
+        db.session.close()
         db.session.remove()
 
     #Setup serializer
@@ -60,4 +61,5 @@ def create_app():
     app.config['CORS_SUPPORTS_CREDENTIALS'] = True
     CORS(app, resources={r"/*": {"origins": "*"}}, expose_headers=['Authorization'])
 
+    print('Runing apppp')
     return app
