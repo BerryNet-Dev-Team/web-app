@@ -22,7 +22,7 @@ with open(rolesFile) as f:
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 
 @auth.route('/addUser', methods=['POST'])
-@auth_required(["ADMIN"])
+#@auth_required(["ADMIN"])
 def addUser():
     req = request.json
 
@@ -51,7 +51,7 @@ def addUser():
         abort(400, 'BAD REQUEST')
 
     # Check password length, limited to 50 due to mitigate 70+ chars error with hash
-    if len(password > 50):
+    if len(password) > 50:
         abort(400, 'passwd_length')
 
     # Add new user to DB
