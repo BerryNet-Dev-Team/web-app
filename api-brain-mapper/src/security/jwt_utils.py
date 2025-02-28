@@ -16,7 +16,7 @@ def encode_auth_jwt(uid, expires_in=60):
             algorithm='HS256'
         )
     except Exception as e:
-        return None
+        raise e
 
 def decode_auth_jwt(auth_jwt):
     try:

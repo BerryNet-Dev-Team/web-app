@@ -5,6 +5,7 @@ from flask_cors import CORS, cross_origin
 from flask_migrate import Migrate
 from .database.dbConnection import db
 from .database.serializers_utils import ma
+from .security.bcrypt import bcrypt
 from .routes.errorHandlers import errorHandlers
 
 # load .env file to environment
@@ -14,6 +15,8 @@ load_dotenv()
 from .routes.auth import auth
 from .routes.scenes import scenes
 from .routes.inferences import inferences
+
+migrate = Migrate()  # Creates an instance of migrate without initialization
 
 def create_app():
     # Create Flask app
@@ -30,11 +33,20 @@ def create_app():
     # Starts db connection
     db.init_app(app)
 
+    # Close DB session after each request
+    @app.teardown_request
+    def shutdown_session(exception=None):
+        db.session.close()
+        db.session.remove()
+
     #Setup serializer
     ma.init_app(app)
 
     # Configure migrations
-    migrate = Migrate(app, db)
+    migrate.init_app(app, db)  # Associates Flask-Migrate to the app
+
+    # Configure flask_bcrypt utility
+    bcrypt.init_app(app)
 
     # Register http error handlers
     app.register_blueprint(errorHandlers)
@@ -49,8 +61,5 @@ def create_app():
     app.config['CORS_SUPPORTS_CREDENTIALS'] = True
     CORS(app, resources={r"/*": {"origins": "*"}}, expose_headers=['Authorization'])
 
-    # Give context to SQLAlchemy
-    with app.app_context():
-        db.create_all()
-
+    print('Runing apppp')
     return app

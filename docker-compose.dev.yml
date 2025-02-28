@@ -1,0 +1,68 @@
+# syntax=docker/dockerfile:1.4
+#version: '0'
+
+services:
+
+  webclient:
+    build:
+      context: ./webclient-brain-mapper
+      dockerfile: Dockerfile-local
+    volumes:
+      - './webclient-brain-mapper:/app'
+      - '/app/node_modules'
+    ports:
+      - 3003:3000
+  
+  s3:
+    build:
+      context: ./minio
+      dockerfile: Dockerfile
+    restart: "unless-stopped"
+    volumes:
+        - /home/images:/data
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+    # Allow all incoming hosts to access the server by using 0.0.0.0
+    command: server --address 0.0.0.0:9000 --console-address ":9001" /data
+    ports:
+        # Bind explicitly to 127.0.0.1
+        - "9000:9000"
+        - "9001:9001"
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://127.0.0.1:9000/minio/health/live"]
+        interval: 500s
+        timeout: 10s
+        retries: 3
+    
+  postgres:
+    image: postgres:16-bullseye
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_USER=${DB_USER}
+      - DB_USER_PASSWORD=${DB_USER_PASSWORD}
+      - DB_NAME=${DB_NAME}
+    ports:
+      - 127.0.0.1:5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./initPg.sh:/docker-entrypoint-initdb.d/init-user-db.sh
+      - ./populateDB.sql:/home/populateDB.sql
+
+  flask_api:
+    build:
+     context: ./api-brain-mapper
+     dockerfile: Dockerfile-local
+    container_name: flask_app
+    restart: unless-stopped
+    volumes:
+      - ./api-brain-mapper/:/app
+      - ${FLASK_LOGFILE_PATH}:/var/log/flask-errors.log
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:

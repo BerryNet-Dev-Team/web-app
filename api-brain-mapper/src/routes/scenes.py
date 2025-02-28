@@ -1,21 +1,29 @@
 import os
 import json
 import uuid
-from dotenv import load_dotenv
 import datetime
+from dotenv import load_dotenv
 load_dotenv() 
 
 from flask import Blueprint, request, redirect, jsonify, abort, g
+from logs.logger import logger
+
 from ..database.dbConnection import db
 from ..models.scene import Scene
 from ..security.decorators_utils import auth_required
-from ..cloudServices.minioConnections import minioClient
+from ..cloudServices.minioConnections import getMinioClient
 
+# Define router prefix
 scenes = Blueprint('scenes', __name__, url_prefix='/scenes')
 
+# ------- All the routes -------
 @scenes.route('/getScenePresignedUrls', methods=['GET'])
 @auth_required(["ADMIN"])
 def getScenePresignedUrls():
+    # Instantiate a minio client
+    minioClient = getMinioClient()
+
+    # Create unique foldername
     folderName = str(uuid.uuid4().hex)
 
     # Configure s3 constants for scenes(dataset) bucket
@@ -33,7 +41,7 @@ def getScenePresignedUrls():
             expires=datetime.timedelta(seconds=presignedExpTime)
         )
     except Exception as exc:
-        print(exc)
+        logger.exception('S3 presigned error')
         abort(500, 'Error getting presigned url for img')
 
     # Generate live and upload urls for the scene map
@@ -46,7 +54,7 @@ def getScenePresignedUrls():
             expires=datetime.timedelta(seconds=presignedExpTime)
         )
     except Exception as exc:
-        print(exc)
+        logger.error('S3 presigned error')
         abort(500, 'Error getting presigned url for txt')
 
     # Setup response data
@@ -86,7 +94,8 @@ def addScene():
     try:
         db.session.add(new_scene)
         db.session.commit()
-    except:
+    except Exception as exc:
+        logger.exception('Error saving scene in DB')
         abort(500, 'Error while saving scene')
 
     return jsonify({"message": "scene added successfully"}), 200

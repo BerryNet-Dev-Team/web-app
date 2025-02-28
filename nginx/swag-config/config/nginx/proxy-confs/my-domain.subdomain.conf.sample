@@ -1,0 +1,110 @@
+# s3.my-domain/
+server {
+    server_name s3.my-domain;
+
+    listen 80 ;
+    # Do not HTTPS redirect Let's Encrypt ACME challenge
+    location ^~ /.well-known/acme-challenge/ {
+        auth_basic off;
+        auth_request off;
+        allow all;
+        root /config/www;
+        try_files $uri =404;
+        break;
+    }
+    location / {
+        if ($request_method ~ (OPTIONS|POST|PUT|PATCH|DELETE)) {
+            return 301 https://$host$request_uri;
+        }
+        return 301 https://$host$request_uri;
+    }
+}
+server {
+    server_name s3.my-domain;
+    #access_log /var/log/nginx/access.log vhost;
+
+    listen 443 ssl ;
+    include /config/nginx/ssl.conf;
+
+    # enable for ldap auth, fill in ldap details in ldap.conf
+    #include /config/nginx/ldap.conf;
+
+    # enable for Authelia
+    #include /config/nginx/authelia-server.conf;
+
+    # Allow special characters in headers
+    ignore_invalid_headers off;
+    # Set to a value such as 1000m; to restrict file size to a specific value
+    client_max_body_size 100m;
+    # Disable buffering
+    proxy_buffering off;
+    proxy_request_buffering off;
+
+    set $sts_header "";
+    if ($https) {
+        set $sts_header "max-age=31536000";
+    }
+    add_header Strict-Transport-Security $sts_header always;
+
+    location / {
+
+        # enable the next two lines for http auth
+        #auth_basic "Restricted";
+        #auth_basic_user_file /config/nginx/.htpasswd;
+
+        # enable the next two lines for ldap auth
+        #auth_request /auth;
+        #error_page 401 =200 /ldaplogin;
+
+        # enable for Authelia
+        #include /config/nginx/authelia-location.conf;
+
+        include /config/nginx/proxy.conf;
+
+        # Default is HTTP/1, keepalive is only enabled in HTTP/1.1
+        proxy_set_header Connection "";
+        chunked_transfer_encoding off;
+
+        resolver 127.0.0.11 valid=30s;
+        set $upstream_app s3;
+        set $upstream_port 9000;
+        set $upstream_proto http;
+        set $upstream_keepalive true;
+        proxy_pass $upstream_proto://$upstream_app:$upstream_port;
+
+    }
+
+    location /minio/ui/ {
+        rewrite ^/minio/ui/(.*) /$1 break;
+
+        # enable the next two lines for http auth
+        #auth_basic "Restricted";
+        #auth_basic_user_file /config/nginx/.htpasswd;
+
+        # enable the next two lines for ldap auth
+        #auth_request /auth;
+        #error_page 401 =200 /ldaplogin;
+
+        # enable for Authelia
+        #include /config/nginx/authelia-location.conf;
+
+        # This is necessary to pass the correct IP to be hashed
+        real_ip_header X-Real-IP;
+
+        include /config/nginx/proxy.conf;
+
+        # Some environments may encounter CORS errors (Kubernetes + Nginx Ingress)
+        # Uncomment the following line to set the Origin request to an empty string
+        # proxy_set_header Origin '';
+
+        chunked_transfer_encoding off;
+
+        resolver 127.0.0.11 valid=30s;
+        set $upstream_app s3;
+        set $upstream_port 9001;
+        set $upstream_proto http;
+        set $upstream_keepalive true;
+        proxy_pass $upstream_proto://$upstream_app:$upstream_port;
+
+    }
+}

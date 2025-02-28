@@ -11,8 +11,9 @@ RUN apt-get install -y gcc libpq-dev
 COPY requirements.txt /app
 RUN pip3 install -r requirements.txt
 
-COPY . /app
+# Export some env vars flask needs
+ENV FLASK_APP=src.app:create_app
+ENV FLASK_ENV=development
 
 # Run migrations & start flask app
-RUN chmod +x ./entrypoint.sh
-ENTRYPOINT [ "./entrypoint.sh" ]
+ENTRYPOINT ["sh", "-c", "flask db upgrade && python3 run.py"]
