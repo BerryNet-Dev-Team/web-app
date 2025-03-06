@@ -65,16 +65,15 @@ services:
   nginx:
     build:
       context: .
-      dockerfile: ./nginx/self-signed/Dockerfile
+      dockerfile: ./nginx/Dockerfile
     container_name: nginx_proxy
     ports:
       - 80:80
       - 443:443
     volumes:
-      - ./nginx/self-signed/certs:/etc/nginx/certs
-      - ./nginx/self-signed/proxy.conf:/etc/nginx/proxy.conf:ro
-      - ./nginx/self-signed/default.conf:/etc/nginx/conf.d/default.conf
-      #- ${NGINX_CONF_DIR}:/config 
+      # - ./nginx/dev-proxy/proxy.conf:/etc/nginx/proxy.conf:ro
+      # - ./nginx/dev-proxy/default.conf:/etc/nginx/conf.d/default.conf
+      - ${NGINX_CONF_DIR}:/config
     environment:
       - PUID=${NGINX_CONF_PUID}
       - PGID=${NGINX_CONF_GID}
