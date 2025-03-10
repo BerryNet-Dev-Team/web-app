@@ -55,11 +55,16 @@ export const useAuthStore = defineStore('auth', {
           // Returns true for better control in component
           return true;
         }
-
-        // Returns false to raise error in component
-        return false;
       }
       catch (error) {
+        // If just creds are wrong return false
+        if (
+          error.response
+          && error.response.status === 401
+          || error.response.status === 400
+        ) return false; // Returns false for better control in component
+
+        // Otherwise re-throw error
         console.log(error);
         throw error;
       }
