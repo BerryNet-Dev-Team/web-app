@@ -3,26 +3,14 @@ import { defineStore } from 'pinia'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
-    pais: null
+    backendAvailable: true // In theory backend is always up
   }),
   actions: {
-    async getCountryName() {
-      try {
-        const res = await this.$axios.get(
-          '/api/',
-          {
-            withCredentials: false
-          }
-        );
-  
-        this.pais = res.data.info.seed;
-      }
-      catch (error) {
-        console.log(error)
-      }
+    setBackendAvailable(payload) {
+      this.backendAvailable = payload;
     }
   },
   getters: {
-    country: (state) => state.pais,
+    isBackendAvailable: (state) => state.backendAvailable,
   },
 })

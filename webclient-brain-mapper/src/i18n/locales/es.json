@@ -62,5 +62,9 @@
   "sessionExpired": {
     "title": "Sesión expirada.",
     "text": "Parece que tu sesión ha expirado. Por favor inicia sesión nuevamente."
+  },
+  "err5xx": {
+    "title": "¡Oops! algo ha salido mal",
+    "text": "Lamentamos el inconveniente. Por favor intenta recargando la página y si el problema persiste comunícate con el departamento de soporte o sistemas. Gracias por tu paciencia."
   }
 }
