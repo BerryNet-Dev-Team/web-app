@@ -106,10 +106,11 @@ export const useAuthStore = defineStore('auth', {
         );
       }
       catch (error) {
-        console.error(error)
-
-        // If error is 500 or above, rethrow error to block app
-        if(error.response && error.response.status >= 500) throw error;
+        // If something happened that triggered an Error
+        // Or error is 500 or above, rethrow error to block app
+        if(!error.response || error.response?.status >= 500) {
+          throw error;
+        }
       }
 
       // If user session is still alive
@@ -128,10 +129,11 @@ export const useAuthStore = defineStore('auth', {
           );
         }
         catch (error) {
-          console.error(error)
-
-          // If error is 500 or above, rethrow error to block app
-          if(error.response && error.response.status >= 500) throw error;
+          // If something happened that triggered an Error
+          // Or error is 500 or above, rethrow error to block app
+          if(!error.response || error.response?.status >= 500) {
+            throw error;
+          }
         }
 
         const userRole = roleResponse.data.role;

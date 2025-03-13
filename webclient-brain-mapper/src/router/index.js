@@ -12,16 +12,39 @@ import { useAuthStore } from '@/stores/auth'
 import { useAppStore } from '@/stores/app'
 import emitter from '@/plugins/emitter'
 
+// Initializes the session before router starts navigating
+async function initializeSession(to, next, from, appStore, authStore) {
+  try {
+    if(from === START_LOCATION) {
+      await authStore.initiateAppSession();
+
+      // If user is actually logged in, prevents navigation to login
+      if (to.fullPath === '/login') {
+        if (authStore.getIsSessionActive) {
+          next('/profile');
+          return;
+        }
+      }
+
+      // Otherwise just go
+      next();
+      return;
+    }
+  } catch (error) {
+    appStore.setBackendAvailable(false);
+  }
+}
+
 // Functions to handle some cases in the router guardian
 function handleBackendError(to, next, appStore) {
   // If backend is dead, blocks navigation and redirects all to Err5xx page
   if (!appStore.isBackendAvailable) {
-    if (to.fullPath !== '/err-5xx') {
-      next({path: '/err-5xx'});
+    if (to.fullPath !== '/err5xx') {
+      next({path: '/err5xx'});
       return;
     }
-  } else if (to.fullPath === '/err-5xx') {
-    next('/'); // After reload, if backend is available(again) this will kick out user from error page(s)
+  } else if (to.fullPath === '/err5xx') {
+    next('/login'); // After reload, if backend is available(again) this will kick out user from error page(s)
     return;
   }
 }
@@ -70,30 +93,10 @@ router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
   const appStore = useAppStore();
 
-  // 0. Init session call
-  try {
-    if(from === START_LOCATION) {
-      await authStore.initiateAppSession();
+  // 0. Waits for init session call to start routing
+  await initializeSession(to, next, from, appStore, authStore);
 
-      // If user is actually logged in, prevents navigation to login
-      if (to.fullPath === '/login') {
-        if (authStore.getIsSessionActive) {
-          next('/profile');
-          return;
-        }
-      }
-
-      // Otherwise just go
-      next();
-      return;
-    }
-  } catch (error) {
-    appStore.setBackendAvailable(false);
-    next('/err5xx');
-    return;
-  }
-
-
+  // Normal navigation
   try {
     // 1. Verify backend errors
     handleBackendError(to, next, appStore);
