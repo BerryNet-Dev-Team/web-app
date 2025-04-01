@@ -4,8 +4,6 @@ FROM node:22 as build-front
 RUN mkdir /builddir
 WORKDIR /builddir
 
-ENV NODE_ENV production
-
 # copy both 'package.json' and 'package-lock.json' (if available)
 COPY ../webclient-brain-mapper/package*.json ./
 
@@ -14,6 +12,9 @@ RUN npm install --frozen-lockfile
 
 # copy ecomm front files
 COPY ../webclient-brain-mapper ./
+
+# Before build stablish NODE_ENV as production
+ENV NODE_ENV=production
 
 # build ecomm front for production with minification
 RUN npm run build

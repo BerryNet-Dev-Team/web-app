@@ -80,6 +80,7 @@ import { useInferenceStore } from "@/stores/inference";
 import { useToast } from "vue-toastification";
 
 export default {
+  name: 'ImgPredict',
   data() {
     return {
       imageInput: null,
