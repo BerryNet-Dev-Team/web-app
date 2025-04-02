@@ -55,16 +55,11 @@ export const useAuthStore = defineStore('auth', {
           // Returns true for better control in component
           return true;
         }
+
+        // Returns false to raise error in component
+        return false;
       }
       catch (error) {
-        // If just creds are wrong return false
-        if (
-          error.response
-          && error.response.status === 401
-          || error.response.status === 400
-        ) return false; // Returns false for better control in component
-
-        // Otherwise re-throw error
         console.log(error);
         throw error;
       }
@@ -106,11 +101,8 @@ export const useAuthStore = defineStore('auth', {
         );
       }
       catch (error) {
-        // If something happened that triggered an Error
-        // Or error is 500 or above, rethrow error to block app
-        if(!error.response || error.response?.status >= 500) {
-          throw error;
-        }
+        console.error(error)
+        throw error;
       }
 
       // If user session is still alive
@@ -129,11 +121,8 @@ export const useAuthStore = defineStore('auth', {
           );
         }
         catch (error) {
-          // If something happened that triggered an Error
-          // Or error is 500 or above, rethrow error to block app
-          if(!error.response || error.response?.status >= 500) {
-            throw error;
-          }
+          console.error(error)
+          throw error;
         }
 
         const userRole = roleResponse.data.role;

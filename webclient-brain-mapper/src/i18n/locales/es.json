@@ -19,7 +19,6 @@
       "register": "Crear cuenta nueva",
       "emptyEmailFeedB": "Tu email no puede estar vacío.",
       "emptyPasswdFeedB": "Tu contraseña no puede estar vacía.",
-      "unexpectedErr": "Ha ocurrido un error inesperado",
       "wrongCreds":  "El correo o la contraseña que ingresaste son incorrectos(s)",
       "loginMessage": ""
     },
@@ -62,9 +61,5 @@
   "sessionExpired": {
     "title": "Sesión expirada.",
     "text": "Parece que tu sesión ha expirado. Por favor inicia sesión nuevamente."
-  },
-  "err5xx": {
-    "title": "¡Oops! algo ha salido mal",
-    "text": "Lamentamos el inconveniente. Por favor intenta recargando la página y si el problema persiste comunícate con el departamento de soporte o sistemas. Gracias por tu paciencia."
   }
 }

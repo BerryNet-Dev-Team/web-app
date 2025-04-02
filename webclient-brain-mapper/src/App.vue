@@ -58,7 +58,9 @@ export default{
     this.$emitter.on('request-error', this.unsetLoading);
     this.$emitter.on('after-response', this.unsetLoading);
     this.$emitter.on('response-error', this.unsetLoading);
-    this.$emitter.on('server-error', this.handle5xxErr);
+
+    // Initiate an app session
+    await this.authStore.initiateAppSession();
   },
 
   beforeUnmount() {
@@ -97,18 +99,7 @@ export default{
       } else {
         this.unsetLoading();
       }
-    },
-
-    // Handle 5xx errors (Errors related with the backend)
-    handle5xxErr() {
-      this.unsetLoading();
-      /*
-        Uncomment the following lines if client:
-        want to block user navigation at any time if server not responded
-      */
-      // this.$router.replace('/err-5xx');
-      // this.$store.commit('backendStore/setBackendAvailable', false);
-    },
+    }
   }
 };
 </script>
