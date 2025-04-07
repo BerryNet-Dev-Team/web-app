@@ -1,7 +1,14 @@
 <template>
   <nav class="bg-berry-primary text-white flex items-center justify-between px-8 py-5">
     <div>
-      Logo
+      <v-img
+        src="@/assets/BerryNet_LogoHorizontal.png"
+        width="150"
+        class="hover:cursor-pointer"
+        @click="$router.push({path: '/'})"
+        cover
+      >
+      </v-img>
     </div>
     <div class="flex items-center justify-between">
       <v-btn
