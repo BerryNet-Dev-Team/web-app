@@ -13,6 +13,13 @@ from ..database.dbConnection import db
 from ..models.inference import Inference
 from ..security.decorators_utils import auth_required
 from ..cloudServices.minioConnections import getMinioClient
+from ..cloudServices.nnApiConnections import NnAPIClient
+
+# Instantiate a NnAPIClient
+nnClient = NnAPIClient(
+    base_url=os.getenv('NN_API_HOST'),
+    secret_key=os.getenv('NN_API_SECRET_KEY'),
+)
 
 # Define router prefix
 inferences = Blueprint('inferences', __name__, url_prefix='/inferences')
@@ -52,7 +59,7 @@ def getBaseImgPresignedUrls():
 
 @inferences.route('/generateInference', methods=['POST'])
 @auth_required()
-def addInference():
+def generateInference():
     try:
         req = request.json
     except:
@@ -70,12 +77,8 @@ def addInference():
 
     # Make API call to ANN-API to make the inference
     try:
-        response = requests.post(os.getenv('NN_API_URL'), json={'imgObjectKey': imgObjectKey})
-        
-        response.raise_for_status() # Raise error if ocurred
-
-        # If response ok, parse response to json
-        json_response = response.json()
+        payload = {'imgObjectKey': imgObjectKey}
+        json_response = nnClient.generateInference(payload)
         generatedImageUrl = json_response['generatedImgUrl']
     except Exception as exc:
         logger.exception(f'Error generating inference for {imgObjectKey}')
