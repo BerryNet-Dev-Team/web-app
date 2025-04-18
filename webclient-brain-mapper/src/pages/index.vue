@@ -45,8 +45,8 @@
               </a>
             </li>
             <li>
-              <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-berry-highlight lg:p-0 ">
-                Features
+              <a href="#infrastructure" class="block py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-berry-highlight lg:p-0 ">
+                {{ $t('index.infrastructure') }}
               </a>
             </li>
             <li>

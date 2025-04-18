@@ -188,26 +188,27 @@
 		<!-- End block -->
 
 		<!-- Start block -->
-		<section class="bg-white">
-			<div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-24 lg:px-6">
-				<div class="max-w-screen-md mb-8 text-left lg:mb-12">
+		<!-- Infrastructure -->
+		<section id="infrastructure" class="bg-white">
+			<div class="max-w-screen-xl px-4 sm:py-8 mx-auto lg:py-16 lg:px-6">
+				<div class="max-w-screen-lg mb-8 mx-auto text-center lg:mb-12">
 					<h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900">
-            Designed for business teams like yours
+            {{ $t('index.infrastructure') }}
           </h2>
 					<p class="mb-5 font-light text-gray-500 sm:text-xl">
-            Here at Landwind we focus on markets where technology, innovation, and capital can unlock long-term value and drive economic growth.
+            {{ $t('index.infraDet') }}
           </p>
 				</div>
-				<div class="space-y-8 lg:grid lg:grid-cols-2 sm:gap-6 xl:gap-10 lg:space-y-0">
-					<!-- Pricing Card -->
-					<div class="flex flex-col max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-100 rounded-lg shadow xl:p-8">
-						<h3 class="mb-4 text-2xl font-semibold">Starter</h3>
-						<img src="../../assets/hero_berrynet.png" alt="infrastructureBase">
+				<div class="space-y-8 flex flex-col">
+					<!-- Infra Card -->
+					<div class="flex flex-col max-w-6xl p-6 mx-auto text-center text-gray-900 bg-white border border-gray-100 rounded-lg shadow xl:p-8">
+						<h3 class="mb-4 text-2xl font-semibold">{{ $t('index.infraModular') }}</h3>
+						<img src="../../assets/infra-modular.png" alt="infrastructureBase">
           </div>
-          <!-- Pricing Card -->
-					<div class="flex flex-col max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-100 rounded-lg shadow xl:p-8">
-						<h3 class="mb-4 text-2xl font-semibold">Rural</h3>
-						<img src="../../assets/hero_berrynet.png" alt="infrastructureBase">
+          <!-- Infra Card -->
+					<div class="flex flex-col max-w-6xl p-6 mx-auto text-center text-gray-900 bg-white border border-gray-100 rounded-lg shadow xl:p-8">
+						<h3 class="mb-4 text-2xl font-semibold">{{ $t('index.infraMonolit') }}</h3>
+						<img src="../../assets/infra-monolit.png" alt="infrastructureBase">
           </div>
 				</div>
 			</div>
