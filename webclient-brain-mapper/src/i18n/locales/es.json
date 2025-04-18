@@ -1,5 +1,15 @@
 {
   "hi": "Hola",
+  "index":{
+    "login": "Iniciar sesión",
+    "loginDesc": "Inicia sesión para acceder a tu cuenta y generar mapeos de tus cultivos.",
+    "registerDesc": "Crea una cuenta nueva para empezar a generar mapeos de tus cultivos.",
+    "register": "Registrarse",
+    "dataset": "Alimenta el dataset",
+    "datasetDesc": "Usa tus imagenes y entrena a la red neuronal para que detecte patrones segun tus necesidades de cosecha.",
+    "predict": "Generar mapeo",
+    "predictDesc": "Sube tu imagen y descubre si tus cultivos están listos para cosechar."
+  },
   "appNavbar": {
     "title": "BerryNet",
     "signUp": "Registrarse",
