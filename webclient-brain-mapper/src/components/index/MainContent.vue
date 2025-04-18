@@ -143,7 +143,7 @@
 		<!-- Start block -->
 		<!-- Technologies -->
 		<section id="technologies" class="bg-white">
-			<div class="max-w-screen-xl px-4 sm:py-8 mx-auto lg:py-16">
+			<div class="max-w-screen-xl px-4 py-16 mx-auto">
 				<!-- Subtitle -->
 				<h2 class="mb-6 text-3xl font-extrabold tracking-tight text-gray-900">
 					{{ $t('index.technologies') }}
@@ -190,7 +190,7 @@
 		<!-- Start block -->
 		<!-- Infrastructure -->
 		<section id="infrastructure" class="bg-white">
-			<div class="max-w-screen-xl px-4 sm:py-8 mx-auto lg:py-16 lg:px-6">
+			<div class="max-w-screen-xl px-4 py-16 mx-auto lg:px-6">
 				<div class="max-w-screen-lg mb-8 mx-auto text-center lg:mb-12">
 					<h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900">
             {{ $t('index.infrastructure') }}
@@ -218,7 +218,7 @@
     <!-- Start block -->
 		<!-- AI Model -->
 		<section id="ai-model" class="bg-white">
-			<div class="max-w-screen-xl px-4 sm:py-8 mx-auto lg:py-16 lg:px-6">
+			<div class="max-w-screen-xl px-4 py-16 mx-auto lg:px-6">
 				<div class="max-w-screen-xl mb-8 mx-auto text-left lg:mb-12">
 					<h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900">
             {{ $t('index.aiModel') }}
@@ -227,7 +227,7 @@
             {{ $t('index.aiModelDet') }}
           </p>
 				</div>
-        <img src="../../assets/ai-model.png" alt="infrastructureBase" class="max-w-5xl p-6 mx-auto">
+        <img src="../../assets/ai-model.png" alt="model" class="sm:p-6 lg:p-14 mx-auto">
 			</div>
 		</section>
 		<!-- End block -->
