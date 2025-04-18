@@ -24,7 +24,9 @@
     "infrastructure": "Infraestructura",
     "infraDet": "Para fines prácticos y cumplir con las especificaciones requeridas en este proyecto modular, se optó por separar los microservicios de BerryNet en diferentes servidores basados en los dos módulos principales del sistema, la app web y el microservicio de la red neuronal. Y para las zonas rurales en las que los servicios básicos escasean y una conexión a internet es un lujo, se optó por una segunda infraestructura con un solo servidor que aloja todos los microservicios.",
     "infraModular": "2 módulos 2 servidores",
-    "infraMonolit": "Monolito de microservicios"
+    "infraMonolit": "Monolito de microservicios",
+    "aiModel": "Modelo IA",
+    "aiModelDet": "BerryNet implementa una red neuronal convolucional (CNN) basada en la arquitectura P2PNET originalmente diseñada para tareas de crowd counting. mediante la técnica de transfer learning, se reentrenaron las últimas capas del modelo para adaptarlo a la detección y conteo de frambuesas en imágenes."
   },
   "appNavbar": {
     "title": "BerryNet",
