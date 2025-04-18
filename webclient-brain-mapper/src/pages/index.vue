@@ -26,22 +26,22 @@
           </v-btn>
         </div>
 
-        <!--  -->
-        <div class="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
+        <!-- Navbar links -->
+        <div id="mobile-menu-2" class="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1">
           <ul class="flex flex-col mt-0 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
             <li>
-              <a href="#" class="block py-2 pl-3 pr-4 rounded lg:bg-transparent lg:text-berry-highlight lg:p-0" aria-current="page">
-                Home
+              <a href="#purposes" class="block py-2 pl-3 pr-4 text-gray-700 lg:bg-transparent lg:hover:text-berry-highlight lg:p-0" aria-current="page">
+                {{ $t('index.purposes') }}
               </a>
             </li>
             <li>
-              <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-berry-highlight lg:p-0">
-                Company
+              <a href="#challenges" class="block py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-berry-highlight lg:p-0">
+                {{ $t('index.challenges') }}
               </a>
             </li>
             <li>
-              <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-berry-highlight lg:p-0 ">
-                Marketplace
+              <a href="#technologies" class="block py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-berry-highlight lg:p-0 ">
+                {{ $t('index.technologies') }}
               </a>
             </li>
             <li>
@@ -166,6 +166,7 @@
 import MainContent from '@/components/index/MainContent.vue';
 
 export default {
+  name: "IndexPage",
   components: {
     MainContent,
   }

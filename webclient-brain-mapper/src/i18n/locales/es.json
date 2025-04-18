@@ -1,11 +1,32 @@
 {
   "hi": "Hola",
+  "appName": "BerryNet",
+  "index": {
+    "titlePt1": "Cosecha inteligente",
+    "titlePt2": "a tu alcance.",
+    "description": "BerryNet es un sistema para la detección  del punto óptimo de cosecha de un cultivo. Es un sistema accesible y poco invasivo en el que se puede personalizar el tipo de cultivo y su punto optimo de cosecha. Esto lo hace ideal para pequeños y medianos agricultores que buscan automatizar las decisiones y monitoreo de su cosecha antes de la cosecha.",
+    "purposes": "Propósitos",
+    "purposesDet": "Para la correcta planeación y desarrollo de este proyecto el equipo de BerryNet ha establecido sus propósitos de una manera delimitada y realista, siendo los principales:",
+    "purpose1": "Solución accesible.",
+    "purpose2": "Evitar el desperdicio de alimentos.",
+    "purpose3": "Solución 'Lista para usar'.",
+    "purpose4": "Adaptación a diferentes cultivos",
+    "purposesConclusion": "Con estos propósitos en mente fue posible desarrollar una solución accesible en la que los usuarios adoptan el sistema de forma sencilla. Y que además les permita personalizar el punto optimo y adaptarlo a diferentes cosechas.",
+    "challenges": "Desafíos críticos",
+    "challengesDet": "Los principales desafíos enfrentados en la planeación y el desarrollo de BerryNet fueron: ",
+    "challenge1": "Adopción no invasiva del sistema.",
+    "challenge2": "Disponibilidad en zona rural.",
+    "challenge3": "Re-entrenamiento de la red neuronal.",
+    "challenge4": "Versatilidad en la detección.",
+    "challengesConclusion": "Estos desafíos fueron resueltos dividiendo las responsabilidades en microservicios, implementando conocimiento y técnicas de UI/UX, implementando un servicio de creación de datasets, y planeación detallada de la infraestructura.",
+    "technologies": "Tecnologías",
+    "technologiesDet": "Las tecnologías usadas para el desarrollo de BerryNet son:"
+  },
   "appNavbar": {
     "title": "BerryNet",
     "signUp": "Registrarse",
     "signIn": "Iniciar sesión"
   },
-  "appName": "BerryNet",
   "navFoot": {
     "generate": "Generar mapeo"
   },
