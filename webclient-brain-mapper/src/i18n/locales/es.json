@@ -26,7 +26,21 @@
     "infraModular": "2 módulos 2 servidores",
     "infraMonolit": "Monolito de microservicios",
     "aiModel": "Modelo IA",
-    "aiModelDet": "BerryNet implementa una red neuronal convolucional (CNN) basada en la arquitectura P2PNET originalmente diseñada para tareas de crowd counting. mediante la técnica de transfer learning, se reentrenaron las últimas capas del modelo para adaptarlo a la detección y conteo de frambuesas en imágenes."
+    "aiModelDet": "BerryNet implementa una red neuronal convolucional (CNN) basada en la arquitectura P2PNET originalmente diseñada para tareas de crowd counting. mediante la técnica de transfer learning, se reentrenaron las últimas capas del modelo para adaptarlo a la detección y conteo de frambuesas en imágenes.",
+    "futureWork": "Trabajo futuro",
+    "futureWorkDet": "Como línea de trabajo futuro, se propone realizar los siguientes features:",
+    "feature1": "Fine tunning",
+    "feature1Det": "Realizar un proceso sistemático de fine-tuning del modelo.",
+    "feature2": "Corregir sesgos",
+    "feature2Det": "La generación de un conjunto de validación externa y la aplicación de técnicas de data augmentation más agresivas.",
+    "feature3": "Kubernetes",
+    "feature3Det": "Incorporación de Kubernetes como plataforma de orquestación de contenedores.",
+    "feature4": "Mapas de calor",
+    "feature4Det": "Integración de mapas de calor que indiquen los lugares del cultivo con mayor densidad de frutos.",
+    "feature5": "Inferencias ETR",
+    "feature5Det": "Incorporación de un modo de inferencia en tiempo real, optimizado para dispositivos móviles o cámaras embarcadas.",
+    "feature6": "Multi fruto",
+    "feature6Det": "Extensión del sistema para la detección y clasificación de diferentes tipos de frutos."
   },
   "appNavbar": {
     "title": "BerryNet",

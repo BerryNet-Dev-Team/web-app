@@ -231,6 +231,55 @@
 			</div>
 		</section>
 		<!-- End block -->
+
+    <!-- Start block -->
+    <!-- Future work -->
+    <section id="future-work" class="bg-white">
+      <div class="max-w-screen-xl px-4 pt-16 pb-32 mx-auto lg:flex lg:flex-col lg:px-6">
+        <div class="mb-8 text-left max-w-screen-xl">
+          <h2 class="mt-3 mb-4 text-3xl font-extrabold tracking-tight text-gray-900 md:text-3xl">
+            {{ $t('index.futureWork') }}
+          </h2>
+          <p class="font-light text-gray-500 sm:text-xl">
+            {{ $t('index.futureWorkDet') }}
+          </p>
+        </div>
+        <div class="flex flex-row justify-center pt-8">
+          <div class="max-w-screen-lg md:grid md:grid-cols-2 md:gap-12 lg:grid-cols-3">
+            <div>
+              <v-icon color="highlight" icon="mdi-chart-box-plus-outline" size="40px" class="mb-2 text-berry-highlight"></v-icon>
+              <h3 class="mb-2 text-2xl font-bold ">{{ $t('index.feature1') }}</h3>
+              <p class="font-light text-gray-500">{{ $t('index.feature1Det') }}</p>
+            </div>
+            <div>
+              <v-icon color="highlight" icon="mdi-scale-unbalanced" size="40px" class="mb-2 text-berry-highlight"></v-icon>
+              <h3 class="mb-2 text-2xl font-bold ">{{ $t('index.feature2') }}</h3>
+              <p class="font-light text-gray-500">{{ $t('index.feature2Det') }}</p>
+            </div>
+            <div>
+              <v-icon color="highlight" icon="mdi-kubernetes" size="40px" class="mb-2 text-berry-highlight"></v-icon>
+              <h3 class="mb-2 text-2xl font-bold ">{{ $t('index.feature3') }}</h3>
+              <p class="font-light text-gray-500">{{ $t('index.feature3Det') }}</p>
+            </div>
+            <div>
+              <v-icon color="highlight" icon="mdi-map" size="40px" class="mb-2 text-berry-highlight"></v-icon>
+              <h3 class="mb-2 text-2xl font-bold ">{{ $t('index.feature4') }}</h3>
+              <p class="font-light text-gray-500">{{ $t('index.feature4Det') }}</p>
+            </div>
+            <div>
+              <v-icon color="highlight" icon="mdi-cctv" size="40px" class="mb-2 text-berry-highlight"></v-icon>
+              <h3 class="mb-2 text-2xl font-bold ">{{ $t('index.feature5') }}</h3>
+              <p class="font-light text-gray-500">{{ $t('index.feature5Det') }}</p>
+            </div>
+            <div>
+              <v-icon color="highlight" icon="mdi-fruit-watermelon" size="40px" class="mb-2 text-berry-highlight"></v-icon>
+              <h3 class="mb-2 text-2xl font-bold ">{{ $t('index.feature6') }}</h3>
+              <p class="font-light text-gray-500">{{ $t('index.feature6Det') }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 	</div>
 </template>
 
