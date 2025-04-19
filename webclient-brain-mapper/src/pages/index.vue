@@ -6,7 +6,7 @@
         <!-- Logo -->
         <a href="#" class="flex items-center">
           <!-- <img src="./images/logo.svg" class="h-6 mr-3 sm:h-9" alt="Landwind Logo" /> -->
-          <span class="self-center text-xl font-semibold whitespace-nowrap">BerryNet</span>
+          <span class="self-center text-xl font-semibold whitespace-nowrap">{{ $t('appName') }}</span>
         </a>
 
         <!-- IDK -->
@@ -21,6 +21,7 @@
             variant="flat"
             color="highlight"
             class="text-none"
+            @click="gotoLogin()"
           >
             {{ $t('appNavbar.signIn') }}
           </v-btn>
@@ -169,6 +170,11 @@ export default {
   name: "IndexPage",
   components: {
     MainContent,
+  },
+  methods: {
+    gotoLogin() {
+      this.$router.push('/login');
+    }
   }
 };
 </script>
