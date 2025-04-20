@@ -70,8 +70,8 @@
 					<!-- Col 2 -->
 					<img
 						class="hidden w-full mb-4 rounded-lg lg:mb-0 lg:flex"
-						src="@/assets/grafica-ejemplo.webp"
-						alt="dashboard feature image"
+						src="@/assets/rotten-berry.jpg"
+						alt="roten_berry"
 					>
 				</div>
 			</div>
@@ -86,7 +86,7 @@
 					<!-- Col 1 -->
 					<img
 						class="hidden w-full mb-4 rounded-lg lg:mb-0 lg:flex"
-						src="@/assets/grafica-ejemplo.webp"
+						src="@/assets/invernadero-agricola.jpg"
 						alt="dashboard feature image"
 					>
 
