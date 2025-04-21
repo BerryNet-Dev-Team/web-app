@@ -58,6 +58,7 @@ import { useSceneStore } from "@/stores/scene";
 import { useToast } from "vue-toastification";
 
 export default {
+  name: 'Dataset',
   data() {
     return {
       imageInput: null,

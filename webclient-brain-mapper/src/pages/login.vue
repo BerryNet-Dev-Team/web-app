@@ -1,5 +1,4 @@
 <template>
-
   <div class="flex w-full min-h-screen">
     <div class="hidden md:flex md:flex-col md:w-1/2 justify-center items-center min-h-screen">
       <div>
@@ -29,7 +28,8 @@
           <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-start">
             <span
               v-if="wrongCredentials"
-              class="text-caption text-decoration-none text-red"
+              class="text-caption text-decoration-none"
+              style="color: rgb(var(--v-theme-error));"
             >
               {{ $t('auth.login.wrongCreds') }}
             </span>
@@ -64,8 +64,8 @@
               prepend-inner-icon="mdi-lock-outline"
               :append-inner-icon="passwdVisible ? 'mdi-eye-off' : 'mdi-eye'"
               :type="passwdVisible ? 'text' : 'password'"
-              @click:append-inner="passwdVisible = !passwdVisible"
               required
+              @click:append-inner="passwdVisible = !passwdVisible"
             ></v-text-field>
 
             <div class="d-flex flex-column">
@@ -98,8 +98,10 @@
 <script>
 import { mapState } from 'pinia';
 import { useAuthStore } from "@/stores/auth";
+import { useToast } from "vue-toastification";
 
 export default {
+  name: 'UserLogin',
   data: () => ({
     email: '',
     password: '',
@@ -107,8 +109,16 @@ export default {
 
     wrongCredentials: false,
 
+    toast: useToast(),
+
     authStore: useAuthStore(),
   }),
+
+  computed: {
+    ...mapState(useAuthStore, {
+      isAdmin: (store) => store.isAdmin,
+    })
+  },
 
   created() {
     this.emailRules = [
@@ -118,12 +128,6 @@ export default {
     this.passwordRules = [
       v => !!v || this.$t('auth.login.emptyPasswdFeedB')
     ];
-  },
-
-  computed: {
-    ...mapState(useAuthStore, {
-      isAdmin: (store) => store.isAdmin,
-    })
   },
 
   methods: {
@@ -157,6 +161,7 @@ export default {
         });
       }
       catch (error) {
+        this.toast.error(this.$t('auth.login.unexpectedErr'));
         return;
       }
 
