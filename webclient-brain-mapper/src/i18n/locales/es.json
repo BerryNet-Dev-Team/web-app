@@ -13,7 +13,9 @@
   "appNavbar": {
     "title": "BerryNet",
     "signUp": "Registrarse",
-    "signIn": "Iniciar sesión"
+    "signIn": "Iniciar sesión",
+    "train": "Entrenar",
+    "generate": "Mapear"
   },
   "appName": "BerryNet",
   "navFoot": {

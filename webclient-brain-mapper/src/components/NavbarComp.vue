@@ -16,17 +16,21 @@
       <v-btn 
         value="recent"
         class="text-berry-whiteaux" size="small"
-        rounded stacked variant="text">
+        rounded stacked variant="text"
+        @click="$router.push({ path: '/img-predict' })"
+      >
         <v-icon>mdi-pin</v-icon>
-        <span>Mapear</span>
+        <span>{{ $t('appNavbar.generate') }}</span>
       </v-btn>
 
       <v-btn 
         value="recent"
         class="text-berry-whiteaux" size="small"
-        rounded stacked variant="text">
+        rounded stacked variant="text"
+        @click="$router.push({ path: '/dataset' })"
+      >
         <v-icon>mdi-brain</v-icon>
-        <span>Entrenar</span>
+        <span>{{ $t('appNavbar.train') }}</span>
       </v-btn>
 
     </div>
