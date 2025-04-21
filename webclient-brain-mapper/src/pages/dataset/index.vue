@@ -2,7 +2,7 @@
   <div class="flex flex-col bg-berry-secondary min-h-full">
     <v-card
       color="highlight"
-      class="font-bold text-4xl text-center py-4"
+      class="font-bold text-4xl text-center py-4 mt-28"
       variant="elevated"
     >
       {{ $t('dataset.title') }}
