@@ -80,23 +80,14 @@ export default{
     },
 
     async handleSessionExp() {
-      const actualPath = this.$route.path;
-      // Only if you are not in login, redirect you to login
-      if(actualPath !== '/login') {
-        // Delete all from local storage and deactivate animation
-        await this.authStore.logout();
-        this.unsetLoading();
+      // Stops the loading screen
+      this.unsetLoading();
 
-        // Show a modal notification that session has expired
-        this.showSessionExpiredMod = true;
+      // Delete all from local storage and deactivate animation
+      await this.authStore.logout();
 
-        /*Redirect you to login*/
-        this.$router.push({
-          path: '/login'
-        });
-      } else {
-        this.unsetLoading();
-      }
+      // Show a modal notification that session has expired
+      this.showSessionExpiredMod = true;
     },
 
     // Handle 5xx errors (Errors related with the backend)
