@@ -89,7 +89,7 @@
     "addSceneErr": "Error al guardar la escena",
     "addSceneOk": "Escena guardada exitosamente"
   },
-  "imgPredict": {
+  "inferences": {
     "title": "Genera un mapeo",
     "instructions": "Selecciona una imagen y una vez cargada genera el mapeo",
     "selectImg": "Selecciona una imagen",
@@ -97,8 +97,8 @@
     "mapResult": "Resultados del mapeo",
     "presignedErr": "Error al obtener las urls de subida",
     "imgUploadErr": "Error al subir la imagen",
-    "generateErr": "Error al generar el mapeo",
-    "generateOk": "Mapeo generado exitosamente",
+    "generateInferErr": "Error al generar el mapeo",
+    "generateInferOk": "Mapeo generado exitosamente",
     "baseImg": "Imagen base",
     "generatedImg": "Imagen generada",
     "closeResults": "Cerrar resultados"

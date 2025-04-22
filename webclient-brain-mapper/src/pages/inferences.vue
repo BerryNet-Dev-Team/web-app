@@ -5,7 +5,7 @@
       class="font-bold text-4xl text-center py-4"
       variant="elevated"
     >
-      {{ $t('imgPredict.title') }}
+      {{ $t('inferences.title') }}
     </v-card>
     <div class="flex-1 flex justify-center items-center">
       <!-- Show input just when there is no results to show -->
@@ -15,12 +15,12 @@
       >
         <div>
           <p class="mb-8 text-center text-xl font-semibold">
-            {{ $t('imgPredict.instructions') }}
+            {{ $t('inferences.instructions') }}
           </p>
           <v-file-input
             ref="imgInput"
             v-model="imageInput"
-            :label="$t('imgPredict.selectImg')"
+            :label="$t('inferences.selectImg')"
             variant="solo-filled"
             prepend-icon="mdi-image"
             chips accept="image/*"
@@ -37,7 +37,7 @@
               append-icon="mdi-upload"
               @click="generateInference"
             >
-              {{ $t('imgPredict.mapImage') }}
+              {{ $t('inferences.mapImage') }}
             </v-btn>
           </div>
         </div>
@@ -51,7 +51,7 @@
         <!-- Mini sub title -->
         <div class="grid grid-cols-8 gap-2 mt-12 mb-8">
           <h3 class="col-span-6 col-start-2 text-center text-2xl font-semibold">
-            {{ $t('imgPredict.mapResult') }}
+            {{ $t('inferences.mapResult') }}
           </h3>
           <v-btn
             color="highlight"
@@ -59,7 +59,7 @@
             prepend-icon="mdi-close-circle"
             @click="clearAll()"
           >
-            {{ $t('imgPredict.closeResults') }}
+            {{ $t('inferences.closeResults') }}
           </v-btn>
         </div>
 
@@ -69,7 +69,7 @@
           <v-col cols="12" lg="6">
             <div class="bg-gray-50 border border-gray-100 rounded-lg shadow-xl p-4">
               <h3 class="mb-4 text-xl font-semibold">
-                {{ $t('imgPredict.generatedImg') }}
+                {{ $t('inferences.generatedImg') }}
               </h3>
               <img
                 :src="generatedImageUrl"
@@ -84,7 +84,7 @@
           <v-col cols="12" lg="6">
             <div class="bg-gray-50 border border-gray-100 rounded-lg shadow-xl p-4">
               <h3 class="mb-4 text-xl font-semibold">
-                {{ $t('imgPredict.baseImg') }}
+                {{ $t('inferences.baseImg') }}
               </h3>
               <img
                 :src="baseImageUrls.liveURL"
@@ -106,7 +106,7 @@ import { useInferenceStore } from "@/stores/inference";
 import { useToast } from "vue-toastification";
 
 export default {
-  name: 'ImgPredict',
+  name: 'InferencesPage',
   data() {
     return {
       imageInput: null,
@@ -185,7 +185,7 @@ export default {
         Object.assign(this.baseImageUrls, res.data);
       }
       catch (err) {
-        this.toast.error(this.$t('imgPredict.presignedErr'));
+        this.toast.error(this.$t('inferences.presignedErr'));
         throw err;
       }
 
@@ -204,7 +204,7 @@ export default {
         );
       }
       catch (error) {
-        this.toast.error(this.$t('imgPredict.imgUploadErr'));
+        this.toast.error(this.$t('inferences.imgUploadErr'));
         throw error
       }
 
@@ -239,7 +239,7 @@ export default {
         this.generatedImageUrl = await this.inferenceStore.generateInference(inferencePayload);
       } catch (error) {
         console.log(error);
-        this.toast.error(this.$t('imgPredict.generateErr'));
+        this.toast.error(this.$t('inferences.generateInferErr'));
         return;
       }
 
@@ -247,7 +247,7 @@ export default {
       this.showInferenceResults = true;
 
       // Show success notification
-      this.toast.success(this.$t('imgPredict.generateOk'));
+      this.toast.success(this.$t('inferences.generateInferOk'));
     }
   }
 }
