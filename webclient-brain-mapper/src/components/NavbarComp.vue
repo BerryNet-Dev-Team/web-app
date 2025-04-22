@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex justify-center w-full fixed top-4 z-50">
+  <nav class="flex justify-center w-full fixed top-6 z-50">
     <div class="bg-berry-primary rounded-xl w-auto p-0.5 flex justify-center items-center shadow-lg">
 
       <div class="p-2 transition-all duration-200 hover:brightness-110">

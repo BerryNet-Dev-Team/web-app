@@ -45,30 +45,50 @@
 
       <!-- Container to show the results -->
       <v-container
-        class="w-full md:w-80"
+        class="w-full"
         v-else
       >
         <!-- Mini sub title -->
-        <p class="mb-8 text-center">
+        <p class="mb-8 text-center font-bold text-2xl">
           {{ $t('imgPredict.mapResult') }}
         </p>
 
-        <!-- Inference results -->
-        <v-row>
-          <!-- Base img -->
-          <v-col cols="12" lg="6">
-            <div>
-              <img :src="baseImageUrls.liveURL" alt="Broken" style="max-width:100%; height:auto;">
-            </div>
-          </v-col>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- *Original image -->
+          <v-card
+            color="white" rounded="lg" variant="elevated" 
+          >
+            <v-card-item>
+              <!-- *The image should display an aspect ratio of 16/9 and have a limit heigth but auto width to display them correctly in the cards -->
+              <v-img
+                variant="elevated" alt="Broken"
+                aspect-ratio="16/9" height="500" max-height="500" class="bg-berry-primary"
+                :src="baseImageUrls.liveURL"
+              ></v-img>
 
-          <!-- Prediction -->
-          <v-col cols="12" lg="6">
-            <div>
-              <img :src="generatedImageUrl" alt="Broken" style="max-width:100%; height:auto;">
-            </div>
-          </v-col>
-        </v-row>
+              <v-card-text class="font-semibold text-xl">{{ $t('imgPredict.originalImg') }}</v-card-text>
+
+            </v-card-item>
+          </v-card>
+
+          <!-- *Inferences results -->
+          <v-card
+            color="white" rounded="lg" variant="elevated" 
+          >
+            <v-card-item>
+              <v-img
+                alt="Broken"
+                aspect-ratio="16/9" height="500" max-height="500" class="bg-berry-primary"
+                :src="baseImageUrls.liveURL"
+              ></v-img>
+
+              <v-card-text class="font-semibold text-xl">{{ $t('imgPredict.predictedImg') }}</v-card-text>
+
+            </v-card-item>
+          </v-card>
+
+        </div>
+
       </v-container>
     </div>
   </div>
