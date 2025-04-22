@@ -10,8 +10,8 @@
     <div class="flex-1 flex justify-center items-center">
       <!-- Show input just when there is no results to show -->
       <v-container
-        class="w-full md:w-60"
         v-if="!showInferenceResults"
+        class="w-full md:w-60"
       >
         <div>
           <p class="mb-8 text-center text-xl font-semibold">
@@ -35,7 +35,7 @@
               color="highlight"
               class="mt-10 text-none"
               append-icon="mdi-upload"
-              @click="generateAndUploadInference"
+              @click="generateInference"
             >
               {{ $t('imgPredict.mapImage') }}
             </v-btn>
@@ -45,27 +45,53 @@
 
       <!-- Container to show the results -->
       <v-container
-        class="w-full md:w-80"
         v-else
+        class="w-full md:w-80"
       >
         <!-- Mini sub title -->
-        <p class="mb-8 text-center">
-          {{ $t('imgPredict.mapResult') }}
-        </p>
+        <div class="grid grid-cols-8 gap-2 mt-12 mb-8">
+          <h3 class="col-span-6 col-start-2 text-center text-2xl font-semibold">
+            {{ $t('imgPredict.mapResult') }}
+          </h3>
+          <v-btn
+            color="highlight"
+            class="text-none"
+            prepend-icon="mdi-close-circle"
+            @click="clearAll()"
+          >
+            {{ $t('imgPredict.closeResults') }}
+          </v-btn>
+        </div>
 
         <!-- Inference results -->
-        <v-row>
+        <v-row class="mb-16">
           <!-- Base img -->
           <v-col cols="12" lg="6">
-            <div>
-              <img :src="baseImageUrls.liveURL" alt="Broken" style="max-width:100%; height:auto;">
+            <div class="bg-gray-50 border border-gray-100 rounded-lg shadow-xl p-4">
+              <h3 class="mb-4 text-xl font-semibold">
+                {{ $t('imgPredict.generatedImg') }}
+              </h3>
+              <img
+                :src="generatedImageUrl"
+                alt="Broken"
+                style="max-width:100%; height:auto;"
+                class="rounded-lg"
+              >
             </div>
           </v-col>
 
           <!-- Prediction -->
           <v-col cols="12" lg="6">
-            <div>
-              <img :src="generatedImageUrl" alt="Broken" style="max-width:100%; height:auto;">
+            <div class="bg-gray-50 border border-gray-100 rounded-lg shadow-xl p-4">
+              <h3 class="mb-4 text-xl font-semibold">
+                {{ $t('imgPredict.baseImg') }}
+              </h3>
+              <img
+                :src="baseImageUrls.liveURL"
+                alt="Broken"
+                style="max-width:100%; height:auto;"
+                class="rounded-lg"
+              >
             </div>
           </v-col>
         </v-row>
@@ -135,6 +161,19 @@ export default {
       this.isImgCharged = false;
       this.imageInput = null;
     },
+    
+    clearAll() {
+      this.isImgCharged = false;
+      this.imageInput = null;
+      this.baseImageUploaded = false;
+      this.baseImageUrls= {
+        uploadURL: '',
+        liveURL: '',
+        imgObjectKey: ''
+      };
+      this.generatedImageUrl= '';
+      this.showInferenceResults= false;
+    },
 
     async uploadBaseImgToS3() {
       // Get the upload and live URLs
@@ -147,8 +186,7 @@ export default {
       }
       catch (err) {
         this.toast.error(this.$t('imgPredict.presignedErr'));
-        console.error('Pre-sign error', err);
-        return false;
+        throw err;
       }
 
       // Upload image to server
@@ -167,26 +205,26 @@ export default {
       }
       catch (error) {
         this.toast.error(this.$t('imgPredict.imgUploadErr'));
-        console.log(error);
-        return false;
+        throw error
       }
 
-      // If everything ok return acknowledge
-      return true
+      // If everything ok acknowledge base img was uploaded
+      this.baseImageUploaded = true;
     },
 
-    async generateAndUploadInference() {
+    async generateInference() {
       // If no img charged in input ends function
       if(!this.isImgCharged) return;
 
       // If base image wasn't uploaded, upload base image to s3
       if(!this.baseImageUploaded) {
         // Upload img and set it as uploaded
-        const wasUploaded = await this.uploadBaseImgToS3();
-
-        // Mark it as uploaded
-        if(wasUploaded) this.baseImageUploaded = true;
-        else return; // otherwise end function
+        try {
+          await this.uploadBaseImgToS3();
+        } catch (error) {
+          console.log(error);
+          return;
+        }
       }
 
       // If everything was ok, prepare api call to generate an inference

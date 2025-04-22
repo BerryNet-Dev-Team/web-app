@@ -98,7 +98,10 @@
     "presignedErr": "Error al obtener las urls de subida",
     "imgUploadErr": "Error al subir la imagen",
     "generateErr": "Error al generar el mapeo",
-    "generateOk": "Mapeo generado exitosamente"
+    "generateOk": "Mapeo generado exitosamente",
+    "baseImg": "Imagen base",
+    "generatedImg": "Imagen generada",
+    "closeResults": "Cerrar resultados"
   },
   "sessionExpired": {
     "title": "Sesión expirada.",
