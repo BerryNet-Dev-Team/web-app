@@ -58,9 +58,7 @@ export default{
     this.$emitter.on('request-error', this.unsetLoading);
     this.$emitter.on('after-response', this.unsetLoading);
     this.$emitter.on('response-error', this.unsetLoading);
-
-    // Initiate an app session
-    await this.authStore.initiateAppSession();
+    this.$emitter.on('server-error', this.handle5xxErr);
   },
 
   beforeUnmount() {
@@ -82,24 +80,26 @@ export default{
     },
 
     async handleSessionExp() {
-      const actualPath = this.$route.path;
-      // Only if you are not in login, redirect you to login
-      if(actualPath !== '/login') {
-        // Delete all from local storage and deactivate animation
-        await this.authStore.logout();
-        this.unsetLoading();
+      // Stops the loading screen
+      this.unsetLoading();
 
-        // Show a modal notification that session has expired
-        this.showSessionExpiredMod = true;
+      // Delete all from local storage and deactivate animation
+      await this.authStore.logout();
 
-        /*Redirect you to login*/
-        this.$router.push({
-          path: '/login'
-        });
-      } else {
-        this.unsetLoading();
-      }
-    }
+      // Show a modal notification that session has expired
+      this.showSessionExpiredMod = true;
+    },
+
+    // Handle 5xx errors (Errors related with the backend)
+    handle5xxErr() {
+      this.unsetLoading();
+      /*
+        Uncomment the following lines if client:
+        want to block user navigation at any time if server not responded
+      */
+      // this.$router.replace('/err-5xx');
+      // this.$store.commit('backendStore/setBackendAvailable', false);
+    },
   }
 };
 </script>

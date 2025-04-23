@@ -23,21 +23,14 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    try {
-      const originalRequest = error.config;
-
-      // At any moment if response status is 401 emits an event that logout user
-      if (error.response.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true;
-        emitter.emit('session-exp');
-      }
-      else emitter.emit('response-error');
-
-      return Promise.reject(error);
+    if(error.response) {
+      emitter.emit('response-error');
     }
-    catch (err) {
-      return Promise.reject(new Error('server_error'));
+    else { // Something happened with response that triggered an Error
+      emitter.emit("server-error");
     }
+
+    return Promise.reject(error);
   },
 );
 
