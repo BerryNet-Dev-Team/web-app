@@ -61,8 +61,11 @@
   },
   "imgPredict": {
     "title": "Genera un mapeo",
-    "instructions": "Selecciona una imagen y una vez cargada genera el mapeo",
+    "shortTitle": "Mapear",
+    "instructions": "Arrastra una imagen y una vez cargada genera el mapeo",
+    "invalidFile": "El archivo debe ser una imagen",
     "selectImg": "Selecciona una imagen",
+    "searchBtn": "Buscar",
     "mapImage": "Mapear imagen",
     "mapResult": "Resultados del mapeo",
     "presignedErr": "Error al obtener las urls de subida",
