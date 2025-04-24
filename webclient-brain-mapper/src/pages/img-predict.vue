@@ -1,46 +1,54 @@
 <template>
   <div class="flex flex-col bg-berry-secondary min-h-full">
-    <v-card
-      color="highlight"
-      class="font-bold text-4xl text-center py-4 mt-28"
-      variant="elevated"
-    >
-      {{ $t('imgPredict.title') }}
-    </v-card>
+
+    <div class="font-bold text-center mt-40">
+      <h1 class="uppercase text-berry-highlight text-6xl tracking-wide underline underline-offset-8 decoration-2 antialiased">{{ $t('imgPredict.title') }}</h1>
+      <div class="py-4 text-berry-primary before:content-['⚊'] after:content-['⚊'] text-4xl">
+        <v-icon class="text-4xl">mdi-pin</v-icon> {{ $t('imgPredict.shortTitle') }}
+      </div>
+    </div>
+
+    
     <div class="flex-1 flex justify-center items-center">
       <!-- Show input just when there is no results to show -->
       <v-container
         class="w-full md:w-60"
         v-if="!showInferenceResults"
       >
-        <div>
-          <p class="mb-8 text-center text-xl font-semibold">
-            {{ $t('imgPredict.instructions') }}
-          </p>
-          <v-file-input
-            ref="imgInput"
-            v-model="imageInput"
-            :label="$t('imgPredict.selectImg')"
-            variant="solo-filled"
-            prepend-icon="mdi-image"
-            chips accept="image/*"
-            class="mb-3"
-            :rules="imageInputRules"
-            @change="chargeImage"
-            @click:clear="clearImgAndInput"
-          ></v-file-input>
-
-          <div v-if="isImgCharged" class="text-center">
-            <v-btn
-              color="highlight"
-              class="mt-10 text-none"
-              append-icon="mdi-upload"
-              @click="generateAndUploadInference"
+        <div class="flex justify-center w-full">
+        
+          <div class="w-full md:w-3/5">
+            <v-file-upload
+              ref="imgInput"
+              v-model="imageInput"
+              accept="image/*"
+              show-size density="default" color="white"
+              :title="$t('imgPredict.instructions')"
+              :browse-text="$t('imgPredict.searchBtn')"
+              :rules="imageInputRules"
+              @change="chargeImage"
+              @update:modelValue="chargeImage"
+              @click:clear="clearImgAndInput"
             >
-              {{ $t('imgPredict.mapImage') }}
-            </v-btn>
+
+              <!-- *Add the template empty so the divider doesn't appear -->
+              <template v-slot:divider></template>
+
+            </v-file-upload>
           </div>
         </div>
+
+        <div v-if="isImgCharged" class="text-center">
+          <v-btn
+            color="highlight" size="x-large"
+            class="mt-10 text-none"
+            append-icon="mdi-upload"
+            @click="generateAndUploadInference"
+          >
+            {{ $t('imgPredict.mapImage') }}
+          </v-btn>
+        </div>
+
       </v-container>
 
       <!-- Container to show the results -->
@@ -145,7 +153,12 @@ export default {
     async chargeImage() {
       if(!this.imageInput) return; // Default return for clear events
 
-      if(!await this.$refs.imgInput.validate()) return;
+      // *Changed the default validation for a custom one since the component doesn't have a default one
+      if(!this.isValidFile(this.imageInput)) {
+        this.toast.error(this.$t('imgPredict.invalidFile'));
+        this.imageInput = null; // Reset input
+        return;
+      }
 
       this.isImgCharged = true;
     },
