@@ -17,7 +17,7 @@
         value="recent"
         class="text-berry-whiteaux" size="small"
         rounded stacked variant="text"
-        @click="$router.push({ path: '/img-predict' })"
+        @click="$router.push({ path: '/inferences' })"
       >
         <v-icon>mdi-pin</v-icon>
         <span>{{ $t('appNavbar.generate') }}</span>

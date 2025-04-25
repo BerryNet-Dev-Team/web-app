@@ -2,9 +2,9 @@
   <div class="flex flex-col bg-berry-secondary min-h-full pb-16">
 
     <div class="font-bold text-center mt-40">
-      <h1 class="uppercase text-berry-highlight text-6xl tracking-wide underline underline-offset-8 decoration-2 antialiased">{{ $t('imgPredict.title') }}</h1>
+      <h1 class="uppercase text-berry-highlight text-6xl tracking-wide underline underline-offset-8 decoration-2 antialiased">{{ $t('inferences.title') }}</h1>
       <div class="py-4 text-berry-primary before:content-['⚊'] after:content-['⚊'] text-4xl">
-        <v-icon class="text-4xl">mdi-pin</v-icon> {{ $t('imgPredict.shortTitle') }}
+        <v-icon class="text-4xl">mdi-pin</v-icon> {{ $t('inferences.shortTitle') }}
       </div>
     </div>
 
@@ -23,8 +23,8 @@
               accept="image/*"
               show-size density="default" color="white"
               class="border-gray-300"
-              :title="$t('imgPredict.instructions')"
-              :browse-text="$t('imgPredict.searchBtn')"
+              :title="$t('inferences.instructions')"
+              :browse-text="$t('inferences.searchBtn')"
               :rules="imageInputRules"
               @change="chargeImage"
               @update:modelValue="chargeImage"
@@ -43,9 +43,9 @@
             color="highlight" size="x-large"
             class="mt-10 text-none"
             append-icon="mdi-upload"
-            @click="generateAndUploadInference"
+            @click="generateInference"
           >
-            {{ $t('imgPredict.mapImage') }}
+            {{ $t('inferences.mapImage') }}
           </v-btn>
         </div>
 
@@ -58,7 +58,7 @@
       >
         <!-- Mini sub title -->
         <p class="mb-8 text-center font-bold text-2xl">
-          {{ $t('imgPredict.mapResult') }}
+          {{ $t('inferences.mapResult') }}
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -74,7 +74,7 @@
                 :src="baseImageUrls.liveURL"
               ></v-img>
 
-              <v-card-text class="font-semibold text-xl">{{ $t('imgPredict.originalImg') }}</v-card-text>
+              <v-card-text class="font-semibold text-xl">{{ $t('inferences.originalImg') }}</v-card-text>
 
             </v-card-item>
           </v-card>
@@ -90,7 +90,7 @@
                 :src="generatedImageUrl"
               ></v-img>
 
-              <v-card-text class="font-semibold text-xl">{{ $t('imgPredict.predictedImg') }}</v-card-text>
+              <v-card-text class="font-semibold text-xl">{{ $t('inferences.mappedImg') }}</v-card-text>
 
             </v-card-item>
           </v-card>
@@ -105,7 +105,7 @@
             prepend-icon="mdi-close-circle"
             @click="clearAll()"
             >
-            {{ $t('imgPredict.closeResults') }}
+            {{ $t('inferences.closeResults') }}
           </v-btn>
         </div>
       </v-container>
@@ -119,7 +119,7 @@ import { useInferenceStore } from "@/stores/inference";
 import { useToast } from "vue-toastification";
 
 export default {
-  name: 'ImgPredict',
+  name: 'InferencesPage',
   data() {
     return {
       imageInput: null,
@@ -166,7 +166,7 @@ export default {
 
       // *Changed the default validation for a custom one since the component doesn't have a default one
       if(!this.isValidFile(this.imageInput)) {
-        this.toast.error(this.$t('imgPredict.invalidFile'));
+        this.toast.error(this.$t('inferences.invalidFile'));
         this.imageInput = null; // Reset input
         return;
       }
@@ -203,7 +203,7 @@ export default {
         Object.assign(this.baseImageUrls, res.data);
       }
       catch (err) {
-        this.toast.error(this.$t('imgPredict.presignedErr'));
+        this.toast.error(this.$t('inferences.presignedErr'));
         console.error('Pre-sign error', err);
         return false;
       }
@@ -223,7 +223,7 @@ export default {
         );
       }
       catch (error) {
-        this.toast.error(this.$t('imgPredict.imgUploadErr'));
+        this.toast.error(this.$t('inferences.imgUploadErr'));
         console.log(error);
         return false;
       }
@@ -232,7 +232,7 @@ export default {
       return true
     },
 
-    async generateAndUploadInference() {
+    async generateInference() {
       // If no img charged in input ends function
       if(!this.isImgCharged) return;
 
@@ -258,7 +258,7 @@ export default {
         this.generatedImageUrl = await this.inferenceStore.generateInference(inferencePayload);
       } catch (error) {
         console.log(error);
-        this.toast.error(this.$t('imgPredict.generateErr'));
+        this.toast.error(this.$t('inferences.mapErr'));
         return;
       }
 
@@ -266,7 +266,7 @@ export default {
       this.showInferenceResults = true;
 
       // Show success notification
-      this.toast.success(this.$t('imgPredict.generateOk'));
+      this.toast.success(this.$t('inferences.mapOk'));
     }
   }
 }
