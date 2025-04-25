@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col bg-berry-secondary min-h-full">
+  <div class="flex flex-col bg-berry-secondary min-h-full pb-16">
 
     <div class="font-bold text-center mt-40">
       <h1 class="uppercase text-berry-highlight text-6xl tracking-wide underline underline-offset-8 decoration-2 antialiased">{{ $t('imgPredict.title') }}</h1>
@@ -12,17 +12,17 @@
     <div class="flex-1 flex justify-center items-center">
       <!-- Show input just when there is no results to show -->
       <v-container
-        class="w-full md:w-60"
         v-if="!showInferenceResults"
+        class="w-full md:w-60"
       >
         <div class="flex justify-center w-full">
-        
-          <div class="w-full md:w-3/5">
+          <div class="w-full md:w-3/5 bg-white rounded-lg shadow-md p-4">
             <v-file-upload
               ref="imgInput"
               v-model="imageInput"
               accept="image/*"
               show-size density="default" color="white"
+              class="border-gray-300"
               :title="$t('imgPredict.instructions')"
               :browse-text="$t('imgPredict.searchBtn')"
               :rules="imageInputRules"
@@ -53,8 +53,8 @@
 
       <!-- Container to show the results -->
       <v-container
-        class="w-full"
         v-else
+        class="w-full"
       >
         <!-- Mini sub title -->
         <p class="mb-8 text-center font-bold text-2xl">
@@ -87,7 +87,7 @@
               <v-img
                 alt="Broken"
                 aspect-ratio="16/9" height="500" max-height="500" class="bg-berry-primary"
-                :src="baseImageUrls.liveURL"
+                :src="generatedImageUrl"
               ></v-img>
 
               <v-card-text class="font-semibold text-xl">{{ $t('imgPredict.predictedImg') }}</v-card-text>
@@ -97,6 +97,17 @@
 
         </div>
 
+        <!-- Button to close results -->
+        <div class="flex justify-center items-center mt-8">
+          <v-btn
+            color="highlight"
+            class="text-none"
+            prepend-icon="mdi-close-circle"
+            @click="clearAll()"
+            >
+            {{ $t('imgPredict.closeResults') }}
+          </v-btn>
+        </div>
       </v-container>
     </div>
   </div>
@@ -167,6 +178,19 @@ export default {
     clearImgAndInput() {
       this.isImgCharged = false;
       this.imageInput = null;
+    },
+
+    clearAll() {
+      this.isImgCharged = false;
+      this.imageInput = null;
+      this.baseImageUploaded = false;
+      this.baseImageUrls= {
+        uploadURL: '',
+        liveURL: '',
+        imgObjectKey: ''
+      };
+      this.generatedImageUrl= '';
+      this.showInferenceResults= false;
     },
 
     async uploadBaseImgToS3() {

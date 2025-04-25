@@ -105,7 +105,8 @@
     "generateErr": "Error al generar el mapeo",
     "generateOk": "Mapeo generado exitosamente",
     "originalImg": "Imagen original",
-    "predictedImg": "Imagen mapeada"
+    "predictedImg": "Imagen mapeada",
+    "closeResults": "Cerrar resultados"
   },
   "sessionExpired": {
     "title": "Sesión expirada.",
