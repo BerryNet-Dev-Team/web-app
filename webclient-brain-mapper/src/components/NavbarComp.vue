@@ -34,6 +34,15 @@
         <span>{{ $t('appNavbar.train') }}</span>
       </v-btn>
 
+      <v-btn
+        value="recent"
+        class="text-berry-whiteaux" size="small"
+        rounded stacked variant="text"
+        @click="logout()"
+      >
+        <v-icon>mdi-logout</v-icon>
+        <span>{{ $t('appNavbar.logout') }}</span>
+      </v-btn>
     </div>
   </nav>
 </template>
@@ -45,10 +54,29 @@ import { useAuthStore } from "@/stores/auth";
 export default {
   name: 'NavbarComp',
 
+  data: () => ({
+    authStore: useAuthStore(),
+  }),
+
   computed: {
     ...mapState(useAuthStore, {
       isAdmin: (store) => store.isAdmin,
     })
+  },
+
+  methods: {
+    async logout() {
+      let response;
+      try {
+        response = await this.authStore.logout();
+      }
+      catch (error) {
+        this.toast.error(this.$t('navbarComp.logoutErr'));
+        return;
+      }
+
+      this.$router.push('/');
+    }
   }
 };
 </script>

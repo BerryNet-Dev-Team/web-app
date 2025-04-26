@@ -47,7 +47,9 @@
     "signUp": "Registrarse",
     "signIn": "Iniciar sesión",
     "train": "Entrenar",
-    "generate": "Mapear"
+    "generate": "Mapear",
+    "logout": "Salir",
+    "logoutErr": "Ocurrió un error al cerrar sesión."
   },
   "navFoot": {
     "generate": "Generar mapeo"
