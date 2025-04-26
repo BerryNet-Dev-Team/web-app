@@ -23,7 +23,8 @@
         <span>{{ $t('appNavbar.generate') }}</span>
       </v-btn>
 
-      <v-btn 
+      <v-btn
+        v-if="isAdmin"
         value="recent"
         class="text-berry-whiteaux" size="small"
         rounded stacked variant="text"
@@ -38,13 +39,16 @@
 </template>
 
 <script>
-  export default {
-    name: 'NavbarComp',
+import { mapState } from 'pinia';
+import { useAuthStore } from "@/stores/auth";
 
-    methods: {
-      gotoImgPredict() {
-        this.$router.push('/img-predict');
-      }
-    }
+export default {
+  name: 'NavbarComp',
+
+  computed: {
+    ...mapState(useAuthStore, {
+      isAdmin: (store) => store.isAdmin,
+    })
   }
+};
 </script>

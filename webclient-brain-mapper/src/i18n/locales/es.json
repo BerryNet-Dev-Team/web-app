@@ -80,6 +80,12 @@
       "registerMessage": "Sube tu imágen y descubre cuando tus cultivos esten listos!"
     }
   },
+  "dashboard": {
+    "dataset": "Alimenta el dataset",
+    "datasetDesc": "Usa tus imágenes y entrena a la red neuronal para que detecte patrones segun tus necesidades de cosecha.",
+    "predict": "Generar mapeo",
+    "predictDesc": "Sube tu imagen y descubre si tus cultivos están listos para cosechar."
+  },
   "dataset": {
     "title": "Alimenta el Dataset",
     "shortTitle": "Entrenar",
