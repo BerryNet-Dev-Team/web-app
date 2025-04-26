@@ -82,8 +82,11 @@
   },
   "dataset": {
     "title": "Alimenta el Dataset",
+    "shortTitle": "Entrenar",
     "instructions": "Selecciona una imagen y una vez cargada usa el clic del ratón del pc para marcar las frambuesas.",
     "selectImg": "Selecciona una imagen",
+    "invalidFile": "El archivo debe ser una imagen",
+    "clearImg": "Quitar imagen",
     "upload": "Subir muestra",
     "presignedErr": "Error al obtener las urls de subida",
     "mapUploadErr": "Error al subir el mapa de coordenadas",
