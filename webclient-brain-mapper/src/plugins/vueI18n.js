@@ -4,8 +4,8 @@ import es from '../i18n/locales/es.json';
 
 // get the translations from single files
 const messages = {
-  es,
-  en
+  es: es,
+  en: es
 };
 
 export default createI18n({

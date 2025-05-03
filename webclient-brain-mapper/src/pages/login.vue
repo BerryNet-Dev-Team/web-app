@@ -141,17 +141,6 @@ export default {
       if (!valid) alert("Invalid form");
     },
 
-    // Redirect user to its main page depending on which role has
-    redirectToMainPg() {
-      if(this.isAdmin) {
-        this.$router.push('/dataset');
-        return;
-      }
-
-      // In case is not admin redirect to other page
-      this.$router.push('/img-predict');
-    },
-
     async login () {
       let response;
       try {
@@ -171,7 +160,8 @@ export default {
         return;
       }
 
-      this.redirectToMainPg();
+      // Redirect user to dashboard
+      this.$router.push('/dashboard');
     }
   },
 };

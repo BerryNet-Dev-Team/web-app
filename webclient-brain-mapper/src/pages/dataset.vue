@@ -1,51 +1,80 @@
 <template>
-  <div class="flex flex-col bg-berry-secondary min-h-full">
-    <v-card
-      color="highlight"
-      class="font-bold text-4xl text-center py-4"
-      variant="elevated"
-    >
-      {{ $t('dataset.title') }}
-    </v-card>
+  <div class="flex flex-col bg-berry-secondary min-h-full pb-16">
+
+    <div class="font-bold text-center mt-40">
+      <h1 class="uppercase text-berry-highlight text-6xl tracking-wide underline underline-offset-8 decoration-2 antialiased">
+        {{ $t('dataset.title') }}
+      </h1>
+      <div class="py-4 text-berry-primary before:content-['⚊'] after:content-['⚊'] text-4xl">
+        <v-icon class="text-4xl">mdi-brain</v-icon> {{ $t('dataset.shortTitle') }}
+      </div>
+    </div>
+
     <div class="flex-1 flex justify-center items-center">
       <v-container class="w-full md:w-60">
-        <div>
-          <p class="mb-8 text-center text-xl font-semibold">
-            {{ $t('dataset.instructions') }}
-          </p>
-          <v-file-input
-            ref="imgInput"
-            v-model="imageInput"
-            :label="$t('dataset.selectImg')"
-            variant="solo-filled"
-            prepend-icon="mdi-image"
-            chips accept="image/*"
-            class="mb-3"
-            :rules="imageInputRules"
-            @change="chargeImage"
-            @click:clear="clearImgAndCanvasData"
-          ></v-file-input>
-        </div>
-        <div v-if="isImgCharged" class="canvas-container">
-          <canvas
-            id="canvas"
-            ref="canvas"
-            @click="getPosition"
-            :width="imgDimensions.width"
-            :height="imgDimensions.height"
-            :style="{background: `url(${finalImage.displayUrl})`}"
-          ></canvas>
+        <div
+          v-if="!isImgCharged"
+          class="flex justify-center w-full"
+        >
+          <div class="w-full md:w-3/5 bg-white rounded-lg shadow-md p-4">
+            <v-file-upload
+              ref="imgInput"
+              v-model="imageInput"
+              accept="image/*"
+              show-size density="default" color="white"
+              class="border-gray-300"
+              :title="$t('dataset.instructions')"
+              :browse-text="$t('inferences.searchBtn')"
+              :rules="imageInputRules"
+              @change="chargeImage"
+              @update:modelValue="chargeImage"
+              @click:clear="clearImgAndCanvasData"
+            >
+
+              <!-- *Add the template empty so the divider doesn't appear -->
+              <template v-slot:divider></template>
+
+            </v-file-upload>
+          </div>
         </div>
 
-        <div v-if="isImgCharged" class="text-center">
-          <v-btn
-            color="highlight"
-            class="mt-10 text-none"
-            append-icon="mdi-upload"
-            @click="uploadScene"
-          >
-            {{ $t('dataset.upload') }}
-          </v-btn>
+        <!-- Charged image container -->
+        <div v-if="isImgCharged" class="flex flex-col min-h-full">
+          <!-- Clear button -->
+          <div class="flex align-center justify-end mb-4 z-50">
+            <v-btn
+              color="highlight"
+              class="text-none"
+              prepend-icon="mdi-close-circle"
+              @click="clearImgAndCanvasData()"
+              >
+              {{ $t('dataset.clearImg') }}
+            </v-btn>
+          </div>
+
+          <!-- Canvas container -->
+          <div class="canvas-container">
+            <canvas
+              id="canvas"
+              ref="canvas"
+              :width="imgDimensions.width"
+              :height="imgDimensions.height"
+              :style="{background: `url(${finalImage.displayUrl})`}"
+              @click="getPosition"
+            ></canvas>
+          </div>
+          
+          <!-- Upload button -->
+          <div class="text-center">
+            <v-btn
+              color="highlight"
+              class="mt-10 text-none"
+              append-icon="mdi-upload"
+              @click="uploadScene"
+            >
+              {{ $t('dataset.upload') }}
+            </v-btn>
+          </div>
         </div>
       </v-container>
     </div>
@@ -58,7 +87,7 @@ import { useSceneStore } from "@/stores/scene";
 import { useToast } from "vue-toastification";
 
 export default {
-  name: 'Dataset',
+  name: 'DatasetPage',
   data() {
     return {
       imageInput: null,
@@ -131,7 +160,12 @@ export default {
     async chargeImage() {
       if(!this.imageInput) return; // Default return for clear events
 
-      if(!await this.$refs.imgInput.validate()) return;
+      // *Changed the default validation for a custom one since the component doesn't have a default one
+      if(!this.isValidFile(this.imageInput)) {
+        this.toast.error(this.$t('dataset.invalidFile'));
+        this.imageInput = null; // Reset input
+        return;
+      }
 
       const fileTempUrl = URL.createObjectURL(this.imageInput);
 
@@ -157,6 +191,7 @@ export default {
     // Reset img, map and canvas data
     clearImgAndCanvasData() {
       this.isImgCharged = false;
+      this.imageInput = null;
       this.imgDimensions = {
         width: 0,
         height: 0
@@ -173,8 +208,8 @@ export default {
     getPosition(event) {
       const canvas = this.$refs.canvas;
       const rect = canvas.getBoundingClientRect();
-      const x = Math.round(event.clientX - rect.left);
-      const y = Math.round(event.clientY - rect.top);
+      let x = Math.round(event.clientX - rect.left);
+      let y = Math.round(event.clientY - rect.top);
 
       // Validates negative coordinates
       if(x < 0) x = 0;

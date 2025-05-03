@@ -45,7 +45,11 @@
   "appNavbar": {
     "title": "BerryNet",
     "signUp": "Registrarse",
-    "signIn": "Iniciar sesión"
+    "signIn": "Iniciar sesión",
+    "train": "Entrenar",
+    "generate": "Mapear",
+    "logout": "Salir",
+    "logoutErr": "Ocurrió un error al cerrar sesión."
   },
   "navFoot": {
     "generate": "Generar mapeo"
@@ -78,10 +82,19 @@
       "registerMessage": "Sube tu imágen y descubre cuando tus cultivos esten listos!"
     }
   },
+  "dashboard": {
+    "dataset": "Alimenta el dataset",
+    "datasetDesc": "Usa tus imágenes y entrena a la red neuronal para que detecte patrones segun tus necesidades de cosecha.",
+    "predict": "Generar mapeo",
+    "predictDesc": "Sube tu imagen y descubre si tus cultivos están listos para cosechar."
+  },
   "dataset": {
     "title": "Alimenta el Dataset",
+    "shortTitle": "Entrenar",
     "instructions": "Selecciona una imagen y una vez cargada usa el clic del ratón del pc para marcar las frambuesas.",
     "selectImg": "Selecciona una imagen",
+    "invalidFile": "El archivo debe ser una imagen",
+    "clearImg": "Quitar imagen",
     "upload": "Subir muestra",
     "presignedErr": "Error al obtener las urls de subida",
     "mapUploadErr": "Error al subir el mapa de coordenadas",
@@ -89,16 +102,22 @@
     "addSceneErr": "Error al guardar la escena",
     "addSceneOk": "Escena guardada exitosamente"
   },
-  "imgPredict": {
+  "inferences": {
     "title": "Genera un mapeo",
-    "instructions": "Selecciona una imagen y una vez cargada genera el mapeo",
+    "shortTitle": "Mapear",
+    "instructions": "Arrastra una imagen y una vez cargada genera el mapeo",
+    "invalidFile": "El archivo debe ser una imagen",
     "selectImg": "Selecciona una imagen",
+    "searchBtn": "Buscar",
     "mapImage": "Mapear imagen",
     "mapResult": "Resultados del mapeo",
     "presignedErr": "Error al obtener las urls de subida",
     "imgUploadErr": "Error al subir la imagen",
-    "generateErr": "Error al generar el mapeo",
-    "generateOk": "Mapeo generado exitosamente"
+    "mapErr": "Error al generar el mapeo",
+    "mapOk": "Mapeo generado exitosamente",
+    "originalImg": "Imagen original",
+    "mappedImg": "Imagen mapeada",
+    "closeResults": "Cerrar resultados"
   },
   "sessionExpired": {
     "title": "Sesión expirada.",
