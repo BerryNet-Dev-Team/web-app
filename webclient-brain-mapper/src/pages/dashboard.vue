@@ -55,7 +55,7 @@
             class="mt-4 bg-berry-primary text-berry-whiteaux" 
             size="x-large" 
             rounded
-            @click="$router.push({ path: '/img-predict' })"
+            @click="$router.push({ path: '/inferences' })"
           >
             Generar
           </v-btn>
