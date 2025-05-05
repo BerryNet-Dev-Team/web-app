@@ -70,7 +70,7 @@
 					<!-- Col 2 -->
 					<img
 						class="hidden w-full mb-4 rounded-lg lg:mb-0 lg:flex"
-						src="@/assets/rotten-berry.jpg"
+						src="@/assets/rotten-berry.webp"
 						alt="roten_berry"
 					>
 				</div>
