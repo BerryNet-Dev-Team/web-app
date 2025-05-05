@@ -17,7 +17,7 @@
     "vue": "^3.4.0",
     "vue-i18n": "^9.13.1",
     "vue-toastification": "^2.0.0-rc.5",
-    "vuetify": "^3.5.0"
+    "vuetify": "^3.7.6"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
